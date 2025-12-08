@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIマスターへの道 🎮 〜2日間で魔法使いになる〜</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink-light: #F2C9CC;
+      --pink-vivid: #F26D9E;
+      --pink-medium: #F28DB2;
+      --peach: #F2CAB3;
+      --terracotta: #BF7C63;
+      --dark: #4A3540;
+      --darker: #3D2A35;
+      --light: #FFF9FA;
+      --day1-color: #F26D9E;
+      --day2-color: #F28DB2;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      background: linear-gradient(135deg, var(--pink-light) 0%, var(--peach) 50%, var(--pink-medium) 100%);
+      color: var(--dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ハート背景 */
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .hearts::before {
+      content: '♡ ♥ ♡ ♥ ♡ ♥ ♡ ♥ ♡ ♥';
+      position: absolute;
+      font-size: 20px;
+      color: rgba(242, 109, 158, 0.15);
+      white-space: nowrap;
+      animation: float 20s linear infinite;
+      top: 10%;
+      left: -100%;
+    }
+
+    .hearts::after {
+      content: '✧ ♡ ✧ ♡ ✧ ♡ ✧ ♡ ✧';
+      position: absolute;
+      font-size: 16px;
+      color: rgba(191, 124, 99, 0.12);
+      white-space: nowrap;
+      animation: float 25s linear infinite reverse;
+      top: 60%;
+      left: -100%;
+    }
+
+    @keyframes float {
+      from { transform: translateX(0); }
+      to { transform: translateX(200%); }
+    }
+
+    /* ヘッダー */
+    header {
+      position: relative;
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(135deg, var(--pink-vivid) 0%, var(--pink-medium) 100%);
+      border-bottom: 4px solid var(--peach);
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 50%);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .title-container {
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      color: white;
+      text-shadow: 0 0 30px rgba(255,255,255,0.5), 0 4px 0 var(--terracotta);
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      font-size: 1.3rem;
+      color: var(--light);
+      margin-top: 15px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--peach), var(--terracotta));
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      margin-top: 20px;
+      color: white;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(242,202,179,0.5); }
+      50% { transform: scale(1.05); box-shadow: 0 0 20px 5px rgba(242,202,179,0.3); }
+    }
+
+    /* メインコンテンツ */
+    main {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      z-index: 1;
+    }
+
+    /* ゴールセクション */
+    .goal-section {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(242,201,204,0.9));
+      border: 2px solid var(--pink-vivid);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 50px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(242,109,158,0.2);
+    }
+
+    .goal-section::before {
+      content: '🎯';
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      font-size: 100px;
+      opacity: 0.1;
+    }
+
+    .goal-section h2 {
+      font-size: 1.5rem;
+      color: var(--pink-vivid);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .goal-list {
+      list-style: none;
+      display: grid;
+      gap: 15px;
+    }
+
+    .goal-list li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      background: rgba(255,255,255,0.7);
+      border-radius: 10px;
+      border-left: 4px solid var(--pink-medium);
+      transition: transform 0.3s, background 0.3s;
+    }
+
+    .goal-list li:hover {
+      transform: translateX(10px);
+      background: rgba(242,140,178,0.1);
+    }
+
+    .goal-icon {
+      font-size: 1.5rem;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--pink-light);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Day カード */
+    .days-container {
+      display: grid;
+      gap: 40px;
+    }
+
+    .day-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .day-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .day-card.day1 {
+      border-color: var(--day1-color);
+      box-shadow: 0 10px 40px rgba(242,109,158,0.2);
+    }
+
+    .day-card.day2 {
+      border-color: var(--day2-color);
+      box-shadow: 0 10px 40px rgba(242,140,178,0.2);
+    }
+
+    .day-header {
+      padding: 25px 30px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: white;
+    }
+
+    .day1 .day-header {
+      background: linear-gradient(135deg, var(--day1-color), #e85a8a);
+    }
+
+    .day2 .day-header {
+      background: linear-gradient(135deg, var(--day2-color), #e87da5);
+    }
+
+    .day-number {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    }
+
+    .day-info h3 {
+      font-size: 1.4rem;
+      margin-bottom: 5px;
+    }
+
+    .day-info p {
+      opacity: 0.9;
+      font-size: 0.95rem;
+    }
+
+    .day-theme {
+      margin-left: auto;
+      font-size: 3rem;
+    }
+
+    /* ミッション一覧 */
+    .missions {
+      padding: 25px;
+    }
+
+    .mission-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      margin-bottom: 10px;
+      background: rgba(242,201,204,0.2);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--dark);
+      transition: all 0.3s;
+      border: 1px solid transparent;
+    }
+
+    .mission-item:hover {
+      background: rgba(242,109,158,0.1);
+      transform: translateX(5px);
+    }
+
+    .day1 .mission-item:hover {
+      border-color: var(--day1-color);
+    }
+
+    .day2 .mission-item:hover {
+      border-color: var(--day2-color);
+    }
+
+    .mission-number {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      color: white;
+    }
+
+    .day1 .mission-number {
+      background: var(--day1-color);
+    }
+
+    .day2 .mission-number {
+      background: var(--day2-color);
+    }
+
+    .mission-content {
+      flex: 1;
+    }
+
+    .mission-title {
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .mission-desc {
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+
+    .mission-time {
+      font-size: 0.8rem;
+      opacity: 0.5;
+      padding: 5px 10px;
+      background: rgba(0,0,0,0.05);
+      border-radius: 20px;
+    }
+
+    /* フッター */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      opacity: 0.6;
+      font-size: 0.9rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* レスポンシブ */
+    @media (max-width: 600px) {
+      .day-header {
+        flex-wrap: wrap;
+      }
+      .day-theme {
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+      }
+      .mission-item {
+        flex-wrap: wrap;
+      }
+      .mission-time {
+        margin-left: auto;
+      }
+    }
+    .next-button {
+      display: block;
+      width: fit-content;
+      margin: 40px auto 0;
+      padding: 15px 30px;
+      background: linear-gradient(135deg, var(--pink-vivid), var(--pink-medium));
+      color: white;
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-radius: 50px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 5px 15px rgba(242,109,158,0.4);
+    }
+
+    .next-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(242,109,158,0.6);
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts"></div>
+
+  <header>
+    <div class="title-container">
+      <h1>🎮 AIマスターへの道</h1>
+      <p class="subtitle">〜2日間で魔法使いになる〜</p>
+      <span class="badge">🕐 2時間 × 2日間 マンツーマン研修</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- ゴールセクション -->
+    <section class="goal-section">
+      <h2>🎯 この研修のゴール</h2>
+      <ul class="goal-list">
+        <li>
+          <span class="goal-icon">🤖</span>
+          <div>
+            <strong>各AIの特徴を理解</strong><br>
+            <span style="opacity:0.7">GPT / Gemini / Claude を用途に応じて使い分けられる</span>
+          </div>
+        </li>
+        <li>
+          <span class="goal-icon">✨</span>
+          <div>
+            <strong>自分専用AIを作成</strong><br>
+            <span style="opacity:0.7">マイGPT・Gemを作って、あなただけのアシスタントを持つ</span>
+          </div>
+        </li>
+        <li>
+          <span class="goal-icon">💻</span>
+          <div>
+            <strong>Gemini CLIからAIを操作</strong><br>
+            <span style="opacity:0.7">コマンド一発でファイル生成。魔法使い気分を味わう</span>
+          </div>
+        </li>
+        <li>
+          <span class="goal-icon">📊</span>
+          <div>
+            <strong>データ分析ダッシュボード構築</strong><br>
+            <span style="opacity:0.7">フィルタ・検索できる管理画面を作って未来予測まで</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Day Cards -->
+    <div class="days-container">
+      <!-- Day 1 -->
+      <article class="day-card day1">
+        <div class="day-header">
+          <span class="day-number">DAY 1</span>
+          <div class="day-info">
+            <h3>AI召喚編</h3>
+            <p>AIと仲良くなる日 ／ 2時間</p>
+          </div>
+          <span class="day-theme">🍳</span>
+        </div>
+        <div class="missions">
+          <a href="day1/mission1.html" class="mission-item">
+            <span class="mission-number">M1</span>
+            <div class="mission-content">
+              <div class="mission-title">⚔️ AI三銃士を比較せよ</div>
+              <div class="mission-desc">GPT vs Gemini vs Claude バトル！同じ質問で性格診断</div>
+            </div>
+            <span class="mission-time">15分</span>
+          </a>
+          <a href="day1/mission2.html" class="mission-item">
+            <span class="mission-number">M2</span>
+            <div class="mission-content">
+              <div class="mission-title">🔍 Deep Researchで深掘り</div>
+              <div class="mission-desc">AIに本気で調べさせる。料理の世界を探検</div>
+            </div>
+            <span class="mission-time">20分</span>
+          </a>
+          <a href="day1/mission3.html" class="mission-item">
+            <span class="mission-number">M3</span>
+            <div class="mission-content">
+              <div class="mission-title">🎨 AI画像生成バトル</div>
+              <div class="mission-desc">同じお題で対決！GPT vs Gemini どっちがウマい？</div>
+            </div>
+            <span class="mission-time">20分</span>
+          </a>
+          <a href="day1/mission4.html" class="mission-item">
+            <span class="mission-number">M4</span>
+            <div class="mission-content">
+              <div class="mission-title">🛠️ マイGPTを作成せよ</div>
+              <div class="mission-desc">あなた専用の「料理アドバイザーAI」爆誕！</div>
+            </div>
+            <span class="mission-time">40分</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Day 2 -->
+      <article class="day-card day2">
+        <div class="day-header">
+          <span class="day-number">DAY 2</span>
+          <div class="day-info">
+            <h3>魔法使い編</h3>
+            <p>Gemini CLIを操る日 ／ 2時間</p>
+          </div>
+          <span class="day-theme">👗</span>
+        </div>
+        <div class="missions">
+          <a href="day2/mission5.html" class="mission-item">
+            <span class="mission-number">M5</span>
+            <div class="mission-content">
+              <div class="mission-title">💻 ターミナル＆Gemini CLIを起動せよ</div>
+              <div class="mission-desc">黒い画面は魔法の入口。呪文を唱える準備</div>
+            </div>
+            <span class="mission-time">15分</span>
+          </a>
+          <a href="day2/mission6.html" class="mission-item">
+            <span class="mission-number">M6</span>
+            <div class="mission-content">
+              <div class="mission-title">📁 Gemini CLIでファイル生成</div>
+              <div class="mission-desc">1コマンドでHTML・Excel作成。これぞ魔法</div>
+            </div>
+            <span class="mission-time">20分</span>
+          </a>
+          <a href="day2/mission7.html" class="mission-item">
+            <span class="mission-number">M7</span>
+            <div class="mission-content">
+              <div class="mission-title">📊 トレンドデータ作成</div>
+              <div class="mission-desc">ファッションカラーのデータをAIに作らせる</div>
+            </div>
+            <span class="mission-time">20分</span>
+          </a>
+          <a href="day2/mission8.html" class="mission-item">
+            <span class="mission-number">M8</span>
+            <div class="mission-content">
+              <div class="mission-title">🎛️ ダッシュボード構築</div>
+              <div class="mission-desc">フィルタ検索できる管理画面を爆速で作る</div>
+            </div>
+            <span class="mission-time">35分</span>
+          </a>
+          <a href="day2/mission9.html" class="mission-item">
+            <span class="mission-number">M9</span>
+            <div class="mission-content">
+              <div class="mission-title">🔮 未来予測</div>
+              <div class="mission-desc">「来年のトレンドカラーは？」AIに予言させる</div>
+            </div>
+            <span class="mission-time">15分</span>
+          </a>
+        </div>
+      </article>
+    </div>
+    <a href="day1/mission1.html" class="next-button">研修を開始する 🚀</a>
+  </main>
+
+  <footer>
+    <p>🎮 AIマスターへの道 ／ 社内AI研修教材</p>
+  </footer>
+</body>
+</html>

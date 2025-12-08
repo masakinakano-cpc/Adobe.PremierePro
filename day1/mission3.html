@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mission 3: AI画像生成バトル 🎨</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink-light: #F2C9CC;
+      --pink-vivid: #F26D9E;
+      --pink-medium: #F28DB2;
+      --peach: #F2CAB3;
+      --terracotta: #BF7C63;
+      --dark: #4A3540;
+      --light: #FFF9FA;
+      --day1-color: #F26D9E;
+      --gpt-color: #10A37F;
+      --gemini-color: #4285F4;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      background: linear-gradient(135deg, var(--pink-light) 0%, var(--peach) 50%, var(--pink-light) 100%);
+      color: var(--dark);
+      min-height: 100vh;
+      line-height: 1.8;
+    }
+
+    nav { background: rgba(255,255,255,0.95); padding: 15px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 2px solid var(--day1-color); }
+    nav a { color: var(--dark); text-decoration: none; opacity: 0.7; transition: opacity 0.3s; }
+    nav a:hover { opacity: 1; }
+    .nav-current { color: var(--day1-color); font-weight: 700; }
+
+    .mission-header { background: linear-gradient(135deg, var(--day1-color), var(--pink-medium)); padding: 40px 20px; text-align: center; color: white; }
+    .mission-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 50px; font-family: 'Orbitron', sans-serif; font-size: 0.9rem; margin-bottom: 15px; }
+    h1 { font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 10px; }
+    .mission-desc { opacity: 0.95; max-width: 600px; margin: 0 auto; }
+    .time-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin-top: 15px; font-size: 0.9rem; }
+
+    main { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+    section { margin-bottom: 40px; }
+    h2 { color: var(--pink-vivid); font-size: 1.4rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--pink-light); display: flex; align-items: center; gap: 10px; }
+    h3 { color: var(--terracotta); font-size: 1.1rem; margin: 25px 0 15px; }
+    p { margin-bottom: 15px; }
+
+    .battle-arena {
+      background: linear-gradient(135deg, rgba(242,109,158,0.2), rgba(242,202,179,0.3));
+      border-radius: 20px;
+      padding: 30px;
+      margin: 30px 0;
+      text-align: center;
+      border: 2px solid var(--pink-vivid);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .battle-arena::before { content: '⚔️'; position: absolute; font-size: 150px; opacity: 0.1; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    .battle-arena h3 { color: var(--pink-vivid); font-size: 1.5rem; margin-bottom: 20px; }
+
+    .vs-container { display: flex; align-items: center; justify-content: center; gap: 30px; flex-wrap: wrap; }
+    .fighter { background: white; padding: 20px 30px; border-radius: 16px; min-width: 150px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+    .fighter.gpt { border: 2px solid var(--gpt-color); }
+    .fighter.gemini { border: 2px solid var(--gemini-color); }
+    .fighter-icon { font-size: 2.5rem; margin-bottom: 10px; }
+    .fighter-name { font-weight: 700; }
+    .fighter-engine { font-size: 0.8rem; opacity: 0.6; }
+    .vs-text { font-family: 'Orbitron', sans-serif; font-size: 2rem; color: var(--pink-vivid); text-shadow: 0 0 20px rgba(242,109,158,0.5); }
+
+    .step-box { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 25px; margin: 20px 0; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
+    .step-number { display: inline-flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: var(--day1-color); color: white; border-radius: 50%; font-family: 'Orbitron', sans-serif; font-weight: 700; margin-right: 10px; }
+    .step-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; }
+
+    .prompt-box { background: linear-gradient(135deg, var(--pink-light), var(--peach)); border-radius: 12px; padding: 20px; margin: 15px 0; border-left: 4px solid var(--pink-vivid); }
+    .prompt-label { color: var(--pink-vivid); font-size: 0.8rem; font-weight: 700; margin-bottom: 10px; display: block; }
+
+    .image-guide { background: rgba(255,255,255,0.7); border-radius: 12px; padding: 20px; margin: 15px 0; border: 1px dashed var(--pink-medium); }
+    .image-guide-title { color: var(--terracotta); font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+
+    .prompt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin: 20px 0; }
+    .prompt-card { background: white; border-radius: 12px; padding: 20px; border: 1px solid var(--pink-light); transition: transform 0.3s, border-color 0.3s; cursor: pointer; }
+    .prompt-card:hover { transform: translateY(-3px); border-color: var(--pink-vivid); }
+    .prompt-card-title { color: var(--terracotta); font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .prompt-card p { font-size: 0.9rem; opacity: 0.8; margin: 0; }
+
+    .compare-points { display: grid; gap: 15px; margin: 20px 0; }
+    .compare-point { background: white; padding: 15px 20px; border-radius: 10px; display: flex; align-items: center; gap: 15px; }
+    .compare-icon { font-size: 1.5rem; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; background: var(--pink-light); border-radius: 10px; }
+
+    .point-box { background: linear-gradient(135deg, rgba(242,109,158,0.15), rgba(242,202,179,0.2)); border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 4px solid var(--terracotta); }
+    .point-box h4 { color: var(--terracotta); margin-bottom: 10px; }
+
+    .business-tips { background: linear-gradient(135deg, rgba(242,109,158,0.1), rgba(242,202,179,0.2)); border: 1px solid var(--pink-vivid); border-radius: 12px; margin: 30px 0; overflow: hidden; }
+    .business-tips summary { padding: 20px; cursor: pointer; font-weight: 700; color: var(--pink-vivid); display: flex; align-items: center; gap: 10px; transition: background 0.3s; list-style: none; }
+    .business-tips summary::-webkit-details-marker { display: none; }
+    .business-tips summary:hover { background: rgba(255,255,255,0.5); }
+    .business-tips summary::before { content: '▶'; font-size: 0.8rem; transition: transform 0.3s; }
+    .business-tips[open] summary::before { transform: rotate(90deg); }
+    .business-content { padding: 0 20px 20px; border-top: 1px solid var(--pink-light); }
+    .business-content h4 { color: var(--terracotta); margin: 20px 0 15px; font-size: 1rem; }
+    .business-list { list-style: none; }
+    .business-list li { padding: 12px 15px; margin: 8px 0; background: rgba(255,255,255,0.7); border-radius: 8px; display: flex; align-items: flex-start; gap: 12px; }
+    .business-list li::before { content: '💼'; flex-shrink: 0; }
+
+    .checkpoint { background: linear-gradient(135deg, var(--day1-color), var(--pink-medium)); border-radius: 16px; padding: 25px; margin: 30px 0; text-align: center; color: white; }
+    .checkpoint h3 { color: white; margin: 0 0 15px; }
+    .checkpoint p { margin: 0; }
+
+    .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--pink-light); }
+    .nav-btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 25px; background: white; color: var(--dark); text-decoration: none; border-radius: 12px; transition: all 0.3s; border: 2px solid var(--pink-light); }
+    .nav-btn:hover { background: var(--pink-light); border-color: var(--pink-vivid); }
+    .nav-btn.next { background: var(--day1-color); border-color: var(--day1-color); color: white; }
+    .nav-btn.next:hover { background: var(--pink-medium); }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="../index.html">🏠 ホーム</a>
+    <span style="opacity:0.3">/</span>
+    <span>Day 1</span>
+    <span style="opacity:0.3">/</span>
+    <span class="nav-current">Mission 3</span>
+  </nav>
+
+  <header class="mission-header">
+    <span class="mission-badge">DAY 1 ─ MISSION 3</span>
+    <h1>🎨 AI画像生成バトル</h1>
+    <p class="mission-desc">同じお題で画像生成！ChatGPT vs Gemini、どっちのセンスが好み？</p>
+    <span class="time-badge">⏱️ 約20分</span>
+  </header>
+
+  <main>
+    <div class="battle-arena">
+      <h3>⚡ ROUND 1 ⚡</h3>
+      <div class="vs-container">
+        <div class="fighter gpt"><div class="fighter-icon">🟢</div><div class="fighter-name">ChatGPT</div><div class="fighter-engine">DALL-E 3</div></div>
+        <div class="vs-text">VS</div>
+        <div class="fighter gemini"><div class="fighter-icon">🔵</div><div class="fighter-name">Gemini</div><div class="fighter-engine">Imagen 3</div></div>
+      </div>
+    </div>
+
+    <section>
+      <h2>🎯 このミッションのゴール</h2>
+      <p>AIの画像生成能力は日々進化しています。<strong>ChatGPT（DALL-E 3）</strong>と<strong>Gemini（Imagen）</strong>に同じお題を出して、それぞれの<strong>得意な表現</strong>と<strong>クセ</strong>を体感しましょう！</p>
+      <p>料理をテーマに、美味しそうな画像を生成させてみます🍳</p>
+    </section>
+
+    <section>
+      <h2>🎮 実践タイム！</h2>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">1</span>画像生成モードを起動</div>
+        <div class="image-guide">
+          <div class="image-guide-title">🟢 ChatGPT の場合</div>
+          <ol style="padding-left:20px; opacity:0.9;">
+            <li>ChatGPTを開く</li>
+            <li>入力欄下のメニューから「画像を作成する」を選択</li>
+            <li>または、普通にプロンプトを入力すればOK</li>
+          </ol>
+        </div>
+        <div class="image-guide">
+          <div class="image-guide-title">🔵 Gemini の場合</div>
+          <ol style="padding-left:20px; opacity:0.9;">
+            <li>Geminiを開く</li>
+            <li>入力欄横のメニューから「画像を作成」（🍌バナナアイコン）を選択</li>
+            <li>または、「画像を生成して」と指示してもOK</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">2</span>同じプロンプトで対決！</div>
+        <p>以下のプロンプトを両方のAIにコピペしてください：</p>
+        <div class="prompt-box">
+          <span class="prompt-label">📝 お題1：理想の朝食</span>
+          湯気が立ち上る美味しそうな朝食プレートの画像を生成してください。<br>
+          ふわふわのパンケーキ、カリカリのベーコン、目玉焼き、<br>
+          新鮮なフルーツが美しく盛り付けられています。<br>
+          朝の柔らかい日差しが差し込む、おしゃれなカフェ風の雰囲気で。
+        </div>
+        <div class="prompt-box">
+          <span class="prompt-label">📝 お題2：未来の料理</span>
+          2050年の未来のキッチンで、ロボットシェフが作った<br>
+          見たこともない創作料理の画像を生成してください。<br>
+          光る食材、宙に浮くソース、ホログラムのメニュー表示。<br>
+          SF映画に出てきそうな、ワクワクする雰囲気で。
+        </div>
+      </div>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">3</span>結果を比較しよう</div>
+        <p>生成された画像を見比べて、以下をチェック：</p>
+        <div class="compare-points">
+          <div class="compare-point"><div class="compare-icon">🎨</div><div><strong>スタイル・雰囲気</strong><br><span style="opacity:0.7">リアル寄り？イラスト寄り？</span></div></div>
+          <div class="compare-point"><div class="compare-icon">📐</div><div><strong>プロンプトの再現度</strong><br><span style="opacity:0.7">指示した要素がちゃんと入ってる？</span></div></div>
+          <div class="compare-point"><div class="compare-icon">✨</div><div><strong>クオリティ</strong><br><span style="opacity:0.7">細部の表現、光や影の表現</span></div></div>
+          <div class="compare-point"><div class="compare-icon">😋</div><div><strong>「美味しそう度」</strong><br><span style="opacity:0.7">どっちが食べたくなる？</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>🎲 ボーナスラウンド</h2>
+      <p>時間があれば、他のお題も試してみましょう！</p>
+      <div class="prompt-grid">
+        <div class="prompt-card"><div class="prompt-card-title">🍜 ラーメンの頂点</div><p>世界一美味しそうなラーメンの画像。黄金色のスープ、とろけるチャーシュー、湯気が食欲をそそる。</p></div>
+        <div class="prompt-card"><div class="prompt-card-title">🍰 魔法のデザート</div><p>ファンタジー世界のケーキ。虹色のクリーム、星が散りばめられ、食べると魔法が使えそう。</p></div>
+        <div class="prompt-card"><div class="prompt-card-title">🍱 究極のお弁当</div><p>キャラ弁の最高傑作。人気アニメキャラクターを完璧に再現した芸術作品。</p></div>
+        <div class="prompt-card"><div class="prompt-card-title">🥗 インスタ映えサラダ</div><p>SNSで100万いいねがつきそうな、色とりどりの美しいサラダボウル。真上からのアングルで。</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>💡 画像生成のコツ</h2>
+      <div class="point-box">
+        <h4>✨ より良い画像を生成するプロンプトのコツ</h4>
+        <ul style="padding-left:20px; margin:0;">
+          <li><strong>具体的な描写</strong>：「美味しそうな」より「湯気が立つ」「黄金色の」など</li>
+          <li><strong>雰囲気を指定</strong>：「暖かい照明」「朝の日差し」「モダンな」など</li>
+          <li><strong>アングル</strong>：「真上から」「斜め45度から」「クローズアップ」など</li>
+          <li><strong>スタイル</strong>：「写真風」「水彩画風」「アニメ風」など</li>
+        </ul>
+      </div>
+      <div class="point-box">
+        <h4>🔄 気に入らなかったら</h4>
+        <p style="margin:0;">「もっと明るく」「ベーコンを増やして」「アングルを変えて」など、追加の指示を出せば、AIが調整してくれます！</p>
+      </div>
+    </section>
+
+    <details class="business-tips">
+      <summary>💼 業務に置き換えると？（タップで開く）</summary>
+      <div class="business-content">
+        <h4>🏢 AI画像生成の業務活用シーン</h4>
+        <ul class="business-list">
+          <li><div><strong>プレゼン資料のビジュアル</strong><br><span style="opacity:0.7">スライドに使うイメージ画像を瞬時に作成。フリー素材を探す手間がゼロに。</span></div></li>
+          <li><div><strong>企画書のイメージ図</strong><br><span style="opacity:0.7">「こんな感じのサービスです」を視覚化。言葉では伝わりにくいコンセプトを一発で共有。</span></div></li>
+          <li><div><strong>SNS投稿画像</strong><br><span style="opacity:0.7">オリジナル画像でエンゲージメント向上。著作権の心配なし。</span></div></li>
+          <li><div><strong>商品イメージの検討</strong><br><span style="opacity:0.7">新商品のデザイン案を複数パターン作成。デザイナーへの依頼前のすり合わせに。</span></div></li>
+          <li><div><strong>モックアップ作成</strong><br><span style="opacity:0.7">Webサイトやアプリのイメージを素早く可視化。クライアントとの認識合わせに使える。</span></div></li>
+        </ul>
+        <h4>⚠️ 業務利用の注意点</h4>
+        <p style="background:rgba(255,255,255,0.7); padding:15px; border-radius:8px;">生成画像の<strong>商用利用ルール</strong>は各サービスで異なります。重要な場面では利用規約を確認しましょう。また、実在する人物・ブランドに似た画像の使用には注意が必要です。</p>
+      </div>
+    </details>
+
+    <div class="checkpoint">
+      <h3>🏁 Mission 3 クリア条件</h3>
+      <p>✅ GPTとGeminiで同じお題の画像を生成した！<br>✅ それぞれの特徴・違いを体感した！</p>
+    </div>
+
+    <div class="nav-buttons">
+      <a href="mission2.html" class="nav-btn">← Mission 2</a>
+      <a href="mission4.html" class="nav-btn next">Mission 4 へ →</a>
+    </div>
+  </main>
+</body>
+</html>

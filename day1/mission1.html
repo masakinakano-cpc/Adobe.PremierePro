@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mission 1: AI三銃士を比較せよ ⚔️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink-light: #F2C9CC;
+      --pink-vivid: #F26D9E;
+      --pink-medium: #F28DB2;
+      --peach: #F2CAB3;
+      --terracotta: #BF7C63;
+      --dark: #4A3540;
+      --light: #FFF9FA;
+      --day1-color: #F26D9E;
+      --gpt-color: #10A37F;
+      --gemini-color: #4285F4;
+      --claude-color: #D97706;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      background: linear-gradient(135deg, var(--pink-light) 0%, var(--peach) 50%, var(--pink-light) 100%);
+      color: var(--dark);
+      min-height: 100vh;
+      line-height: 1.8;
+    }
+
+    nav {
+      background: rgba(255,255,255,0.95);
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 2px solid var(--day1-color);
+      backdrop-filter: blur(10px);
+    }
+
+    nav a { color: var(--dark); text-decoration: none; opacity: 0.7; transition: opacity 0.3s; }
+    nav a:hover { opacity: 1; }
+    .nav-current { color: var(--day1-color); font-weight: 700; }
+
+    .mission-header {
+      background: linear-gradient(135deg, var(--day1-color), var(--pink-medium));
+      padding: 40px 20px;
+      text-align: center;
+      color: white;
+    }
+
+    .mission-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+
+    h1 { font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 10px; }
+    .mission-desc { opacity: 0.95; max-width: 600px; margin: 0 auto; }
+    .time-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.2);
+      padding: 8px 16px;
+      border-radius: 20px;
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+
+    main { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+    section { margin-bottom: 40px; }
+
+    h2 {
+      color: var(--pink-vivid);
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--pink-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h3 { color: var(--terracotta); font-size: 1.1rem; margin: 25px 0 15px; }
+    p { margin-bottom: 15px; }
+
+    /* AI比較カード */
+    .ai-cards { display: grid; gap: 20px; margin: 25px 0; }
+
+    .ai-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 16px;
+      padding: 25px;
+      border-left: 4px solid;
+      transition: transform 0.3s;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .ai-card:hover { transform: translateX(5px); }
+    .ai-card.gpt { border-color: var(--gpt-color); }
+    .ai-card.gemini { border-color: var(--gemini-color); }
+    .ai-card.claude { border-color: var(--claude-color); }
+
+    .ai-card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+
+    .ai-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: white;
+    }
+
+    .ai-card.gpt .ai-icon { background: var(--gpt-color); }
+    .ai-card.gemini .ai-icon { background: var(--gemini-color); }
+    .ai-card.claude .ai-icon { background: var(--claude-color); }
+
+    .ai-card h4 { font-size: 1.2rem; }
+    .ai-card .company { font-size: 0.85rem; opacity: 0.6; }
+
+    .ai-features { list-style: none; margin-top: 15px; }
+    .ai-features li {
+      padding: 8px 0;
+      padding-left: 25px;
+      position: relative;
+      border-bottom: 1px solid var(--pink-light);
+    }
+    .ai-features li::before { content: '✓'; position: absolute; left: 0; color: var(--pink-vivid); }
+
+    /* ステップボックス */
+    .step-box {
+      background: rgba(255,255,255,0.95);
+      border-radius: 16px;
+      padding: 25px;
+      margin: 20px 0;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 35px;
+      height: 35px;
+      background: var(--day1-color);
+      color: white;
+      border-radius: 50%;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      margin-right: 10px;
+    }
+
+    .step-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; }
+
+    .prompt-box {
+      background: linear-gradient(135deg, var(--pink-light), var(--peach));
+      border-radius: 12px;
+      padding: 20px;
+      margin: 15px 0;
+      border-left: 4px solid var(--pink-vivid);
+      font-size: 0.95rem;
+    }
+
+    .prompt-label { color: var(--pink-vivid); font-size: 0.8rem; font-weight: 700; margin-bottom: 10px; display: block; }
+
+    /* 比較テーブル */
+    .compare-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
+    .compare-table th, .compare-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--pink-light); }
+    .compare-table th { background: rgba(242,109,158,0.1); color: var(--pink-vivid); font-weight: 700; }
+    .compare-table tr:hover { background: rgba(242,201,204,0.3); }
+
+    /* 業務応用タブ */
+    .business-tips {
+      background: linear-gradient(135deg, rgba(242,109,158,0.1), rgba(242,202,179,0.2));
+      border: 1px solid var(--pink-vivid);
+      border-radius: 12px;
+      margin: 30px 0;
+      overflow: hidden;
+    }
+
+    .business-tips summary {
+      padding: 20px;
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--pink-vivid);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.3s;
+      list-style: none;
+    }
+
+    .business-tips summary::-webkit-details-marker { display: none; }
+    .business-tips summary:hover { background: rgba(255,255,255,0.5); }
+    .business-tips summary::before { content: '▶'; font-size: 0.8rem; transition: transform 0.3s; }
+    .business-tips[open] summary::before { transform: rotate(90deg); }
+
+    .business-content { padding: 0 20px 20px; border-top: 1px solid var(--pink-light); }
+    .business-content h4 { color: var(--terracotta); margin: 20px 0 15px; font-size: 1rem; }
+    .business-list { list-style: none; }
+    .business-list li {
+      padding: 12px 15px;
+      margin: 8px 0;
+      background: rgba(255,255,255,0.7);
+      border-radius: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .business-list li::before { content: '💼'; flex-shrink: 0; }
+
+    /* チェックポイント */
+    .checkpoint {
+      background: linear-gradient(135deg, var(--day1-color), var(--pink-medium));
+      border-radius: 16px;
+      padding: 25px;
+      margin: 30px 0;
+      text-align: center;
+      color: white;
+    }
+    .checkpoint h3 { color: white; margin: 0 0 15px; }
+    .checkpoint p { margin: 0; }
+
+    /* ナビゲーションボタン */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid var(--pink-light);
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 25px;
+      background: white;
+      color: var(--dark);
+      text-decoration: none;
+      border-radius: 12px;
+      transition: all 0.3s;
+      border: 2px solid var(--pink-light);
+    }
+
+    .nav-btn:hover { background: var(--pink-light); border-color: var(--pink-vivid); }
+    .nav-btn.next { background: var(--day1-color); border-color: var(--day1-color); color: white; }
+    .nav-btn.next:hover { background: var(--pink-medium); }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="../index.html">🏠 ホーム</a>
+    <span style="opacity:0.3">/</span>
+    <span>Day 1</span>
+    <span style="opacity:0.3">/</span>
+    <span class="nav-current">Mission 1</span>
+  </nav>
+
+  <header class="mission-header">
+    <span class="mission-badge">DAY 1 ─ MISSION 1</span>
+    <h1>⚔️ AI三銃士を比較せよ</h1>
+    <p class="mission-desc">ChatGPT、Gemini、Claude。3つのAIに同じ質問をして、それぞれの個性を見抜け！</p>
+    <span class="time-badge">⏱️ 約15分</span>
+  </header>
+
+  <main>
+    <section>
+      <h2>🎯 このミッションのゴール</h2>
+      <p>今、世界には様々なAIが存在します。その中でも特に優秀な3つ、<strong>ChatGPT</strong>、<strong>Gemini</strong>、<strong>Claude</strong>を「AI三銃士」と呼びましょう。</p>
+      <p>このミッションでは、3つのAIに同じ質問を投げかけて、それぞれの<strong>得意分野</strong>と<strong>個性</strong>を体感します。「こんな時はこのAI！」が分かるようになります。</p>
+    </section>
+
+    <section>
+      <h2>🤖 AI三銃士プロフィール</h2>
+      <div class="ai-cards">
+        <div class="ai-card gpt">
+          <div class="ai-card-header">
+            <div class="ai-icon">🟢</div>
+            <div><h4>ChatGPT</h4><span class="company">by OpenAI</span></div>
+          </div>
+          <p>AIブームの火付け役。バランスが良く、何でもそつなくこなす万能型。</p>
+          <ul class="ai-features">
+            <li>画像生成（DALL-E）が得意</li>
+            <li>プラグインで機能拡張可能</li>
+            <li>マイGPTでカスタムAI作成</li>
+            <li>音声会話モードあり</li>
+          </ul>
+        </div>
+
+        <div class="ai-card gemini">
+          <div class="ai-card-header">
+            <div class="ai-icon">🔵</div>
+            <div><h4>Gemini</h4><span class="company">by Google</span></div>
+          </div>
+          <p>Googleの本気。最新情報へのアクセスとマルチモーダルが強み。</p>
+          <ul class="ai-features">
+            <li>Google検索との連携が最強</li>
+            <li>動画生成（Veo）対応</li>
+            <li>YouTubeの要約が得意</li>
+            <li>Googleサービスと統合</li>
+          </ul>
+        </div>
+
+        <div class="ai-card claude">
+          <div class="ai-card-header">
+            <div class="ai-icon">🟠</div>
+            <div><h4>Claude</h4><span class="company">by Anthropic</span></div>
+          </div>
+          <p>長文処理の王者。論理的で丁寧、深い分析が得意な知性派。</p>
+          <ul class="ai-features">
+            <li>超長文（20万トークン）対応</li>
+            <li>論理的な分析が得意</li>
+            <li>プログラミング支援に強い</li>
+            <li>ファイル作成・編集が可能</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>🎮 実践タイム！</h2>
+      
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">1</span>3つのAIを開く</div>
+        <p>以下の3つをブラウザで開いてください：</p>
+        <ul style="list-style:none; margin-top:15px;">
+          <li style="padding:8px 0;">🟢 <a href="https://chat.openai.com" target="_blank" style="color:var(--gpt-color)">chat.openai.com</a> (ChatGPT)</li>
+          <li style="padding:8px 0;">🔵 <a href="https://gemini.google.com" target="_blank" style="color:var(--gemini-color)">gemini.google.com</a> (Gemini)</li>
+          <li style="padding:8px 0;">🟠 <a href="https://claude.ai" target="_blank" style="color:var(--claude-color)">claude.ai</a> (Claude)</li>
+        </ul>
+      </div>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">2</span>同じ質問を投げる</div>
+        <p>3つのAIに、全く同じ質問をコピペしてください：</p>
+        <div class="prompt-box">
+          <span class="prompt-label">📝 コピペ用プロンプト（料理編）</span>
+          冷蔵庫に鶏もも肉、玉ねぎ、じゃがいもがあります。<br>
+          15分以内で作れる、子供も喜ぶ料理を1つ提案してください。<br>
+          レシピと、美味しく作るコツも教えて。
+        </div>
+        <p style="margin-top:20px;">または、こちらも試してみてください：</p>
+        <div class="prompt-box">
+          <span class="prompt-label">📝 コピペ用プロンプト（性格診断編）</span>
+          あなたを色で例えると何色？理由も教えて。<br>
+          あと、得意なことと苦手なことを正直に教えて。
+        </div>
+      </div>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">3</span>回答を比較しよう</div>
+        <p>3つの回答を見比べて、以下のポイントをチェック：</p>
+        <table class="compare-table">
+          <tr><th>チェック項目</th><th>見るポイント</th></tr>
+          <tr><td>📏 回答の長さ</td><td>簡潔？詳しい？どっちが好み？</td></tr>
+          <tr><td>🎨 文章のトーン</td><td>フレンドリー？ビジネス的？</td></tr>
+          <tr><td>💡 アイデアの質</td><td>実用的？創造的？</td></tr>
+          <tr><td>📋 構成・見やすさ</td><td>箇条書き？文章？</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>📊 こんな時はこのAI！</h2>
+      <table class="compare-table">
+        <tr><th>やりたいこと</th><th>おすすめAI</th><th>理由</th></tr>
+        <tr><td>🖼️ 画像を作りたい</td><td style="color:var(--gpt-color)">ChatGPT</td><td>DALL-E3が優秀</td></tr>
+        <tr><td>🎬 動画を作りたい</td><td style="color:var(--gemini-color)">Gemini</td><td>Veo対応</td></tr>
+        <tr><td>📰 最新ニュースを知りたい</td><td style="color:var(--gemini-color)">Gemini</td><td>Google検索連携</td></tr>
+        <tr><td>📄 長い文章を分析したい</td><td style="color:var(--claude-color)">Claude</td><td>長文処理が最強</td></tr>
+        <tr><td>💻 コードを書きたい</td><td style="color:var(--claude-color)">Claude</td><td>論理的で正確</td></tr>
+        <tr><td>🤖 カスタムAIを作りたい</td><td style="color:var(--gpt-color)">ChatGPT</td><td>マイGPTが便利</td></tr>
+      </table>
+    </section>
+
+    <details class="business-tips">
+      <summary>💼 業務に置き換えると？（タップで開く）</summary>
+      <div class="business-content">
+        <h4>🏢 実際の仕事でのAI使い分け例</h4>
+        <ul class="business-list">
+          <li><div><strong>企画書のアイデア出し</strong><br><span style="opacity:0.7">3つのAIに同じ企画テーマを投げて、アイデアを3倍に。それぞれ視点が違うので、思わぬ発想が生まれる。</span></div></li>
+          <li><div><strong>文章の校正・添削</strong><br><span style="opacity:0.7">Claudeは論理的な指摘、GPTはトーン調整、Geminiは最新表現のチェックが得意。</span></div></li>
+          <li><div><strong>翻訳の精度チェック</strong><br><span style="opacity:0.7">重要な翻訳は3つのAIで比較。ニュアンスの違いを確認できる。</span></div></li>
+          <li><div><strong>競合調査・市場分析</strong><br><span style="opacity:0.7">Geminiで最新情報を収集 → Claudeで深く分析 → GPTで資料化</span></div></li>
+        </ul>
+        <h4>💡 ポイント</h4>
+        <p style="background:rgba(255,255,255,0.7); padding:15px; border-radius:8px;">
+          仕事で使う時は<strong>「1つに絞らず、複数のAIを併用する」</strong>のがコツ。<br>
+          それぞれの得意分野を活かして、より良いアウトプットを目指しましょう。
+        </p>
+      </div>
+    </details>
+
+    <div class="checkpoint">
+      <h3>🏁 Mission 1 クリア条件</h3>
+      <p>✅ 3つのAIに同じ質問をして、回答の違いを体感した！</p>
+    </div>
+
+    <div class="nav-buttons">
+      <a href="../index.html" class="nav-btn">← ホームに戻る</a>
+      <a href="mission2.html" class="nav-btn next">Mission 2 へ →</a>
+    </div>
+  </main>
+</body>
+</html>

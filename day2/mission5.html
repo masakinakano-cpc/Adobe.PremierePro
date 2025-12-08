@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mission 5: ターミナル＆Gemini CLIを起動せよ 💻</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Orbitron:wght@700;900&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink-light: #F2C9CC;
+      --pink-vivid: #F26D9E;
+      --pink-medium: #F28DB2;
+      --peach: #F2CAB3;
+      --terracotta: #BF7C63;
+      --dark: #4A3540;
+      --light: #FFF9FA;
+      --day2-color: #F28DB2;
+      --terminal-bg: #1E1E1E;
+      --terminal-green: #4EC9B0;
+      --gemini-color: #4285F4;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Zen Maru Gothic', sans-serif; background: linear-gradient(135deg, var(--peach) 0%, var(--pink-light) 50%, var(--pink-medium) 100%); color: var(--dark); min-height: 100vh; line-height: 1.8; }
+
+    nav { background: rgba(255,255,255,0.95); padding: 15px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 2px solid var(--day2-color); }
+    nav a { color: var(--dark); text-decoration: none; opacity: 0.7; transition: opacity 0.3s; }
+    nav a:hover { opacity: 1; }
+    .nav-current { color: var(--day2-color); font-weight: 700; }
+
+    .mission-header { background: linear-gradient(135deg, var(--day2-color), var(--pink-vivid)); padding: 40px 20px; text-align: center; color: white; }
+    .mission-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 50px; font-family: 'Orbitron', sans-serif; font-size: 0.9rem; margin-bottom: 15px; }
+    h1 { font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 10px; }
+    .mission-desc { opacity: 0.95; max-width: 600px; margin: 0 auto; }
+    .time-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin-top: 15px; font-size: 0.9rem; }
+
+    main { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+    section { margin-bottom: 40px; }
+    h2 { color: var(--pink-vivid); font-size: 1.4rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--pink-light); display: flex; align-items: center; gap: 10px; }
+    h3 { color: var(--terracotta); font-size: 1.1rem; margin: 25px 0 15px; }
+    p { margin-bottom: 15px; }
+
+    .magic-box { background: linear-gradient(135deg, rgba(242,109,158,0.2), rgba(242,202,179,0.3)); border-radius: 20px; padding: 30px; margin: 30px 0; text-align: center; border: 2px solid var(--pink-vivid); }
+    .magic-icon { font-size: 4rem; margin-bottom: 15px; }
+    .magic-box h3 { color: var(--pink-vivid); font-size: 1.3rem; margin-bottom: 10px; }
+
+    .terminal { background: var(--terminal-bg); border-radius: 12px; overflow: hidden; margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .terminal-header { background: #323232; padding: 10px 15px; display: flex; align-items: center; gap: 8px; }
+    .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .terminal-dot.red { background: #FF5F56; }
+    .terminal-dot.yellow { background: #FFBD2E; }
+    .terminal-dot.green { background: #27C93F; }
+    .terminal-title { margin-left: 10px; font-size: 0.85rem; opacity: 0.7; color: white; }
+    .terminal-body { padding: 20px; font-family: 'Fira Code', monospace; font-size: 0.9rem; line-height: 1.6; color: white; }
+    .terminal-line { margin: 5px 0; }
+    .terminal-prompt { color: var(--terminal-green); }
+    .terminal-command { color: #DCDCDC; }
+    .terminal-output { color: #9CDCFE; opacity: 0.8; }
+    .terminal-comment { color: #6A9955; }
+
+    .step-box { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 25px; margin: 20px 0; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
+    .step-number { display: inline-flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: var(--day2-color); color: white; border-radius: 50%; font-family: 'Orbitron', sans-serif; font-weight: 700; margin-right: 10px; }
+    .step-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; }
+
+    .image-guide { background: rgba(255,255,255,0.7); border-radius: 12px; padding: 20px; margin: 15px 0; border: 1px dashed var(--pink-medium); }
+    .image-guide-title { color: var(--terracotta); font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+
+    .command-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
+    .command-table th, .command-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--pink-light); }
+    .command-table th { background: rgba(242,109,158,0.1); color: var(--pink-vivid); }
+    .command-table code { background: var(--terminal-bg); color: var(--terminal-green); padding: 4px 8px; border-radius: 4px; font-family: 'Fira Code', monospace; }
+
+    .point-box { background: linear-gradient(135deg, rgba(242,109,158,0.15), rgba(242,202,179,0.2)); border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 4px solid var(--terracotta); }
+    .point-box h4 { color: var(--terracotta); margin-bottom: 10px; }
+
+    .warning-box { background: rgba(242,109,158,0.1); border-left: 4px solid var(--pink-vivid); padding: 15px 20px; border-radius: 0 8px 8px 0; margin: 20px 0; }
+    .warning-box h4 { color: var(--pink-vivid); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+
+    .gemini-box { background: linear-gradient(135deg, rgba(66,133,244,0.1), rgba(242,140,178,0.1)); border: 2px solid var(--gemini-color); border-radius: 16px; padding: 25px; margin: 25px 0; }
+    .gemini-box h3 { color: var(--gemini-color); margin-top: 0; }
+
+    .business-tips { background: linear-gradient(135deg, rgba(242,109,158,0.1), rgba(242,202,179,0.2)); border: 1px solid var(--pink-vivid); border-radius: 12px; margin: 30px 0; overflow: hidden; }
+    .business-tips summary { padding: 20px; cursor: pointer; font-weight: 700; color: var(--pink-vivid); display: flex; align-items: center; gap: 10px; transition: background 0.3s; list-style: none; }
+    .business-tips summary::-webkit-details-marker { display: none; }
+    .business-tips summary:hover { background: rgba(255,255,255,0.5); }
+    .business-tips summary::before { content: '▶'; font-size: 0.8rem; transition: transform 0.3s; }
+    .business-tips[open] summary::before { transform: rotate(90deg); }
+    .business-content { padding: 0 20px 20px; border-top: 1px solid var(--pink-light); }
+    .business-content h4 { color: var(--terracotta); margin: 20px 0 15px; font-size: 1rem; }
+    .business-list { list-style: none; }
+    .business-list li { padding: 12px 15px; margin: 8px 0; background: rgba(255,255,255,0.7); border-radius: 8px; display: flex; align-items: flex-start; gap: 12px; }
+    .business-list li::before { content: '💼'; flex-shrink: 0; }
+
+    .checkpoint { background: linear-gradient(135deg, var(--day2-color), var(--pink-vivid)); border-radius: 16px; padding: 25px; margin: 30px 0; text-align: center; color: white; }
+    .checkpoint h3 { color: white; margin: 0 0 15px; }
+    .checkpoint p { margin: 0; }
+
+    .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--pink-light); }
+    .nav-btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 25px; background: white; color: var(--dark); text-decoration: none; border-radius: 12px; transition: all 0.3s; border: 2px solid var(--pink-light); }
+    .nav-btn:hover { background: var(--pink-light); border-color: var(--pink-vivid); }
+    .nav-btn.next { background: var(--day2-color); border-color: var(--day2-color); color: white; }
+    .nav-btn.next:hover { background: var(--pink-vivid); }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="../index.html">🏠 ホーム</a>
+    <span style="opacity:0.3">/</span>
+    <span>Day 2</span>
+    <span style="opacity:0.3">/</span>
+    <span class="nav-current">Mission 5</span>
+  </nav>
+
+  <header class="mission-header">
+    <span class="mission-badge">DAY 2 ─ MISSION 5</span>
+    <h1>💻 ターミナル＆Gemini CLIを起動せよ</h1>
+    <p class="mission-desc">黒い画面は魔法の入口。呪文（コマンド）を唱えてAIを操ろう！</p>
+    <span class="time-badge">⏱️ 約15分</span>
+  </header>
+
+  <main>
+    <div class="magic-box">
+      <div class="magic-icon">🧙‍♂️</div>
+      <h3>Day 2：魔法使い編、開幕！</h3>
+      <p style="margin:0;">昨日はAIと仲良くなった。今日はAIを「ターミナルから操る」スキルを身につけよう！</p>
+    </div>
+
+    <section>
+      <h2>🎯 このミッションのゴール</h2>
+      <p><strong>ターミナル</strong>は、マウスを使わずに「文字（コマンド）」でPCを操作するツールです。映画のハッカーが使ってるあの黒い画面です。</p>
+      <p>そして<strong>Gemini CLI</strong>は、ターミナルから直接Gemini AIを操作できる魔法のツール！最初は怖く見えるかもしれませんが、実は<strong>とてもシンプル</strong>。基本の呪文（コマンド）を覚えれば、あなたも魔法使いの仲間入りです✨</p>
+    </section>
+
+    <section>
+      <h2>🚀 ターミナルを起動しよう</h2>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">1</span>ターミナルを開く（Mac）</div>
+        <div class="image-guide">
+          <div class="image-guide-title">📸 方法1：Spotlight検索</div>
+          <ol style="padding-left:20px; opacity:0.9;">
+            <li><code style="background:var(--pink-light); padding:2px 6px; border-radius:4px;">Command ⌘</code> + <code style="background:var(--pink-light); padding:2px 6px; border-radius:4px;">Space</code> を押す</li>
+            <li>「ターミナル」と入力</li>
+            <li>Enterを押す</li>
+          </ol>
+        </div>
+        <div class="image-guide">
+          <div class="image-guide-title">📸 方法2：Finderから</div>
+          <ol style="padding-left:20px; opacity:0.9;">
+            <li>Finder →「アプリケーション」</li>
+            <li>「ユーティリティ」フォルダを開く</li>
+            <li>「ターミナル」をダブルクリック</li>
+          </ol>
+        </div>
+        <p style="margin-top:20px;">黒（または白）い画面が開いたら成功！🎉</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>📜 基本の呪文（コマンド）</h2>
+      <p>まずは3つだけ覚えましょう。これだけで十分動けます：</p>
+      <table class="command-table">
+        <tr><th>呪文（コマンド）</th><th>効果</th><th>読み方</th></tr>
+        <tr><td><code>pwd</code></td><td>今いる場所を表示</td><td>Print Working Directory</td></tr>
+        <tr><td><code>ls</code></td><td>今いる場所のファイル一覧</td><td>List</td></tr>
+        <tr><td><code>cd フォルダ名</code></td><td>別の場所に移動</td><td>Change Directory</td></tr>
+      </table>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">2</span>実際に唱えてみよう！</div>
+        <p>ターミナルに以下を入力して Enter を押してください：</p>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="terminal-dot red"></div>
+            <div class="terminal-dot yellow"></div>
+            <div class="terminal-dot green"></div>
+            <span class="terminal-title">Terminal</span>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line"><span class="terminal-comment"># 今いる場所を確認</span></div>
+            <div class="terminal-line"><span class="terminal-prompt">$ </span><span class="terminal-command">pwd</span></div>
+            <div class="terminal-line"><span class="terminal-output">/Users/あなたの名前</span></div>
+            <div class="terminal-line" style="margin-top:15px;"><span class="terminal-comment"># ファイル一覧を見る</span></div>
+            <div class="terminal-line"><span class="terminal-prompt">$ </span><span class="terminal-command">ls</span></div>
+            <div class="terminal-line"><span class="terminal-output">Desktop  Documents  Downloads  Pictures  ...</span></div>
+            <div class="terminal-line" style="margin-top:15px;"><span class="terminal-comment"># デスクトップに移動</span></div>
+            <div class="terminal-line"><span class="terminal-prompt">$ </span><span class="terminal-command">cd Desktop</span></div>
+          </div>
+        </div>
+        <div class="point-box"><h4>💡 ポイント</h4><p style="margin:0;"><code>$</code> マークはターミナルが「入力待ち」の合図。<code>$</code> の後にコマンドを入力します（$自体は入力しない）</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>🔵 Gemini CLIをインストール</h2>
+      
+      <div class="gemini-box">
+        <h3>✨ Gemini CLI とは？</h3>
+        <p>Googleが提供する、ターミナルからGemini AIを直接操作できるツールです。コマンド一発でファイルを作ったり、コードを書いたり、なんでもできます！</p>
+      </div>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">3</span>Gemini CLIをインストール</div>
+        <p>以下のコマンドをターミナルにコピペして実行：</p>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="terminal-dot red"></div>
+            <div class="terminal-dot yellow"></div>
+            <div class="terminal-dot green"></div>
+            <span class="terminal-title">Terminal</span>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line"><span class="terminal-comment"># Gemini CLIをインストール（グローバル）</span></div>
+            <div class="terminal-line"><span class="terminal-prompt">$ </span><span class="terminal-command">npm install -g @google/gemini-cli</span></div>
+            <div class="terminal-line" style="margin-top:15px;"><span class="terminal-comment"># または、npxで直接実行（インストール不要）</span></div>
+            <div class="terminal-line"><span class="terminal-prompt">$ </span><span class="terminal-command">npx @google/gemini-cli</span></div>
+          </div>
+        </div>
+        <div class="warning-box"><h4>⚠️ Node.jsが必要です</h4><p style="margin:0;">まだ入っていない場合は <a href="https://nodejs.org" target="_blank" style="color:var(--pink-vivid)">nodejs.org</a> からインストールしてください。</p></div>
+      </div>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">4</span>Gemini CLIを起動！</div>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="terminal-dot red"></div>
+            <div class="terminal-dot yellow"></div>
+            <div class="terminal-dot green"></div>
+            <span class="terminal-title">Terminal</span>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line"><span class="terminal-comment"># Gemini CLIを起動</span></div>
+            <div class="terminal-line"><span class="terminal-prompt">$ </span><span class="terminal-command">gemini</span></div>
+            <div class="terminal-line" style="margin-top:15px;"><span class="terminal-output">✨ Welcome to Gemini CLI!</span></div>
+            <div class="terminal-line"><span class="terminal-output">Type your request and press Enter...</span></div>
+          </div>
+        </div>
+        <p>画面が変わって「Gemini CLI」が起動したら成功！🎉</p>
+      </div>
+    </section>
+
+    <div class="warning-box">
+      <h4>⚠️ 安心してください</h4>
+      <p style="margin:0;">今日使うコマンドは「見る」「移動する」「作る」だけ。<strong>削除コマンド（rm）は使いません</strong>ので、何かを消してしまう心配はありません！間違えても <code>cd ~</code> でホームに戻れます。</p>
+    </div>
+
+    <details class="business-tips">
+      <summary>💼 業務に置き換えると？（タップで開く）</summary>
+      <div class="business-content">
+        <h4>🏢 ターミナル＆Gemini CLIが使えると...</h4>
+        <ul class="business-list">
+          <li><div><strong>自動化スクリプトの実行</strong><br><span style="opacity:0.7">定型作業を1コマンドで実行。「毎朝のレポート作成」「ファイル整理」などを自動化</span></div></li>
+          <li><div><strong>サーバー操作</strong><br><span style="opacity:0.7">Webサービスの管理、ログ確認など。エンジニアとの会話もスムーズに</span></div></li>
+          <li><div><strong>Git操作（バージョン管理）</strong><br><span style="opacity:0.7">ソースコードの管理はターミナルが基本。チーム開発には必須のスキル</span></div></li>
+          <li><div><strong>AIツールの活用</strong><br><span style="opacity:0.7">多くのAIツールはターミナルから操作。次のミッションで実際に体験します！</span></div></li>
+        </ul>
+      </div>
+    </details>
+
+    <div class="checkpoint">
+      <h3>🏁 Mission 5 クリア条件</h3>
+      <p>✅ ターミナルを起動できた！<br>✅ pwd, ls, cd を使えた！<br>✅ Gemini CLIを起動できた！</p>
+    </div>
+
+    <div class="nav-buttons">
+      <a href="../day1/mission4.html" class="nav-btn">← Day 1 Mission 4</a>
+      <a href="mission6.html" class="nav-btn next">Mission 6 へ →</a>
+    </div>
+  </main>
+</body>
+</html>

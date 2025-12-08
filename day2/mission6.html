@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mission 6: Gemini CLIでファイル生成 📁</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Orbitron:wght@700;900&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink-light: #F2C9CC;
+      --pink-vivid: #F26D9E;
+      --pink-medium: #F28DB2;
+      --peach: #F2CAB3;
+      --terracotta: #BF7C63;
+      --dark: #4A3540;
+      --light: #FFF9FA;
+      --day2-color: #F28DB2;
+      --terminal-bg: #1E1E1E;
+      --terminal-green: #4EC9B0;
+      --gemini-color: #4285F4;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Zen Maru Gothic', sans-serif; background: linear-gradient(135deg, var(--peach) 0%, var(--pink-light) 50%, var(--pink-medium) 100%); color: var(--dark); min-height: 100vh; line-height: 1.8; }
+
+    nav { background: rgba(255,255,255,0.95); padding: 15px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 2px solid var(--day2-color); }
+    nav a { color: var(--dark); text-decoration: none; opacity: 0.7; transition: opacity 0.3s; }
+    nav a:hover { opacity: 1; }
+    .nav-current { color: var(--day2-color); font-weight: 700; }
+
+    .mission-header { background: linear-gradient(135deg, var(--day2-color), var(--pink-vivid)); padding: 40px 20px; text-align: center; color: white; }
+    .mission-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 50px; font-family: 'Orbitron', sans-serif; font-size: 0.9rem; margin-bottom: 15px; }
+    h1 { font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 10px; }
+    .mission-desc { opacity: 0.95; max-width: 600px; margin: 0 auto; }
+    .time-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin-top: 15px; font-size: 0.9rem; }
+
+    main { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+    section { margin-bottom: 40px; }
+    h2 { color: var(--pink-vivid); font-size: 1.4rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--pink-light); display: flex; align-items: center; gap: 10px; }
+    h3 { color: var(--terracotta); font-size: 1.1rem; margin: 25px 0 15px; }
+    p { margin-bottom: 15px; }
+
+    .magic-box { background: linear-gradient(135deg, rgba(242,109,158,0.2), rgba(242,202,179,0.3)); border-radius: 20px; padding: 30px; margin: 30px 0; text-align: center; border: 2px solid var(--pink-vivid); }
+    .magic-icon { font-size: 4rem; margin-bottom: 15px; }
+    .magic-box h3 { color: var(--pink-vivid); font-size: 1.3rem; margin-bottom: 10px; }
+
+    .terminal { background: var(--terminal-bg); border-radius: 12px; overflow: hidden; margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .terminal-header { background: #323232; padding: 10px 15px; display: flex; align-items: center; gap: 8px; }
+    .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .terminal-dot.red { background: #FF5F56; }
+    .terminal-dot.yellow { background: #FFBD2E; }
+    .terminal-dot.green { background: #27C93F; }
+    .terminal-title { margin-left: 10px; font-size: 0.85rem; opacity: 0.7; color: white; }
+    .terminal-body { padding: 20px; font-family: 'Fira Code', monospace; font-size: 0.9rem; line-height: 1.6; color: white; }
+    .terminal-line { margin: 5px 0; }
+    .terminal-prompt { color: var(--terminal-green); }
+    .terminal-command { color: #DCDCDC; }
+    .terminal-output { color: #9CDCFE; opacity: 0.8; }
+    .terminal-comment { color: #6A9955; }
+    .terminal-gemini { color: #4285F4; }
+
+    .step-box { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 25px; margin: 20px 0; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
+    .step-number { display: inline-flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: var(--day2-color); color: white; border-radius: 50%; font-family: 'Orbitron', sans-serif; font-weight: 700; margin-right: 10px; }
+    .step-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; }
+
+    .prompt-box { background: linear-gradient(135deg, var(--pink-light), var(--peach)); border-radius: 12px; padding: 20px; margin: 15px 0; border-left: 4px solid var(--pink-vivid); }
+    .prompt-label { color: var(--pink-vivid); font-size: 0.8rem; font-weight: 700; margin-bottom: 10px; display: block; }
+
+    .file-types { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin: 20px 0; }
+    .file-card { background: white; border-radius: 12px; padding: 20px; text-align: center; border: 2px solid var(--pink-light); transition: transform 0.3s, border-color 0.3s; }
+    .file-card:hover { transform: translateY(-5px); border-color: var(--pink-vivid); }
+    .file-icon { font-size: 2.5rem; margin-bottom: 10px; }
+    .file-name { font-weight: 700; margin-bottom: 5px; }
+    .file-ext { font-family: 'Fira Code', monospace; color: var(--terracotta); font-size: 0.85rem; }
+
+    .file-table-wrapper { background: white; border-radius: 12px; padding: 20px; margin: 20px 0; overflow-x: auto; box-shadow: 0 3px 15px rgba(0,0,0,0.08); }
+    .file-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .file-table th { background: linear-gradient(135deg, var(--pink-vivid), var(--pink-medium)); color: white; padding: 12px 15px; text-align: left; }
+    .file-table th:first-child { border-radius: 8px 0 0 0; }
+    .file-table th:last-child { border-radius: 0 8px 0 0; }
+    .file-table td { padding: 10px 15px; border-bottom: 1px solid var(--pink-light); }
+    .file-table tr:hover { background: rgba(242,201,204,0.2); }
+    .file-table td:first-child { font-family: 'Fira Code', monospace; color: var(--pink-vivid); white-space: nowrap; }
+    .file-table td:nth-child(2) { color: var(--terracotta); font-weight: 500; white-space: nowrap; }
+
+    .point-box { background: linear-gradient(135deg, rgba(242,109,158,0.15), rgba(242,202,179,0.2)); border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 4px solid var(--terracotta); }
+    .point-box h4 { color: var(--terracotta); margin-bottom: 10px; }
+
+    .success-box { background: linear-gradient(135deg, var(--day2-color), var(--pink-vivid)); border-radius: 16px; padding: 25px; margin: 25px 0; text-align: center; color: white; }
+    .success-box h4 { margin-bottom: 10px; }
+
+    .business-tips { background: linear-gradient(135deg, rgba(242,109,158,0.1), rgba(242,202,179,0.2)); border: 1px solid var(--pink-vivid); border-radius: 12px; margin: 30px 0; overflow: hidden; }
+    .business-tips summary { padding: 20px; cursor: pointer; font-weight: 700; color: var(--pink-vivid); display: flex; align-items: center; gap: 10px; transition: background 0.3s; list-style: none; }
+    .business-tips summary::-webkit-details-marker { display: none; }
+    .business-tips summary:hover { background: rgba(255,255,255,0.5); }
+    .business-tips summary::before { content: '▶'; font-size: 0.8rem; transition: transform 0.3s; }
+    .business-tips[open] summary::before { transform: rotate(90deg); }
+    .business-content { padding: 0 20px 20px; border-top: 1px solid var(--pink-light); }
+    .business-content h4 { color: var(--terracotta); margin: 20px 0 15px; font-size: 1rem; }
+    .business-list { list-style: none; }
+    .business-list li { padding: 12px 15px; margin: 8px 0; background: rgba(255,255,255,0.7); border-radius: 8px; display: flex; align-items: flex-start; gap: 12px; }
+    .business-list li::before { content: '💼'; flex-shrink: 0; }
+
+    .checkpoint { background: linear-gradient(135deg, var(--day2-color), var(--pink-vivid)); border-radius: 16px; padding: 25px; margin: 30px 0; text-align: center; color: white; }
+    .checkpoint h3 { color: white; margin: 0 0 15px; }
+    .checkpoint p { margin: 0; }
+
+    .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--pink-light); }
+    .nav-btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 25px; background: white; color: var(--dark); text-decoration: none; border-radius: 12px; transition: all 0.3s; border: 2px solid var(--pink-light); }
+    .nav-btn:hover { background: var(--pink-light); border-color: var(--pink-vivid); }
+    .nav-btn.next { background: var(--day2-color); border-color: var(--day2-color); color: white; }
+    .nav-btn.next:hover { background: var(--pink-vivid); }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="../index.html">🏠 ホーム</a>
+    <span style="opacity:0.3">/</span>
+    <span>Day 2</span>
+    <span style="opacity:0.3">/</span>
+    <span class="nav-current">Mission 6</span>
+  </nav>
+
+  <header class="mission-header">
+    <span class="mission-badge">DAY 2 ─ MISSION 6</span>
+    <h1>📁 Gemini CLIでファイル生成</h1>
+    <p class="mission-desc">1コマンドでHTML・Excelを作成。これぞターミナルの魔法！</p>
+    <span class="time-badge">⏱️ 約20分</span>
+  </header>
+
+  <main>
+    <div class="magic-box">
+      <div class="magic-icon">✨</div>
+      <h3>呪文一発でファイル生成！</h3>
+      <p style="margin:0;">Gemini CLIに話しかけて、HTMLやExcelファイルを一瞬で作り出そう！</p>
+    </div>
+
+    <section>
+      <h2>🎯 このミッションのゴール</h2>
+      <p>Gemini CLIは、<strong>ファイルを直接生成</strong>することができます。「こんなファイルを作って」とお願いするだけで、HTMLでもExcelでも作ってくれます。</p>
+      <p>コマンド操作だけでファイルが手に入る。これぞ魔法！</p>
+    </section>
+
+    <section>
+      <h2>📄 AIが作れるファイル</h2>
+      <div class="file-types">
+        <div class="file-card"><div class="file-icon">🌐</div><div class="file-name">Webページ</div><div class="file-ext">.html</div></div>
+        <div class="file-card"><div class="file-icon">📊</div><div class="file-name">表計算</div><div class="file-ext">.xlsx / .csv</div></div>
+        <div class="file-card"><div class="file-icon">📝</div><div class="file-name">Word文書</div><div class="file-ext">.docx</div></div>
+        <div class="file-card"><div class="file-icon">🎨</div><div class="file-name">プレゼン</div><div class="file-ext">.pptx</div></div>
+        <div class="file-card"><div class="file-icon">📄</div><div class="file-name">PDF</div><div class="file-ext">.pdf</div></div>
+        <div class="file-card"><div class="file-icon">📋</div><div class="file-name">Markdown</div><div class="file-ext">.md</div></div>
+        <div class="file-card"><div class="file-icon">🔧</div><div class="file-name">JSON</div><div class="file-ext">.json</div></div>
+        <div class="file-card"><div class="file-icon">📑</div><div class="file-name">XML</div><div class="file-ext">.xml</div></div>
+        <div class="file-card"><div class="file-icon">🐍</div><div class="file-name">Python</div><div class="file-ext">.py</div></div>
+        <div class="file-card"><div class="file-icon">💛</div><div class="file-name">JavaScript</div><div class="file-ext">.js / .ts</div></div>
+        <div class="file-card"><div class="file-icon">💎</div><div class="file-name">CSS</div><div class="file-ext">.css / .scss</div></div>
+        <div class="file-card"><div class="file-icon">🗃️</div><div class="file-name">SQL</div><div class="file-ext">.sql</div></div>
+        <div class="file-card"><div class="file-icon">⚙️</div><div class="file-name">設定ファイル</div><div class="file-ext">.yaml / .toml</div></div>
+        <div class="file-card"><div class="file-icon">🖼️</div><div class="file-name">SVG画像</div><div class="file-ext">.svg</div></div>
+        <div class="file-card"><div class="file-icon">📦</div><div class="file-name">シェル</div><div class="file-ext">.sh / .bat</div></div>
+        <div class="file-card"><div class="file-icon">📚</div><div class="file-name">テキスト</div><div class="file-ext">.txt</div></div>
+      </div>
+
+      <h3>📖 ファイル形式 早わかり表</h3>
+      <div class="file-table-wrapper">
+        <table class="file-table">
+          <tr><th>形式</th><th>用途</th><th>特徴</th></tr>
+          <tr><td><strong>.html</strong></td><td>Webページ</td><td>ブラウザで表示できる。デザイン・レイアウト自由自在</td></tr>
+          <tr><td><strong>.xlsx</strong></td><td>Excel表計算</td><td>数式・グラフ・書式設定が使える。業務の定番</td></tr>
+          <tr><td><strong>.csv</strong></td><td>データ交換</td><td>シンプルな表データ。どのソフトでも開ける万能選手</td></tr>
+          <tr><td><strong>.docx</strong></td><td>Word文書</td><td>報告書・議事録など。書式付きの正式文書向け</td></tr>
+          <tr><td><strong>.pptx</strong></td><td>PowerPoint</td><td>プレゼン資料。スライド形式で視覚的に伝える</td></tr>
+          <tr><td><strong>.pdf</strong></td><td>配布用文書</td><td>レイアウト固定。誰が開いても同じ見た目を保証</td></tr>
+          <tr><td><strong>.md</strong></td><td>Markdown</td><td>シンプルな記法で見やすい文書。README等で人気</td></tr>
+          <tr><td><strong>.json</strong></td><td>データ形式</td><td>プログラムで扱いやすい構造化データ。API連携に必須</td></tr>
+          <tr><td><strong>.xml</strong></td><td>データ形式</td><td>タグで構造化。設定ファイルやデータ交換に使用</td></tr>
+          <tr><td><strong>.py</strong></td><td>Python</td><td>AI・データ分析で大人気のプログラミング言語</td></tr>
+          <tr><td><strong>.js / .ts</strong></td><td>JavaScript</td><td>Webサイトに動きをつける。フロント＆バックエンド両対応</td></tr>
+          <tr><td><strong>.css / .scss</strong></td><td>スタイル</td><td>Webページの見た目（色・配置・アニメ）を定義</td></tr>
+          <tr><td><strong>.sql</strong></td><td>データベース</td><td>データの検索・登録・更新を行うクエリ言語</td></tr>
+          <tr><td><strong>.yaml / .toml</strong></td><td>設定ファイル</td><td>アプリの設定を書く。人間にも読みやすい形式</td></tr>
+          <tr><td><strong>.svg</strong></td><td>ベクター画像</td><td>拡大してもキレイ。アイコンやロゴに最適</td></tr>
+          <tr><td><strong>.sh / .bat</strong></td><td>スクリプト</td><td>コマンドを自動実行。定型作業の自動化に</td></tr>
+          <tr><td><strong>.txt</strong></td><td>プレーンテキスト</td><td>装飾なしのシンプルなテキスト。メモや下書きに</td></tr>
+        </table>
+      </div>
+
+      <div class="point-box"><h4>💡 ポイント</h4><p style="margin:0;">基本的に<strong>テキストベースのファイルなら何でも作れる</strong>と思ってOK！プログラムのコードから設定ファイル、ドキュメントまで。画像（.png/.jpg）や動画は直接作れませんが、SVGなどのベクター画像は作成可能です。</p></div>
+    </section>
+
+    <section>
+      <h2>🎮 実践1：HTMLファイルを作ろう</h2>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">1</span>Gemini CLIを起動</div>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="terminal-dot red"></div>
+            <div class="terminal-dot yellow"></div>
+            <div class="terminal-dot green"></div>
+            <span class="terminal-title">Terminal</span>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line"><span class="terminal-comment"># Gemini CLIを起動</span></div>
+            <div class="terminal-line"><span class="terminal-prompt">$ </span><span class="terminal-command">gemini</span></div>
+            <div class="terminal-line" style="margin-top:10px;"><span class="terminal-gemini">✨ Gemini CLI ready!</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">2</span>ファイル作成をお願い</div>
+        <p>Gemini CLIに以下のようにお願いしてみてください：</p>
+        <div class="prompt-box">
+          <span class="prompt-label">📝 Gemini CLIへのお願い例</span>
+          シンプルな自己紹介ページのHTMLファイルを作ってください。<br><br>
+          - 名前：〇〇（あなたの名前）<br>
+          - 趣味：料理、ファッション<br>
+          - 好きな色：〇〇<br><br>
+          profile.html という名前で保存してください。おしゃれなデザインでお願いします！
+        </div>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="terminal-dot red"></div>
+            <div class="terminal-dot yellow"></div>
+            <div class="terminal-dot green"></div>
+            <span class="terminal-title">Gemini CLI</span>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line"><span class="terminal-gemini">You: </span><span class="terminal-command">シンプルな自己紹介ページのHTMLファイルを作って...</span></div>
+            <div class="terminal-line" style="margin-top:15px;"><span class="terminal-gemini">Gemini: </span><span class="terminal-output">HTMLファイルを作成しますね！</span></div>
+            <div class="terminal-line"><span class="terminal-output">✅ profile.html を作成しました</span></div>
+          </div>
+        </div>
+        <div class="point-box"><h4>💡 ポイント</h4><p style="margin:0;">Geminiがファイルを作成すると、現在のフォルダに保存されます。<code>ls</code>コマンドで確認してみましょう！</p></div>
+      </div>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">3</span>ファイルを開いて確認</div>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="terminal-dot red"></div>
+            <div class="terminal-dot yellow"></div>
+            <div class="terminal-dot green"></div>
+            <span class="terminal-title">Terminal</span>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line"><span class="terminal-comment"># ファイルをブラウザで開く（Mac）</span></div>
+            <div class="terminal-line"><span class="terminal-prompt">$ </span><span class="terminal-command">open profile.html</span></div>
+          </div>
+        </div>
+        <p>ブラウザで自己紹介ページが表示されたら成功！🎉</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>🎮 実践2：Excelファイルを作ろう</h2>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">4</span>表形式のデータをお願い</div>
+        <div class="prompt-box">
+          <span class="prompt-label">📝 Gemini CLIへのお願い例</span>
+          1週間分の食費管理表をExcelファイル（.xlsx）で作ってください。<br><br>
+          - 列：日付、朝食、昼食、夕食、合計<br>
+          - 行：月曜〜日曜の7日分<br>
+          - 合計の列には自動計算の数式を入れて<br>
+          - 見やすいように罫線と色付けもお願いします<br><br>
+          food_budget.xlsx という名前で保存してください。
+        </div>
+      </div>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">5</span>ファイルを開いて確認</div>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="terminal-dot red"></div>
+            <div class="terminal-dot yellow"></div>
+            <div class="terminal-dot green"></div>
+            <span class="terminal-title">Terminal</span>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line"><span class="terminal-comment"># Excelファイルを開く（Mac）</span></div>
+            <div class="terminal-line"><span class="terminal-prompt">$ </span><span class="terminal-command">open food_budget.xlsx</span></div>
+          </div>
+        </div>
+        <p>Excel（またはNumbers、Googleスプレッドシート）でファイルが開いたら成功！数式も色付けも、ちゃんと反映されているはず！</p>
+      </div>
+    </section>
+
+    <div class="success-box">
+      <h4>🎊 すごい！これでファイル生成魔法を習得！</h4>
+      <p style="margin:0;">HTMLもExcelも、Gemini CLIにお願いするだけで完成。<br>次のミッションでは、ファッションのトレンドデータを作ります！</p>
+    </div>
+
+    <section>
+      <h2>💡 こんなファイルも作れる</h2>
+      <div class="prompt-box">
+        <span class="prompt-label">📝 議事録テンプレート（Word）</span>
+        会議の議事録テンプレートをWordファイル（.docx）で作って。<br>日時、参加者、議題、決定事項、次回アクションの項目を入れて。<br>meeting_notes.docx で保存して。
+      </div>
+      <div class="prompt-box">
+        <span class="prompt-label">📝 プレゼン資料（PowerPoint）</span>
+        「AI活用のメリット」というテーマで5枚のプレゼン資料を作って。<br>タイトル、目次、3つのメリット、まとめの構成で。<br>ai_benefits.pptx で保存して。
+      </div>
+      <div class="prompt-box">
+        <span class="prompt-label">📝 データ分析用CSV</span>
+        架空の売上データをCSVで100件作って。<br>列は：日付、商品名、カテゴリ、数量、単価、売上金額<br>sales_data.csv で保存して。
+      </div>
+    </section>
+
+    <details class="business-tips">
+      <summary>💼 業務に置き換えると？（タップで開く）</summary>
+      <div class="business-content">
+        <h4>🏢 Gemini CLIファイル生成の業務活用</h4>
+        <ul class="business-list">
+          <li><div><strong>レポート自動生成</strong><br><span style="opacity:0.7">「〇〇のデータを分析してレポートをWordで作成」→ 数時間かかる作業が数分に</span></div></li>
+          <li><div><strong>請求書・見積書作成</strong><br><span style="opacity:0.7">「この内容で請求書をExcelで作成」→ フォーマットに沿った書類を即生成</span></div></li>
+          <li><div><strong>データ整形・変換</strong><br><span style="opacity:0.7">「このCSVをこの形式に変換して」→ 面倒なデータ加工作業を自動化</span></div></li>
+          <li><div><strong>プロトタイプ作成</strong><br><span style="opacity:0.7">「こんな画面のHTMLモック作って」→ 企画段階でのイメージ共有に</span></div></li>
+        </ul>
+      </div>
+    </details>
+
+    <div class="checkpoint">
+      <h3>🏁 Mission 6 クリア条件</h3>
+      <p>✅ HTMLファイルを生成してブラウザで開いた！<br>✅ Excelファイルを生成して開いた！</p>
+    </div>
+
+    <div class="nav-buttons">
+      <a href="mission5.html" class="nav-btn">← Mission 5</a>
+      <a href="mission7.html" class="nav-btn next">Mission 7 へ →</a>
+    </div>
+  </main>
+</body>
+</html>

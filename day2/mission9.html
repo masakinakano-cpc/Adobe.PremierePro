@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mission 9: 未来予測 🔮</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Orbitron:wght@700;900&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink-light: #F2C9CC;
+      --pink-vivid: #F26D9E;
+      --pink-medium: #F28DB2;
+      --peach: #F2CAB3;
+      --terracotta: #BF7C63;
+      --dark: #4A3540;
+      --light: #FFF9FA;
+      --day2-color: #F28DB2;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Zen Maru Gothic', sans-serif; background: linear-gradient(135deg, var(--peach) 0%, var(--pink-light) 50%, var(--pink-medium) 100%); color: var(--dark); min-height: 100vh; line-height: 1.8; position: relative; overflow-x: hidden; }
+
+    /* キラキラ背景 */
+    .sparkles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 0; }
+    .sparkles::before { content: '✨ ⭐ ✨ ⭐ ✨'; position: absolute; font-size: 20px; color: rgba(242, 109, 158, 0.2); white-space: nowrap; animation: float 15s linear infinite; top: 20%; left: -100%; }
+    .sparkles::after { content: '💫 ✨ 💫 ✨ 💫'; position: absolute; font-size: 16px; color: rgba(191, 124, 99, 0.15); white-space: nowrap; animation: float 20s linear infinite reverse; top: 70%; left: -100%; }
+    @keyframes float { from { transform: translateX(0); } to { transform: translateX(200%); } }
+
+    nav { position: relative; z-index: 10; background: rgba(255,255,255,0.95); padding: 15px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 2px solid var(--day2-color); }
+    nav a { color: var(--dark); text-decoration: none; opacity: 0.7; transition: opacity 0.3s; }
+    nav a:hover { opacity: 1; }
+    .nav-current { color: var(--day2-color); font-weight: 700; }
+
+    .mission-header { position: relative; z-index: 10; background: linear-gradient(135deg, var(--pink-vivid), var(--terracotta)); padding: 40px 20px; text-align: center; color: white; }
+    .mission-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 50px; font-family: 'Orbitron', sans-serif; font-size: 0.9rem; margin-bottom: 15px; }
+    h1 { font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 10px; }
+    .mission-desc { opacity: 0.95; max-width: 600px; margin: 0 auto; }
+    .time-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin-top: 15px; font-size: 0.9rem; }
+
+    main { position: relative; z-index: 10; max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+    section { margin-bottom: 40px; }
+    h2 { color: var(--pink-vivid); font-size: 1.4rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--pink-light); display: flex; align-items: center; gap: 10px; }
+    h3 { color: var(--terracotta); font-size: 1.1rem; margin: 25px 0 15px; }
+    p { margin-bottom: 15px; }
+
+    .crystal-ball { background: linear-gradient(135deg, rgba(242,109,158,0.3), rgba(191,124,99,0.3)); border-radius: 50%; width: 180px; height: 180px; margin: 30px auto; display: flex; align-items: center; justify-content: center; font-size: 5rem; animation: glow 3s ease-in-out infinite; box-shadow: 0 0 60px rgba(242,109,158,0.4); }
+    @keyframes glow { 0%, 100% { box-shadow: 0 0 60px rgba(242,109,158,0.4); } 50% { box-shadow: 0 0 100px rgba(242,109,158,0.6); } }
+
+    .final-mission-box { background: linear-gradient(135deg, rgba(242,109,158,0.2), rgba(242,202,179,0.3)); border-radius: 20px; padding: 30px; margin: 30px 0; text-align: center; border: 2px solid var(--pink-vivid); }
+    .final-mission-box h3 { color: var(--pink-vivid); font-size: 1.5rem; margin-bottom: 10px; }
+
+    .step-box { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 25px; margin: 20px 0; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
+    .step-number { display: inline-flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: var(--pink-vivid); color: white; border-radius: 50%; font-family: 'Orbitron', sans-serif; font-weight: 700; margin-right: 10px; }
+    .step-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; }
+
+    .prompt-box { background: linear-gradient(135deg, var(--pink-light), var(--peach)); border-radius: 12px; padding: 20px; margin: 15px 0; border-left: 4px solid var(--pink-vivid); }
+    .prompt-label { color: var(--pink-vivid); font-size: 0.8rem; font-weight: 700; margin-bottom: 10px; display: block; }
+
+    .point-box { background: linear-gradient(135deg, rgba(242,109,158,0.15), rgba(242,202,179,0.2)); border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 4px solid var(--terracotta); }
+    .point-box h4 { color: var(--terracotta); margin-bottom: 10px; }
+
+    .business-tips { background: linear-gradient(135deg, rgba(242,109,158,0.1), rgba(242,202,179,0.2)); border: 1px solid var(--pink-vivid); border-radius: 12px; margin: 30px 0; overflow: hidden; }
+    .business-tips summary { padding: 20px; cursor: pointer; font-weight: 700; color: var(--pink-vivid); display: flex; align-items: center; gap: 10px; transition: background 0.3s; list-style: none; }
+    .business-tips summary::-webkit-details-marker { display: none; }
+    .business-tips summary:hover { background: rgba(255,255,255,0.5); }
+    .business-tips summary::before { content: '▶'; font-size: 0.8rem; transition: transform 0.3s; }
+    .business-tips[open] summary::before { transform: rotate(90deg); }
+    .business-content { padding: 0 20px 20px; border-top: 1px solid var(--pink-light); }
+    .business-content h4 { color: var(--terracotta); margin: 20px 0 15px; font-size: 1rem; }
+    .business-list { list-style: none; }
+    .business-list li { padding: 12px 15px; margin: 8px 0; background: rgba(255,255,255,0.7); border-radius: 8px; display: flex; align-items: flex-start; gap: 12px; }
+    .business-list li::before { content: '💼'; flex-shrink: 0; }
+
+    .complete-celebration { background: linear-gradient(135deg, var(--pink-vivid), var(--terracotta)); border-radius: 20px; padding: 50px 30px; margin: 40px 0; text-align: center; color: white; position: relative; overflow: hidden; }
+    .complete-celebration::before { content: '🎉'; position: absolute; font-size: 100px; opacity: 0.2; top: -20px; left: -20px; }
+    .complete-celebration::after { content: '🎊'; position: absolute; font-size: 100px; opacity: 0.2; bottom: -20px; right: -20px; }
+    .complete-celebration h2 { border: none; margin-bottom: 15px; font-size: 2rem; color: white; }
+    .complete-celebration p { opacity: 1; font-size: 1.1rem; }
+
+    .skill-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 30px 0; }
+    .skill-item { background: white; border-radius: 12px; padding: 20px; text-align: center; border: 2px solid var(--pink-medium); }
+    .skill-item .icon { font-size: 2rem; margin-bottom: 10px; }
+    .skill-item .name { font-weight: 700; color: var(--terracotta); font-size: 0.9rem; }
+
+    .checkpoint { background: linear-gradient(135deg, var(--pink-vivid), var(--terracotta)); border-radius: 16px; padding: 25px; margin: 30px 0; text-align: center; color: white; }
+    .checkpoint h3 { color: white; margin: 0 0 15px; }
+    .checkpoint p { margin: 0; }
+
+    .nav-buttons { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 15px; margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--pink-light); }
+    .nav-btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 25px; background: white; color: var(--dark); text-decoration: none; border-radius: 12px; transition: all 0.3s; border: 2px solid var(--pink-light); }
+    .nav-btn:hover { background: var(--pink-light); border-color: var(--pink-vivid); }
+    .nav-btn.complete { background: var(--pink-vivid); border-color: var(--pink-vivid); color: white; }
+    .nav-btn.complete:hover { background: var(--terracotta); }
+  </style>
+</head>
+<body>
+  <div class="sparkles"></div>
+
+  <nav>
+    <a href="../index.html">🏠 ホーム</a>
+    <span style="opacity:0.3">/</span>
+    <span>Day 2</span>
+    <span style="opacity:0.3">/</span>
+    <span class="nav-current">Mission 9 (FINAL)</span>
+  </nav>
+
+  <header class="mission-header">
+    <span class="mission-badge">DAY 2 ─ MISSION 9 (FINAL)</span>
+    <h1>🔮 未来予測</h1>
+    <p class="mission-desc">「来年のトレンドカラーは？」Gemini CLIに未来を予言させる最終ミッション！</p>
+    <span class="time-badge">⏱️ 約15分</span>
+  </header>
+
+  <main>
+    <div class="crystal-ball">🔮</div>
+
+    <div class="final-mission-box">
+      <h3>⭐ 最終ミッション</h3>
+      <p style="margin:0;">2日間の集大成。AIの力を使って「未来」を予測しよう！<br>これまで学んだスキルをすべて活かす時が来た。</p>
+    </div>
+
+    <section>
+      <h2>🎯 このミッションのゴール</h2>
+      <p>AIは過去のトレンドデータを分析して、<strong>未来のトレンドを予測</strong>できます。もちろん100%当たるわけではありませんが、データに基づいた「予測」は非常に有用です。</p>
+      <p>Mission 7-8で作ったトレンドデータとダッシュボードを使って、<strong>「来年の春はこの色が来る！」</strong>を予測してみましょう🔮</p>
+    </section>
+
+    <section>
+      <h2>🎮 実践タイム！</h2>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">1</span>トレンド予測をお願いする</div>
+        <p>Gemini CLIに以下のようにお願いしてください：</p>
+        <div class="prompt-box">
+          <span class="prompt-label">📝 未来予測プロンプト</span>
+          これまでのファッショントレンドカラーのデータを分析して、<br>
+          <strong>来年（2026年）の春のトレンドカラー</strong>を予測してください。<br><br>
+          以下の形式で回答してください：<br>
+          1. トップ5の予測カラー（色名・カラーコード・選定理由）<br>
+          2. 全体的なトレンドの方向性<br>
+          3. 2025年までのトレンドからの変化ポイント<br><br>
+          過去のデータから読み取れる傾向を根拠にしてください。
+        </div>
+      </div>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">2</span>予測レポートを作成</div>
+        <div class="prompt-box">
+          <span class="prompt-label">📝 レポート作成プロンプト</span>
+          この予測結果を、見やすいHTMLレポートにまとめてください。<br><br>
+          - タイトル：「2026年春 ファッショントレンドカラー予測」<br>
+          - 予測カラーを実際の色で表示<br>
+          - 選定理由をわかりやすく<br>
+          - グラフや図があると嬉しい<br>
+          - ピンク系のかわいいデザインで（#F2C9CC, #F26D9E, #F28DB2, #F2CAB3, #BF7C63）<br><br>
+          trend_forecast_2026.html という名前で保存してください。
+        </div>
+        <div class="point-box"><h4>💡 ポイント</h4><p style="margin:0;">AIの予測は「過去のパターンからの推測」です。実際のトレンドは社会情勢や文化の変化にも影響されます。<strong>あくまで参考</strong>として活用しましょう！</p></div>
+      </div>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">3</span>他の予測も試してみよう</div>
+        <p>余裕があれば、他の予測もやってみましょう：</p>
+        <div class="prompt-box">
+          <span class="prompt-label">📝 季節別予測</span>
+          2026年の夏、秋、冬のトレンドカラーもそれぞれ予測してください。<br>季節ごとの特徴や、年間を通したカラーストーリーも教えてください。
+        </div>
+        <div class="prompt-box">
+          <span class="prompt-label">📝 コーディネート提案</span>
+          予測した2026年春のトレンドカラーを使った<br>おすすめのコーディネート例を3パターン提案してください。
+        </div>
+      </div>
+    </section>
+
+    <details class="business-tips">
+      <summary>💼 業務に置き換えると？（タップで開く）</summary>
+      <div class="business-content">
+        <h4>🏢 AI予測の業務活用</h4>
+        <ul class="business-list">
+          <li><div><strong>売上予測</strong><br><span style="opacity:0.7">過去の売上データから来月・来期の売上を予測。在庫管理や予算策定の参考に</span></div></li>
+          <li><div><strong>需要予測</strong><br><span style="opacity:0.7">季節性・トレンドを分析して需要を予測。仕入れや人員配置の最適化に</span></div></li>
+          <li><div><strong>リスク分析</strong><br><span style="opacity:0.7">過去の問題パターンから将来のリスクを予測。事前対策の立案に</span></div></li>
+          <li><div><strong>市場トレンド予測</strong><br><span style="opacity:0.7">業界データから将来のトレンドを分析。新商品開発や事業戦略の参考に</span></div></li>
+        </ul>
+        <h4>⚠️ AI予測の注意点</h4>
+        <p style="background:rgba(255,255,255,0.7); padding:15px; border-radius:8px;">AI予測は<strong>「過去のパターンの延長」</strong>が基本です。想定外の出来事（パンデミック、経済危機など）は予測できません。<strong>意思決定の「参考情報」</strong>として活用し、最終判断は人間が行いましょう。</p>
+      </div>
+    </details>
+
+    <div class="checkpoint">
+      <h3>🏁 Mission 9 クリア条件</h3>
+      <p>✅ AIにトレンドカラーの未来予測をさせた！<br>✅ 予測レポートをHTMLで作成した！</p>
+    </div>
+
+    <div class="complete-celebration">
+      <h2>🎉 全ミッション完了！</h2>
+      <p>おめでとうございます！<br>2日間のAI研修、すべてのミッションをクリアしました！</p>
+    </div>
+
+    <section>
+      <h2>🏆 習得したスキル</h2>
+      <div class="skill-list">
+        <div class="skill-item"><div class="icon">⚔️</div><div class="name">AI使い分け</div></div>
+        <div class="skill-item"><div class="icon">🔍</div><div class="name">Deep Research</div></div>
+        <div class="skill-item"><div class="icon">🎨</div><div class="name">画像生成</div></div>
+        <div class="skill-item"><div class="icon">🛠️</div><div class="name">マイGPT作成</div></div>
+        <div class="skill-item"><div class="icon">💻</div><div class="name">ターミナル操作</div></div>
+        <div class="skill-item"><div class="icon">📁</div><div class="name">ファイル生成</div></div>
+        <div class="skill-item"><div class="icon">📊</div><div class="name">データ作成</div></div>
+        <div class="skill-item"><div class="icon">🎛️</div><div class="name">ダッシュボード</div></div>
+        <div class="skill-item"><div class="icon">🔮</div><div class="name">AI予測</div></div>
+      </div>
+      <div class="point-box"><h4>🚀 これからも続けよう！</h4><p style="margin:0;">AIは日々進化しています。今日学んだスキルを土台に、どんどん新しいことに挑戦してください！困ったときはいつでもAIに相談を。あなたの味方です✨</p></div>
+    </section>
+
+    <div class="nav-buttons">
+      <a href="mission8.html" class="nav-btn">← Mission 8</a>
+      <a href="../index.html" class="nav-btn complete">🏠 ホームに戻る</a>
+    </div>
+  </main>
+</body>
+</html>
