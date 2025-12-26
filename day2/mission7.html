@@ -114,7 +114,7 @@
   <header class="mission-header">
     <span class="mission-badge">DAY 2 ─ MISSION 7</span>
     <h1>📊 トレンドデータ作成</h1>
-    <p class="mission-desc">ファッションカラーのトレンドデータをGemini CLIで生成しよう！</p>
+    <p class="mission-desc">ファッションカラーのトレンドデータをAntigravityで生成しよう！</p>
     <span class="time-badge">⏱️ 約20分</span>
   </header>
 
@@ -135,7 +135,7 @@
     <section>
       <h2>🎯 このミッションのゴール</h2>
       <p>次のミッションでダッシュボードを作るために、まずは<strong>元となるデータ</strong>を作成します。</p>
-      <p>Gemini CLIに「ファッショントレンドカラーのデータ」を生成してもらい、CSVまたはJSONファイルとして保存します。</p>
+      <p>AntigravityのAIに「ファッショントレンドカラーのデータ」を生成してもらい、CSVまたはJSONファイルとして保存します。</p>
     </section>
 
     <section>
@@ -143,9 +143,9 @@
 
       <div class="step-box">
         <div class="step-title"><span class="step-number">1</span>トレンドカラーデータを生成</div>
-        <p>Gemini CLIに以下のようにお願いしてください：</p>
+        <p>AntigravityのAIチャットに以下のようにお願いしてください：</p>
         <div class="prompt-box">
-          <span class="prompt-label">📝 Gemini CLIへのお願い</span>
+          <span class="prompt-label">📝 AIへのお願い</span>
           2020年から2025年までのファッショントレンドカラーデータを生成してください。<br><br>
           【形式】<br>
           - JSON形式で出力<br>
@@ -190,28 +190,14 @@
             </tr>
           </table>
         </div>
-        <div class="terminal">
-          <div class="terminal-header">
-            <div class="terminal-dot red"></div>
-            <div class="terminal-dot yellow"></div>
-            <div class="terminal-dot green"></div>
-            <span class="terminal-title">Terminal</span>
-          </div>
-          <div class="terminal-body">
-            <div class="terminal-line"><span class="terminal-comment"># ファイルの確認</span></div>
-            <div class="terminal-line"><span class="terminal-prompt">$ </span><span class="terminal-command">ls -la trend_colors.json</span></div>
-            <div class="terminal-line"><span class="terminal-output">-rw-r--r--  1 user  staff  15234 Dec  8 10:30 trend_colors.json</span></div>
-            <div class="terminal-line" style="margin-top:15px;"><span class="terminal-comment"># 中身をちょっと見てみる</span></div>
-            <div class="terminal-line"><span class="terminal-prompt">$ </span><span class="terminal-command">head -20 trend_colors.json</span></div>
-          </div>
-        </div>
+        <p style="margin-top: 15px;">Antigravityの左側ファイルツリーに <code>trend_colors.json</code> が表示されます。クリックして中身を確認しましょう！</p>
       </div>
 
       <div class="step-box">
         <div class="step-title"><span class="step-number">3</span>CSV版も作っておこう</div>
         <p>Excelで開きたい場合はCSV版も便利です：</p>
         <div class="prompt-box">
-          <span class="prompt-label">📝 Gemini CLIへのお願い</span>
+          <span class="prompt-label">📝 AIへのお願い</span>
           さっき作ったトレンドカラーデータを、trend_colors.csv という名前のCSVファイルでも保存してください。
         </div>
         <div class="point-box"><h4>💡 ポイント</h4><p style="margin:0;">JSONはプログラムで使いやすく、CSVはExcelで開きやすい。両方あると便利！</p></div>
@@ -249,7 +235,7 @@
     </div>
 
     <div class="nav-buttons">
-      <a href="mission6.html" class="nav-btn">← Mission 6</a>
+      <a href="mission6_5.html" class="nav-btn">← Mission 6.5</a>
       <a href="mission8.html" class="nav-btn next">Mission 8 へ →</a>
     </div>
   </main>

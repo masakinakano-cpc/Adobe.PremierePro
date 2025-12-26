@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mission 6.5: Antigravity / Cursor / VS Code を比較</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Orbitron:wght@700;900&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink-light: #F2C9CC;
+      --pink-vivid: #F26D9E;
+      --pink-medium: #F28DB2;
+      --peach: #F2CAB3;
+      --terracotta: #BF7C63;
+      --dark: #4A3540;
+      --light: #FFF9FA;
+      --day2-color: #F28DB2;
+      --terminal-bg: #1E1E1E;
+      --terminal-green: #4EC9B0;
+      --gemini-color: #4285F4;
+      --antigravity-color: #8B5CF6;
+      --cursor-color: #00D4AA;
+      --vscode-color: #007ACC;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Zen Maru Gothic', sans-serif; background: linear-gradient(135deg, var(--peach) 0%, var(--pink-light) 50%, var(--pink-medium) 100%); color: var(--dark); min-height: 100vh; line-height: 1.8; }
+
+    nav { background: rgba(255,255,255,0.95); padding: 15px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 2px solid var(--day2-color); }
+    nav a { color: var(--dark); text-decoration: none; opacity: 0.7; transition: opacity 0.3s; }
+    nav a:hover { opacity: 1; }
+    .nav-current { color: var(--day2-color); font-weight: 700; }
+
+    .mission-header { background: linear-gradient(135deg, var(--day2-color), var(--pink-vivid)); padding: 40px 20px; text-align: center; color: white; }
+    .mission-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 50px; font-family: 'Orbitron', sans-serif; font-size: 0.9rem; margin-bottom: 15px; }
+    h1 { font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 10px; }
+    .mission-desc { opacity: 0.95; max-width: 600px; margin: 0 auto; }
+    .time-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin-top: 15px; font-size: 0.9rem; }
+
+    main { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+    section { margin-bottom: 40px; }
+    h2 { color: var(--pink-vivid); font-size: 1.4rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--pink-light); display: flex; align-items: center; gap: 10px; }
+    h3 { color: var(--terracotta); font-size: 1.1rem; margin: 25px 0 15px; }
+    p { margin-bottom: 15px; }
+
+    .bridge-box { background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(242,202,179,0.3)); border-radius: 20px; padding: 30px; margin: 30px 0; text-align: center; border: 2px solid var(--antigravity-color); }
+    .bridge-icon { font-size: 4rem; margin-bottom: 15px; }
+    .bridge-box h3 { color: var(--antigravity-color); font-size: 1.3rem; margin-bottom: 10px; }
+
+    .step-box { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 25px; margin: 20px 0; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
+    .step-number { display: inline-flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: var(--day2-color); color: white; border-radius: 50%; font-family: 'Orbitron', sans-serif; font-weight: 700; margin-right: 10px; }
+    .step-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; }
+
+    .point-box { background: linear-gradient(135deg, rgba(242,109,158,0.15), rgba(242,202,179,0.2)); border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 4px solid var(--terracotta); }
+    .point-box h4 { color: var(--terracotta); margin-bottom: 10px; }
+
+    .pain-points { background: rgba(255,255,255,0.9); border-radius: 12px; padding: 20px; margin: 20px 0; }
+    .pain-points h4 { color: var(--terracotta); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+    .pain-list { list-style: none; }
+    .pain-list li { padding: 10px 15px; margin: 8px 0; background: rgba(242,109,158,0.1); border-radius: 8px; display: flex; align-items: flex-start; gap: 10px; }
+    .pain-list li::before { content: '😫'; flex-shrink: 0; }
+
+    /* ツール比較カード */
+    .tool-cards { display: grid; gap: 20px; margin: 25px 0; }
+
+    .tool-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 16px;
+      padding: 25px;
+      border-left: 4px solid;
+      transition: transform 0.3s;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .tool-card:hover { transform: translateX(5px); }
+    .tool-card.antigravity { border-color: var(--antigravity-color); }
+    .tool-card.cursor { border-color: var(--cursor-color); }
+    .tool-card.vscode { border-color: var(--vscode-color); }
+
+    .tool-card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+
+    .tool-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: white;
+    }
+
+    .tool-card.antigravity .tool-icon { background: var(--antigravity-color); }
+    .tool-card.cursor .tool-icon { background: var(--cursor-color); }
+    .tool-card.vscode .tool-icon { background: var(--vscode-color); }
+
+    .tool-card h4 { font-size: 1.2rem; }
+    .tool-card .maker { font-size: 0.85rem; opacity: 0.6; }
+
+    .tool-features { list-style: none; margin-top: 15px; }
+    .tool-features li {
+      padding: 8px 0;
+      padding-left: 25px;
+      position: relative;
+      border-bottom: 1px solid var(--pink-light);
+    }
+    .tool-features li::before { content: '✓'; position: absolute; left: 0; color: var(--pink-vivid); }
+
+    .today-pick {
+      background: linear-gradient(135deg, var(--antigravity-color), #6D28D9);
+      border-radius: 16px;
+      padding: 25px;
+      margin: 30px 0;
+      text-align: center;
+      color: white;
+    }
+    .today-pick h3 { color: white; margin: 0 0 15px; font-size: 1.3rem; }
+    .today-pick p { margin: 0; opacity: 0.95; }
+
+    .checklist { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 25px; margin: 20px 0; }
+    .checklist h4 { color: var(--antigravity-color); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .check-list { list-style: none; }
+    .check-list li {
+      padding: 12px 15px;
+      margin: 8px 0;
+      background: rgba(139,92,246,0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .check-list li::before { content: '☐'; font-size: 1.2rem; color: var(--antigravity-color); }
+
+    .warning-box { background: rgba(255,200,100,0.2); border: 1px solid #F59E0B; border-radius: 12px; padding: 20px; margin: 20px 0; }
+    .warning-box h4 { color: #B45309; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+
+    .checkpoint { background: linear-gradient(135deg, var(--day2-color), var(--pink-vivid)); border-radius: 16px; padding: 25px; margin: 30px 0; text-align: center; color: white; }
+    .checkpoint h3 { color: white; margin: 0 0 15px; }
+    .checkpoint p { margin: 0; }
+
+    .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--pink-light); }
+    .nav-btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 25px; background: white; color: var(--dark); text-decoration: none; border-radius: 12px; transition: all 0.3s; border: 2px solid var(--pink-light); }
+    .nav-btn:hover { background: var(--pink-light); border-color: var(--pink-vivid); }
+    .nav-btn.next { background: var(--day2-color); border-color: var(--day2-color); color: white; }
+    .nav-btn.next:hover { background: var(--pink-vivid); }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="../index.html">🏠 ホーム</a>
+    <span style="opacity:0.3">/</span>
+    <span>Day 2</span>
+    <span style="opacity:0.3">/</span>
+    <span class="nav-current">Mission 6.5</span>
+  </nav>
+
+  <header class="mission-header">
+    <span class="mission-badge">DAY 2 ─ MISSION 6.5</span>
+    <h1>🧭 AI IDEを選ぼう</h1>
+    <p class="mission-desc">ターミナルは入口。実務は"AI IDE"で加速する。今日はAntigravityで統一！</p>
+    <span class="time-badge">⏱️ 約15分</span>
+  </header>
+
+  <main>
+    <div class="bridge-box">
+      <div class="bridge-icon">🌉</div>
+      <h3>橋渡しミッション</h3>
+      <p style="margin:0;">ターミナルでAIを動かす感覚はつかめた。<br>ここからは「より楽にできる環境」を選んで、実務レベルへ！</p>
+    </div>
+
+    <section>
+      <h2>🎯 このミッションのゴール</h2>
+      <p>Mission 5・6でターミナル体験をしました。AIにコマンドで話しかけてファイルを作る、という基本は理解できたはずです。</p>
+      <p>でも正直、<strong>「ターミナルだけで仕事をするのは厳しいな…」</strong>と感じませんでしたか？それは正しい感覚です。</p>
+      <p>このミッションでは、<strong>実務で使える"AI IDE"</strong>を紹介し、今日の後半はそのツールで作業を進めます。</p>
+    </section>
+
+    <section>
+      <h2>😫 なぜターミナルだけだと厳しいのか</h2>
+      <div class="pain-points">
+        <h4>💭 こんなこと、思いませんでしたか？</h4>
+        <ul class="pain-list">
+          <li><div>ファイルがどこにできたか分からない。探すのが面倒…</div></li>
+          <li><div>生成されたコードを修正したいけど、どう直せばいいか分からない</div></li>
+          <li><div>プレビューを見るたびにコマンドを打つのが手間</div></li>
+          <li><div>差分を確認したい。どこが変わったの？</div></li>
+          <li><div>やり直したいけど、元に戻す方法がわからない</div></li>
+        </ul>
+      </div>
+      <div class="point-box">
+        <h4>💡 ポイント</h4>
+        <p style="margin:0;">ターミナルは<strong>「AIと会話する入口」</strong>として最適ですが、実務ではファイル管理・編集・プレビュー・差分確認などの機能が必要です。そこで登場するのが<strong>AI IDE（AI統合開発環境）</strong>です！</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>🛠️ 選択肢の紹介</h2>
+      <p>AI IDEには複数の選択肢があります。どれが正解ということはなく、好みや用途で選びましょう。</p>
+
+      <div class="tool-cards">
+        <div class="tool-card cursor">
+          <div class="tool-card-header">
+            <div class="tool-icon">⚡</div>
+            <div><h4>Cursor</h4><span class="maker">by Cursor, Inc.</span></div>
+          </div>
+          <p>VS Codeベースの人気AI IDE。コード生成・編集がスムーズで、開発者に大人気。</p>
+          <ul class="tool-features">
+            <li>VS Codeの使い勝手そのまま</li>
+            <li>Cmd+Kでインラインコード生成</li>
+            <li>チャットでコード相談可能</li>
+            <li>月額課金制（無料枠あり）</li>
+          </ul>
+        </div>
+
+        <div class="tool-card vscode">
+          <div class="tool-card-header">
+            <div class="tool-icon">💙</div>
+            <div><h4>VS Code + 拡張機能</h4><span class="maker">by Microsoft</span></div>
+          </div>
+          <p>定番エディタにAI拡張を追加。GitHub CopilotやContinueなど選択肢豊富。</p>
+          <ul class="tool-features">
+            <li>長年の実績と安定性</li>
+            <li>拡張機能で自由にカスタマイズ</li>
+            <li>GitHub Copilotとの連携が強力</li>
+            <li>基本無料（Copilotは有料）</li>
+          </ul>
+        </div>
+
+        <div class="tool-card antigravity">
+          <div class="tool-card-header">
+            <div class="tool-icon">🚀</div>
+            <div><h4>Antigravity</h4><span class="maker">by Google</span></div>
+          </div>
+          <p>Googleが提供するAIコーディング支援ツール。GUIで直感的に操作でき、初心者にも扱いやすい。</p>
+          <ul class="tool-features">
+            <li>GUIで直感的な操作</li>
+            <li>エージェント機能で自動生成</li>
+            <li>ファイル管理・プレビューが簡単</li>
+            <li>研修で再現性が高い（詰まりにくい）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="point-box">
+        <h4>💡 どれを選ぶ？</h4>
+        <p style="margin:0;"><strong>開発経験者</strong>：Cursorが人気。VS Codeに慣れているなら移行も楽。<br><strong>非エンジニア・初心者</strong>：Antigravityが直感的。GUIで迷いにくい。<br><strong>会社の標準がある場合</strong>：それに合わせるのがベター。</p>
+      </div>
+    </section>
+
+    <div class="today-pick">
+      <h3>🎯 今日はAntigravityで統一！</h3>
+      <p>研修では<strong>全員が同じ環境で進める</strong>ことが大事です。<br>Antigravityは再現性が高く、GUIで詰まりにくいため、今日の後半はこれで統一します。<br>（もちろん、研修後は好きなツールを使ってOK！）</p>
+    </div>
+
+    <section>
+      <h2>🎮 Antigravity セットアップ</h2>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">1</span>Antigravityにアクセス</div>
+        <p>ブラウザで以下にアクセスしてください：</p>
+        <p style="background: rgba(139,92,246,0.1); padding: 15px; border-radius: 8px; font-size: 1.1rem;">
+          <a href="https://idx.google.com/" target="_blank" style="color: var(--antigravity-color); font-weight: 700;">https://idx.google.com/</a>
+        </p>
+        <p style="margin-top: 15px; opacity: 0.8;">※ Googleアカウントでサインインしてください</p>
+      </div>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">2</span>新しいワークスペースを作成</div>
+        <p>「New Workspace」または「新しいプロジェクト」をクリックして、研修用のワークスペースを作成します。</p>
+        <ul style="list-style: none; margin-top: 15px;">
+          <li style="padding: 8px 0;">📁 プロジェクト名：<code style="background: rgba(0,0,0,0.1); padding: 2px 8px; border-radius: 4px;">ai-training-day2</code></li>
+          <li style="padding: 8px 0;">🔧 テンプレート：Empty / Blank（空のプロジェクト）</li>
+        </ul>
+      </div>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">3</span>初期設定チェック</div>
+        <div class="checklist">
+          <h4>✅ セットアップチェックリスト</h4>
+          <ul class="check-list">
+            <li>Googleアカウントでサインインできた</li>
+            <li>新しいワークスペースを作成できた</li>
+            <li>エディタ画面が表示された</li>
+            <li>左側にファイルツリーが見える</li>
+            <li>AIチャット（エージェント）パネルがある</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">4</span>テスト：AIに1つ指示してみよう</div>
+        <p>AIチャットに以下を入力して、ファイルが生成されることを確認：</p>
+        <div style="background: linear-gradient(135deg, var(--pink-light), var(--peach)); border-radius: 12px; padding: 20px; margin: 15px 0; border-left: 4px solid var(--antigravity-color);">
+          <span style="color: var(--antigravity-color); font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 10px;">📝 AIへの指示</span>
+          「Hello, Antigravity!」と表示するシンプルなHTMLファイルを作ってください。<br>
+          hello.html という名前で保存してください。
+        </div>
+        <p style="margin-top: 15px;">ファイルツリーに <code>hello.html</code> が表示されたら成功！</p>
+      </div>
+    </section>
+
+    <div class="warning-box">
+      <h4>⚠️ 注意事項（研修での約束）</h4>
+      <ul style="margin: 0; padding-left: 20px;">
+        <li>生成物は<strong>"そのまま納品"しない</strong>。必ず目視確認（特に数値・固有名詞・著作権）</li>
+        <li>自動実行・高速化系の機能は、研修では範囲を限定（暴走防止）</li>
+        <li>わからないことは遠慮なく質問！</li>
+      </ul>
+    </div>
+
+    <div class="checkpoint">
+      <h3>🏁 Mission 6.5 クリア条件</h3>
+      <p>✅ AI IDEの選択肢を理解した！<br>✅ Antigravityでワークスペースを作成した！<br>✅ AIに指示してファイルを1つ生成できた！</p>
+    </div>
+
+    <div class="nav-buttons">
+      <a href="mission6.html" class="nav-btn">← Mission 6</a>
+      <a href="mission7.html" class="nav-btn next">Mission 7 へ →</a>
+    </div>
+  </main>
+</body>
+</html>
