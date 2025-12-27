@@ -113,6 +113,65 @@
     .nav-btn:hover { background: var(--pink-light); border-color: var(--pink-vivid); }
     .nav-btn.next { background: var(--day1-color); border-color: var(--day1-color); color: white; }
     .nav-btn.next:hover { background: var(--pink-medium); }
+
+    /* コピーボタン */
+    .prompt-box { position: relative; }
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--pink-vivid);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Zen Maru Gothic', sans-serif;
+    }
+    .copy-btn:hover { background: var(--terracotta); transform: scale(1.05); }
+    .copy-btn.copied { background: #27ae60; }
+
+    /* トラブルシューティング */
+    .trouble-box {
+      background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+      border: 1px solid #f39c12;
+      border-radius: 12px;
+      margin: 30px 0;
+      overflow: hidden;
+    }
+    .trouble-box summary {
+      padding: 20px;
+      cursor: pointer;
+      font-weight: 700;
+      color: #d68910;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      list-style: none;
+    }
+    .trouble-box summary::-webkit-details-marker { display: none; }
+    .trouble-box summary::before { content: '▶'; font-size: 0.8rem; transition: transform 0.3s; }
+    .trouble-box[open] summary::before { transform: rotate(90deg); }
+    .trouble-content { padding: 0 20px 20px; }
+    .trouble-item { background: white; border-radius: 8px; padding: 15px; margin: 10px 0; }
+    .trouble-item h5 { color: #e74c3c; margin-bottom: 8px; }
+    .trouble-item p { margin: 0; font-size: 0.9rem; }
+
+    /* 用語解説 */
+    .glossary-box {
+      background: linear-gradient(135deg, #e8f4fd, #d6eaf8);
+      border: 1px solid #3498db;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 30px 0;
+    }
+    .glossary-box h4 { color: #2980b9; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+    .glossary-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px dashed #3498db; }
+    .glossary-item:last-child { border-bottom: none; }
+    .glossary-term { font-weight: 700; color: #2c3e50; min-width: 120px; }
+    .glossary-desc { color: #34495e; font-size: 0.9rem; }
   </style>
 </head>
 <body>
@@ -276,6 +335,48 @@
       </div>
     </section>
 
+    <div class="glossary-box">
+      <h4>📖 用語解説</h4>
+      <div class="glossary-item">
+        <span class="glossary-term">DALL-E 3</span>
+        <span class="glossary-desc">OpenAI（ChatGPT）の画像生成AI。テキストから高品質な画像を作成。</span>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-term">Imagen 3</span>
+        <span class="glossary-desc">Googleの画像生成AI。日本語テキスト入り画像に強い傾向あり。</span>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-term">サムネイル</span>
+        <span class="glossary-desc">動画やリンクの小さなプレビュー画像。クリック率に大きく影響。</span>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-term">アスペクト比</span>
+        <span class="glossary-desc">画像の縦横比のこと。16:9はYouTube向け、1:1はSNS向け。</span>
+      </div>
+    </div>
+
+    <details class="trouble-box">
+      <summary>🔧 うまくいかない時は？</summary>
+      <div class="trouble-content">
+        <div class="trouble-item">
+          <h5>Q: 画像生成が始まらない</h5>
+          <p>A: 無料プランには生成回数の制限があります。時間をおいて再試行するか、有料プランを検討してください。</p>
+        </div>
+        <div class="trouble-item">
+          <h5>Q: 日本語テキストが崩れる</h5>
+          <p>A: 現状のAIの限界です。何度か再生成すると上手くいくことも。Geminiの方が比較的安定している傾向があります。</p>
+        </div>
+        <div class="trouble-item">
+          <h5>Q: イメージと違う画像が出る</h5>
+          <p>A: プロンプトをより具体的に書くか、「〇〇を増やして」「もっと明るく」など追加指示を出してみてください。</p>
+        </div>
+        <div class="trouble-item">
+          <h5>Q: 生成できないと言われた</h5>
+          <p>A: 人物や著作権のあるキャラクターなど、生成が制限されているテーマがあります。表現を変えて試してみてください。</p>
+        </div>
+      </div>
+    </details>
+
     <details class="business-tips">
       <summary>💼 業務に置き換えると？（タップで開く）</summary>
       <div class="business-content">
@@ -302,5 +403,25 @@
       <a href="mission4.html" class="nav-btn next">Mission 4 へ →</a>
     </div>
   </main>
+
+  <script>
+    document.querySelectorAll('.prompt-box').forEach(box => {
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.textContent = 'コピー';
+      btn.onclick = function() {
+        const text = box.innerText.replace('コピー', '').replace(box.querySelector('.prompt-label')?.textContent || '', '').trim();
+        navigator.clipboard.writeText(text).then(() => {
+          btn.textContent = 'コピー完了!';
+          btn.classList.add('copied');
+          setTimeout(() => {
+            btn.textContent = 'コピー';
+            btn.classList.remove('copied');
+          }, 2000);
+        });
+      };
+      box.appendChild(btn);
+    });
+  </script>
 </body>
 </html>
