@@ -444,7 +444,7 @@
                 </div>
             </div>
 
-            <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-item" onclick="toggleCheck(this, event)">
                 <input type="checkbox">
                 <span>Week 2 の学習内容を確認した</span>
             </div>
@@ -476,7 +476,7 @@
                     <p>D. 旅行記・観光地紹介サイト</p>
                 </div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>テーマを決めた</span>
                 </div>
@@ -493,7 +493,7 @@
                     <p>・tips.html（料理のコツ）</p>
                 </div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>サイト構成を決めた</span>
                 </div>
@@ -502,11 +502,11 @@
             <div class="exercise">
                 <p><span class="exercise-number">3</span><strong>フォルダとトップページを作成</strong></p>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>サイト用フォルダを作成した</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>トップページ（index.html）を作成した</span>
                 </div>
@@ -515,11 +515,11 @@
             <div class="exercise">
                 <p><span class="exercise-number">4</span><strong>追加ページを作成</strong></p>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>2ページ目を作成した</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>ナビゲーションでページ間を移動できる</span>
                 </div>
@@ -528,7 +528,7 @@
             <div class="exercise">
                 <p><span class="exercise-number">5</span><strong>デザインを調整</strong></p>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>色やフォントなど、自分好みにカスタマイズした</span>
                 </div>
@@ -593,7 +593,14 @@
             box.appendChild(btn);
         });
 
-        function toggleCheck(element) {
+        function toggleCheck(element, event) {
+            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
+                if (event.target.tagName === 'INPUT') {
+                    element.classList.toggle('completed', event.target.checked);
+                    updateProgress();
+                }
+                return;
+            }
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('completed', checkbox.checked);

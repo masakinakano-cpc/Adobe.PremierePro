@@ -312,7 +312,7 @@
                 </div>
             </div>
 
-            <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-item" onclick="toggleCheck(this, event)">
                 <input type="checkbox">
                 <span>サムネイルサイズの違いを理解した</span>
             </div>
@@ -333,7 +333,7 @@
                     <span class="prompt-label">料理サムネ</span>
                     美味しそうなハンバーグ料理の写真、湯気が立つ、16:9の横長、YouTubeサムネイル用、鮮やかで食欲をそそる色合い
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>料理サムネイル風を生成できた</span>
                 </div>
@@ -345,7 +345,7 @@
                     <span class="prompt-label">解説サムネ</span>
                     ビジネスプレゼンテーション風の背景、グラフやチャートのイメージ、16:9、青とオレンジのコントラスト、プロフェッショナルな雰囲気
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>解説動画風サムネイルを生成できた</span>
                 </div>
@@ -362,7 +362,7 @@
                     <span class="prompt-label">Instagram</span>
                     おしゃれなカフェラテ、正方形のアスペクト比、上から見た俯瞰アングル、ナチュラルな光、インスタ映えする雰囲気
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>Instagram風の画像を生成できた</span>
                 </div>
@@ -374,7 +374,7 @@
                     <span class="prompt-label">Twitter/X</span>
                     技術ブログのアイキャッチ画像、ノートパソコンとコーヒー、16:9横長、モダンで清潔感のあるデスク、プログラミングのイメージ
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>Twitter/X用画像を生成できた</span>
                 </div>
@@ -405,7 +405,7 @@
                     <p>・ブログ記事のアイキャッチ</p>
                 </div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>オリジナルのサムネイルを作成できた</span>
                 </div>
@@ -451,7 +451,14 @@
             box.appendChild(btn);
         });
 
-        function toggleCheck(element) {
+        function toggleCheck(element, event) {
+            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
+                if (event.target.tagName === 'INPUT') {
+                    element.classList.toggle('completed', event.target.checked);
+                    updateProgress();
+                }
+                return;
+            }
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('completed', checkbox.checked);

@@ -307,7 +307,7 @@
                 <p>3つのページを作り、それぞれにナビゲーションメニューを付けて行き来できるようにします！</p>
             </div>
 
-            <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-item" onclick="toggleCheck(this, event)">
                 <input type="checkbox">
                 <span>完成イメージを理解した</span>
             </div>
@@ -333,7 +333,7 @@ index.htmlは以下の内容でお願いします：
 
 かわいいパステルカラーのデザインでお願いします。</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>mini-site/index.html が作成された</span>
                 </div>
@@ -356,7 +356,7 @@ mini-siteフォルダに about.html を作成してください。
 - 名前、趣味、好きな食べ物を箇条書きで表示
 - ナビのリンクはindex.htmlと同じ3つ</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>about.html が作成された</span>
                 </div>
@@ -374,7 +374,7 @@ mini-siteフォルダに contact.html を作成してください。
 - 名前、メールアドレス、メッセージの入力欄
 - 送信ボタン（実際には動かなくてOK）</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>contact.html が作成された</span>
                 </div>
@@ -392,19 +392,19 @@ mini-siteフォルダに contact.html を作成してください。
                     <span class="prompt-label">Geminiへの指示</span>
 mini-site/index.html をプレビューで開いてください</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>index.html がプレビューで開いた</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>ナビゲーションから about.html に移動できた</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>ナビゲーションから contact.html に移動できた</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>各ページからトップページに戻れた</span>
                 </div>
@@ -460,7 +460,14 @@ mini-site/index.html をプレビューで開いてください</div>
             box.appendChild(btn);
         });
 
-        function toggleCheck(element) {
+        function toggleCheck(element, event) {
+            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
+                if (event.target.tagName === 'INPUT') {
+                    element.classList.toggle('completed', event.target.checked);
+                    updateProgress();
+                }
+                return;
+            }
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('completed', checkbox.checked);

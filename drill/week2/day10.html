@@ -301,7 +301,7 @@
                 <p style="margin-top: 10px;">今日はAIにお願いする方法を練習します！</p>
             </div>
 
-            <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-item" onclick="toggleCheck(this, event)">
                 <input type="checkbox">
                 <span>編集方法の種類を理解した</span>
             </div>
@@ -319,11 +319,11 @@
                     <span class="prompt-label">Geminiへの指示</span>
 hello.html の「こんにちは」を「ようこそ！AIの世界へ」に変更してください</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>テキストが変更された</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>プレビューで確認した</span>
                 </div>
@@ -353,7 +353,7 @@ hello.html のデザインを以下のように変更してください：
 - 中央寄せにする
 - おしゃれなフォント（sans-serif）を使う</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>デザインが変更された</span>
                 </div>
@@ -370,7 +370,7 @@ hello.html に以下を追加してください：
 - さらにその下に「学習を始めましょう！」というボタン
 - ボタンはピンク色にして、マウスを乗せると色が変わるようにする</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>新しい要素が追加された</span>
                 </div>
@@ -388,7 +388,7 @@ hello.html に以下を追加してください：
                     <span class="prompt-label">Geminiへの指示</span>
 hello.html のボタンの色だけをオレンジ色（#ff9800）に変更してください。他の部分は変更しないでください。</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>ボタンの色だけが変更された</span>
                 </div>
@@ -443,7 +443,14 @@ hello.html のボタンの色だけをオレンジ色（#ff9800）に変更し�
             box.appendChild(btn);
         });
 
-        function toggleCheck(element) {
+        function toggleCheck(element, event) {
+            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
+                if (event.target.tagName === 'INPUT') {
+                    element.classList.toggle('completed', event.target.checked);
+                    updateProgress();
+                }
+                return;
+            }
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('completed', checkbox.checked);

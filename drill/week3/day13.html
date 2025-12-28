@@ -335,7 +335,7 @@
                 </ul>
             </div>
 
-            <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-item" onclick="toggleCheck(this, event)">
                 <input type="checkbox">
                 <span>Week 3 で学ぶ内容を理解した</span>
             </div>
@@ -353,11 +353,11 @@
                     <span class="prompt-label">画像生成プロンプト</span>
 テクノロジーとクリエイティビティを表現したモダンなイラスト、16:9の横長、パステルカラーのグラデーション背景、Webサイトのヒーローイメージ用、抽象的でおしゃれなデザイン</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>ヒーロー画像を生成した</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>画像をダウンロードした（PCに保存）</span>
                 </div>
@@ -379,11 +379,11 @@
                 <p><span class="exercise-number">2</span><strong>ワークスペースを準備</strong></p>
                 <p>Antigravityで新しいワークスペースを作るか、既存のワークスペースを開きましょう。</p>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>Antigravityを開いた</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>ワークスペースを準備した</span>
                 </div>
@@ -396,7 +396,7 @@
                     <span class="prompt-label">Geminiへの指示</span>
 imagesという名前のフォルダを作成してください</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>imagesフォルダを作成した</span>
                 </div>
@@ -422,7 +422,7 @@ index.htmlを作成してください。
 - モダンでおしゃれなデザイン
 - 画像はimagesフォルダ内にある想定で</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>index.html が作成された</span>
                 </div>
@@ -478,7 +478,14 @@ index.htmlを作成してください。
             box.appendChild(btn);
         });
 
-        function toggleCheck(element) {
+        function toggleCheck(element, event) {
+            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
+                if (event.target.tagName === 'INPUT') {
+                    element.classList.toggle('completed', event.target.checked);
+                    updateProgress();
+                }
+                return;
+            }
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('completed', checkbox.checked);

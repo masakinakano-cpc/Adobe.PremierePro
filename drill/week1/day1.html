@@ -379,11 +379,11 @@
 
             <div class="exercise">
                 <p><span class="exercise-number">1</span><strong>AIツールにアクセス</strong></p>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span><a href="https://chatgpt.com" target="_blank">ChatGPT</a> または <a href="https://gemini.google.com" target="_blank">Gemini</a> にアクセスした</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>ログインできた</span>
                 </div>
@@ -416,7 +416,7 @@
                     かわいい猫のイラスト
                 </div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>プロンプトを入力して、画像が生成された</span>
                 </div>
@@ -441,11 +441,11 @@
                     ふわふわの白い子猫が、ピンクのクッションの上で眠っている、水彩画風のかわいいイラスト
                 </div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>詳細なプロンプトで画像が生成された</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>最初の画像と比べて、どう違うか確認した</span>
                 </div>
@@ -473,7 +473,7 @@
                     <p>【スタイル】イラスト風、写真風、水彩画風...</p>
                 </div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>自分で考えたプロンプトで画像を生成できた</span>
                 </div>
@@ -525,7 +525,16 @@
         });
 
         // チェックボックス機能
-        function toggleCheck(element) {
+        function toggleCheck(element, event) {
+            // リンクやチェックボックス自体がクリックされた場合は処理しない
+            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
+                if (event.target.tagName === 'INPUT') {
+                    // チェックボックス自体のクリックは通常動作させ、完了クラスを更新
+                    element.classList.toggle('completed', event.target.checked);
+                    updateProgress();
+                }
+                return;
+            }
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('completed', checkbox.checked);

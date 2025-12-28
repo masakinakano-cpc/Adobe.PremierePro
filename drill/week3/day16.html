@@ -338,7 +338,7 @@
                 </div>
             </div>
 
-            <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-item" onclick="toggleCheck(this, event)">
                 <input type="checkbox">
                 <span>LPの基本構成を理解した</span>
             </div>
@@ -355,7 +355,7 @@
                     <span class="prompt-label">画像生成プロンプト</span>
 オンライン学習サービスのイメージ画像、ノートパソコンで勉強する人のシルエット、明るく前向きな雰囲気、パステルブルーとパープルのグラデーション背景、16:9の横長、モダンでクリーンなデザイン</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>ヒーロー画像を生成した</span>
                 </div>
@@ -400,11 +400,11 @@ landing-page.htmlを作成してください。
 - 余白をたっぷり取る
 - セクションごとに背景色を変える</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>landing-page.html が作成された</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>プレビューで全体を確認した</span>
                 </div>
@@ -426,7 +426,7 @@ landing-page.htmlに以下の調整をしてください：
 - スクロールでセクションがふわっと表示されるアニメーション
 - ヘッダーを固定表示（スクロールしてもついてくる）</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>調整を行った</span>
                 </div>
@@ -472,7 +472,14 @@ landing-page.htmlに以下の調整をしてください：
             box.appendChild(btn);
         });
 
-        function toggleCheck(element) {
+        function toggleCheck(element, event) {
+            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
+                if (event.target.tagName === 'INPUT') {
+                    element.classList.toggle('completed', event.target.checked);
+                    updateProgress();
+                }
+                return;
+            }
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('completed', checkbox.checked);

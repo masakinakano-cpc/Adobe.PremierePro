@@ -318,7 +318,7 @@
 
             <p style="text-align: center; color: #666;">↑ このようなカードを作ります！（アバターはAI生成画像に）</p>
 
-            <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-item" onclick="toggleCheck(this, event)">
                 <input type="checkbox">
                 <span>完成イメージを確認した</span>
             </div>
@@ -337,7 +337,7 @@
 
                 <p style="margin-top: 10px; font-size: 0.9em;">※ 実際の顔写真ではなく、抽象的なアバターを作ることをおすすめします</p>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>アバター画像を生成した</span>
                 </div>
@@ -375,11 +375,11 @@ profile-card.htmlを作成してください。
 - 全体的にパステルカラーでおしゃれなデザイン
 - ホバーエフェクトをつける</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>profile-card.html が作成された</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>プレビューでデザインを確認した</span>
                 </div>
@@ -398,7 +398,7 @@ profile-card.htmlを作成してください。
                     <span class="prompt-label">カスタマイズ例</span>
 profile-card.htmlの背景色をピンク系のグラデーション（#ffecd2から#fcb69f）に変更してください</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>何かしらのカスタマイズを行った</span>
                 </div>
@@ -457,7 +457,14 @@ profile-card.htmlの背景色をピンク系のグラデーション（#ffecd2�
             box.appendChild(btn);
         });
 
-        function toggleCheck(element) {
+        function toggleCheck(element, event) {
+            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
+                if (event.target.tagName === 'INPUT') {
+                    element.classList.toggle('completed', event.target.checked);
+                    updateProgress();
+                }
+                return;
+            }
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('completed', checkbox.checked);

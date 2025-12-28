@@ -338,7 +338,7 @@
                 </div>
             </div>
 
-            <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-item" onclick="toggleCheck(this, event)">
                 <input type="checkbox">
                 <span>アングル・構図の種類を確認した</span>
             </div>
@@ -355,7 +355,7 @@
                     <span class="prompt-label">俯瞰構図</span>
                     おしゃれなラテアート入りのコーヒーカップ、真上から撮影した俯瞰アングル、木製テーブル、自然光
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>俯瞰アングルで生成できた</span>
                 </div>
@@ -367,7 +367,7 @@
                     <span class="prompt-label">クローズアップ</span>
                     コーヒーカップの湯気が立ち上るクローズアップ写真、背景ぼかし、暖かい雰囲気
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>クローズアップで生成できた</span>
                 </div>
@@ -379,7 +379,7 @@
                     <span class="prompt-label">ローアングル</span>
                     コーヒーカップを下から見上げるローアングル、カップが大きく見える、ドラマチックな照明
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>ローアングルで生成できた</span>
                 </div>
@@ -402,7 +402,7 @@
                     <span class="prompt-label">ポートレート</span>
                     若い女性のポートレート写真、自然光、肩から上のクローズアップ、やわらかい笑顔、背景ぼかし
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>ポートレート構図で生成できた</span>
                 </div>
@@ -432,7 +432,7 @@
                     <p>・ペット（目線の高さがおすすめ）</p>
                 </div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>アングルを意識した画像を生成できた</span>
                 </div>
@@ -477,7 +477,14 @@
             box.appendChild(btn);
         });
 
-        function toggleCheck(element) {
+        function toggleCheck(element, event) {
+            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
+                if (event.target.tagName === 'INPUT') {
+                    element.classList.toggle('completed', event.target.checked);
+                    updateProgress();
+                }
+                return;
+            }
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('completed', checkbox.checked);

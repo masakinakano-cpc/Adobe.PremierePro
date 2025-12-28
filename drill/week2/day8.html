@@ -290,11 +290,11 @@
                     <span class="prompt-label">Geminiへの指示</span>
 「こんにちは」と表示するだけのシンプルなHTMLファイルを作ってください。ファイル名は hello.html でお願いします。</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>プロンプトを入力してEnterを押した</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>Geminiがファイルを生成した</span>
                 </div>
@@ -319,11 +319,11 @@
                     <span class="prompt-label">Geminiへの指示</span>
 hello.html をプレビューで開いてください</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>プレビュー画面が開いた</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>「こんにちは」と表示されている</span>
                 </div>
@@ -355,11 +355,11 @@ hello.html をプレビューで開いてください</div>
 かわいいデザインで、背景色はピンク系にしてください。
 ファイル名は profile.html でお願いします。</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>profile.html が生成された</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>プレビューでデザインを確認した</span>
                 </div>
@@ -413,7 +413,14 @@ hello.html をプレビューで開いてください</div>
             box.appendChild(btn);
         });
 
-        function toggleCheck(element) {
+        function toggleCheck(element, event) {
+            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
+                if (event.target.tagName === 'INPUT') {
+                    element.classList.toggle('completed', event.target.checked);
+                    updateProgress();
+                }
+                return;
+            }
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('completed', checkbox.checked);

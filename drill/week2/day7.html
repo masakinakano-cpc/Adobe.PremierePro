@@ -334,7 +334,7 @@
                 </div>
             </details>
 
-            <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-item" onclick="toggleCheck(this, event)">
                 <input type="checkbox">
                 <span>Antigravityの基本用語を理解した</span>
             </div>
@@ -360,7 +360,7 @@
                     ダッシュボード画面が表示されることを確認
                 </div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>IDXにアクセスできた</span>
                 </div>
@@ -398,7 +398,7 @@
                     「Create」をクリック
                 </div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>新しいワークスペースを作成できた</span>
                 </div>
@@ -418,15 +418,15 @@
                 <p><span class="exercise-number">3</span><strong>主な画面要素を確認</strong></p>
                 <p>ワークスペースが開いたら、以下の要素を見つけてみましょう。</p>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>左側：ファイルエクスプローラー（フォルダ・ファイル一覧）がある</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>中央：エディター（コードを書く場所）がある</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>右側または下部：Geminiチャット（AIと対話）がある</span>
                 </div>
@@ -482,7 +482,14 @@
             box.appendChild(btn);
         });
 
-        function toggleCheck(element) {
+        function toggleCheck(element, event) {
+            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
+                if (event.target.tagName === 'INPUT') {
+                    element.classList.toggle('completed', event.target.checked);
+                    updateProgress();
+                }
+                return;
+            }
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('completed', checkbox.checked);

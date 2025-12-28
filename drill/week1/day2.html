@@ -405,7 +405,7 @@
                 <span class="style-card">レトロ風</span>
             </div>
 
-            <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-item" onclick="toggleCheck(this, event)">
                 <input type="checkbox">
                 <span>スタイル一覧を確認した</span>
             </div>
@@ -422,7 +422,7 @@
                     <span class="prompt-label">プロンプト1</span>
                     富士山と桜、透明感のある水彩画スタイル、やわらかい色調
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>水彩画スタイルで生成できた</span>
                 </div>
@@ -434,7 +434,7 @@
                     <span class="prompt-label">プロンプト2</span>
                     富士山、葛飾北斎風の浮世絵スタイル、力強い波、伝統的な日本画
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>浮世絵スタイルで生成できた</span>
                 </div>
@@ -446,7 +446,7 @@
                     <span class="prompt-label">プロンプト3</span>
                     富士山、朝焼けの写真、高解像度、プロのカメラマンが撮影したような
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>写真風スタイルで生成できた</span>
                 </div>
@@ -469,7 +469,7 @@
                     <span class="prompt-label">組み合わせ例</span>
                     かわいいカフェの外観、アニメ風でパステルカラー、やわらかい光、おしゃれな雰囲気
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>スタイルを組み合わせて生成できた</span>
                 </div>
@@ -499,7 +499,7 @@
                     <p>・あなたの好きなもの！</p>
                 </div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>自分で選んだテーマとスタイルで生成できた</span>
                 </div>
@@ -549,7 +549,15 @@
             box.appendChild(btn);
         });
 
-        function toggleCheck(element) {
+        function toggleCheck(element, event) {
+            // リンクやチェックボックス自体がクリックされた場合は処理しない
+            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
+                if (event.target.tagName === 'INPUT') {
+                    element.classList.toggle('completed', event.target.checked);
+                    updateProgress();
+                }
+                return;
+            }
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('completed', checkbox.checked);

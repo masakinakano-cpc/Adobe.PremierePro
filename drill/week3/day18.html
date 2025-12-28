@@ -435,7 +435,7 @@
                 </div>
             </div>
 
-            <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-item" onclick="toggleCheck(this, event)">
                 <input type="checkbox">
                 <span>3週間の学習内容を振り返った</span>
             </div>
@@ -457,7 +457,7 @@
                 </ul>
             </div>
 
-            <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-item" onclick="toggleCheck(this, event)">
                 <input type="checkbox">
                 <span>成長を実感した</span>
             </div>
@@ -481,7 +481,7 @@
                     <p>・イベントの告知ページ</p>
                     <p>・自分だけのポートフォリオ</p>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>テーマを決めた</span>
                 </div>
@@ -489,7 +489,7 @@
 
             <div class="exercise">
                 <p><span class="exercise-number">2</span><strong>画像を生成する</strong></p>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>作品用の画像を生成した</span>
                 </div>
@@ -497,7 +497,7 @@
 
             <div class="exercise">
                 <p><span class="exercise-number">3</span><strong>Antigravityでページを作成する</strong></p>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>HTMLページを作成した</span>
                 </div>
@@ -505,7 +505,7 @@
 
             <div class="exercise">
                 <p><span class="exercise-number">4</span><strong>完成！</strong></p>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>卒業制作を完成させた！</span>
                 </div>
@@ -555,7 +555,14 @@
     </div>
 
     <script>
-        function toggleCheck(element) {
+        function toggleCheck(element, event) {
+            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
+                if (event.target.tagName === 'INPUT') {
+                    element.classList.toggle('completed', event.target.checked);
+                    updateProgress();
+                }
+                return;
+            }
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('completed', checkbox.checked);

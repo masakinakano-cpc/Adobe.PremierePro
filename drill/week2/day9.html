@@ -316,7 +316,7 @@
                 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 about.html</span></p>
             </div>
 
-            <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-item" onclick="toggleCheck(this, event)">
                 <input type="checkbox">
                 <span>フォルダ構成の例を確認した</span>
             </div>
@@ -339,7 +339,7 @@
 
 ルートディレクトリ（一番上の階層）に作ってください。</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>3つのフォルダが作成された</span>
                 </div>
@@ -370,7 +370,7 @@ pagesフォルダの中に about.html というファイルを作成してくだ
 
 シンプルなデザインでお願いします。</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>pages/about.html が作成された</span>
                 </div>
@@ -389,7 +389,7 @@ cssフォルダの中に style.css を作成してください。
 - フォント：sans-serif系
 - 全体の余白設定</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>css/style.css が作成された</span>
                 </div>
@@ -408,7 +408,7 @@ cssフォルダの中に style.css を作成してください。
                     <span class="prompt-label">Geminiへの指示</span>
 profile.html をpagesフォルダに移動してください</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>ファイルの移動ができた（またはその方法を理解した）</span>
                 </div>
@@ -463,7 +463,14 @@ profile.html をpagesフォルダに移動してください</div>
             box.appendChild(btn);
         });
 
-        function toggleCheck(element) {
+        function toggleCheck(element, event) {
+            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
+                if (event.target.tagName === 'INPUT') {
+                    element.classList.toggle('completed', event.target.checked);
+                    updateProgress();
+                }
+                return;
+            }
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('completed', checkbox.checked);

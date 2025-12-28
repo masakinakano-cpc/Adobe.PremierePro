@@ -316,7 +316,7 @@
 
             <p style="text-align: center; color: #666;">↑ グリッドレイアウトで画像を並べます！</p>
 
-            <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-item" onclick="toggleCheck(this, event)">
                 <input type="checkbox">
                 <span>完成イメージを確認した</span>
             </div>
@@ -342,7 +342,7 @@
                     <span class="prompt-label">画像生成プロンプト（3枚目）</span>
 夕焼けの空、オレンジとピンクのグラデーション、正方形、ミニマルでアーティスティック、同じスタイルで</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>3枚以上の画像を生成した</span>
                 </div>
@@ -378,11 +378,11 @@ gallery.htmlを作成してください。
 - 背景は薄いグレー
 - レスポンシブ対応（スマホでは2列に）</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>gallery.html が作成された</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>プレビューで確認した</span>
                 </div>
@@ -405,7 +405,7 @@ gallery.htmlに以下の機能を追加してください：
 - ×ボタンで閉じられる
 - 背景クリックでも閉じられる</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>追加機能を実装した（またはスキップ）</span>
                 </div>
@@ -460,7 +460,14 @@ gallery.htmlに以下の機能を追加してください：
             box.appendChild(btn);
         });
 
-        function toggleCheck(element) {
+        function toggleCheck(element, event) {
+            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
+                if (event.target.tagName === 'INPUT') {
+                    element.classList.toggle('completed', event.target.checked);
+                    updateProgress();
+                }
+                return;
+            }
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('completed', checkbox.checked);

@@ -310,7 +310,7 @@
                 <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📁 css/</span></p>
             </div>
 
-            <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-item" onclick="toggleCheck(this, event)">
                 <input type="checkbox">
                 <span>サイト構成を確認した</span>
             </div>
@@ -332,7 +332,7 @@
                     <span class="prompt-label">プロフィール画像</span>
 プロフェッショナルなアバターアイコン、幾何学的なデザイン、紫とピンクの配色、正方形</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>画像素材を用意した</span>
                 </div>
@@ -380,11 +380,11 @@ portfolioというフォルダを作成し、以下の4ページからなるポ�
 - スムーズなホバーエフェクト
 - フォント：sans-serif系</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>4ページが作成された</span>
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>ナビゲーションでページ間を移動できる</span>
                 </div>
@@ -404,7 +404,7 @@ portfolioというフォルダを作成し、以下の4ページからなるポ�
 index.htmlのキャッチコピーを「デザインで、想いを形に」に変更してください。
 また、自己紹介文を「クリエイティブなデザインと技術で、あなたのビジネスをサポートします。」に変更してください。</div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>内容をカスタマイズした</span>
                 </div>
@@ -450,7 +450,14 @@ index.htmlのキャッチコピーを「デザインで、想いを形に」に�
             box.appendChild(btn);
         });
 
-        function toggleCheck(element) {
+        function toggleCheck(element, event) {
+            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
+                if (event.target.tagName === 'INPUT') {
+                    element.classList.toggle('completed', event.target.checked);
+                    updateProgress();
+                }
+                return;
+            }
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('completed', checkbox.checked);

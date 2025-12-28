@@ -328,7 +328,7 @@
                 </ul>
             </div>
 
-            <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-item" onclick="toggleCheck(this, event)">
                 <input type="checkbox">
                 <span>文字生成の注意点を理解した</span>
             </div>
@@ -344,7 +344,7 @@
                     <span class="prompt-label">英語テキスト</span>
                     「HELLO」という文字が入ったおしゃれなポスターデザイン、パステルカラー、ミニマルデザイン
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>英語テキスト入り画像を生成できた</span>
                 </div>
@@ -356,7 +356,7 @@
                     <span class="prompt-label">サインボード</span>
                     「COFFEE」と書かれた黒板風のカフェメニューボード、チョークアート風、おしゃれなカフェの雰囲気
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>サインボード風の画像を生成できた</span>
                 </div>
@@ -380,7 +380,7 @@
                     <span class="prompt-label">ロゴデザイン</span>
                     「ABC」というテキストのミニマルなロゴデザイン、白背景、モダンでクリーンなフォント、企業ロゴ風
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>ロゴ風デザインを生成できた</span>
                 </div>
@@ -392,7 +392,7 @@
                     <span class="prompt-label">バナー</span>
                     「SALE」と大きく書かれたショッピングセールのバナー、鮮やかな赤と白、目立つデザイン、買い物アイコン
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>バナー風画像を生成できた</span>
                 </div>
@@ -410,7 +410,7 @@
                     <span class="prompt-label">スペース確保</span>
                     美しい夕焼けの海の写真、上部にテキストを入れるための空白スペースを残す、ポスター用レイアウト
                 </div>
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>テキストスペースのある画像を生成できた</span>
                 </div>
@@ -438,7 +438,7 @@
                     <p>・好きな数字（「2024」など）</p>
                 </div>
 
-                <div class="check-item" onclick="toggleCheck(this)">
+                <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
                     <span>オリジナルのテキスト入り画像を作れた</span>
                 </div>
@@ -483,7 +483,14 @@
             box.appendChild(btn);
         });
 
-        function toggleCheck(element) {
+        function toggleCheck(element, event) {
+            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
+                if (event.target.tagName === 'INPUT') {
+                    element.classList.toggle('completed', event.target.checked);
+                    updateProgress();
+                }
+                return;
+            }
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('completed', checkbox.checked);
