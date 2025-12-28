@@ -594,16 +594,16 @@
         });
 
         function toggleCheck(element, event) {
-            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
-                if (event.target.tagName === 'INPUT') {
-                    element.classList.toggle('completed', event.target.checked);
-                    updateProgress();
-                }
+            if (event && event.target.tagName === 'A') {
                 return;
             }
             const checkbox = element.querySelector('input[type="checkbox"]');
-            checkbox.checked = !checkbox.checked;
-            element.classList.toggle('completed', checkbox.checked);
+            if (event && event.target.tagName === 'INPUT') {
+                element.classList.toggle('completed', checkbox.checked);
+            } else {
+                checkbox.checked = !checkbox.checked;
+                element.classList.toggle('completed', checkbox.checked);
+            }
             updateProgress();
         }
 

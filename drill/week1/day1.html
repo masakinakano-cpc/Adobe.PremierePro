@@ -526,18 +526,19 @@
 
         // チェックボックス機能
         function toggleCheck(element, event) {
-            // リンクやチェックボックス自体がクリックされた場合は処理しない
-            if (event && (event.target.tagName === 'A' || event.target.tagName === 'INPUT')) {
-                if (event.target.tagName === 'INPUT') {
-                    // チェックボックス自体のクリックは通常動作させ、完了クラスを更新
-                    element.classList.toggle('completed', event.target.checked);
-                    updateProgress();
-                }
+            // リンクがクリックされた場合はリンク遷移のみ
+            if (event && event.target.tagName === 'A') {
                 return;
             }
             const checkbox = element.querySelector('input[type="checkbox"]');
-            checkbox.checked = !checkbox.checked;
-            element.classList.toggle('completed', checkbox.checked);
+            // チェックボックス自体がクリックされた場合は既にトグルされているので、クラスの更新のみ
+            if (event && event.target.tagName === 'INPUT') {
+                element.classList.toggle('completed', checkbox.checked);
+            } else {
+                // テキスト部分がクリックされた場合はチェックボックスをトグル
+                checkbox.checked = !checkbox.checked;
+                element.classList.toggle('completed', checkbox.checked);
+            }
             updateProgress();
         }
 
