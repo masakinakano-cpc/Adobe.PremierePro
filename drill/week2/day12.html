@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +15,11 @@
             --dark-text: #333;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
@@ -25,7 +30,10 @@
             color: var(--dark-text);
         }
 
-        .container { max-width: 800px; margin: 0 auto; }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
         .drill-header {
             background: linear-gradient(135deg, #FFD700, #FFA500);
@@ -54,7 +62,10 @@
             font-size: 2em;
         }
 
-        .drill-header h1 { font-size: 1.8em; margin-bottom: 10px; }
+        .drill-header h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
 
         .drill-meta {
             display: flex;
@@ -117,7 +128,10 @@
             border-left: 4px solid #FFD700;
         }
 
-        .goal-box h3 { color: #e6ac00; margin-bottom: 10px; }
+        .goal-box h3 {
+            color: #e6ac00;
+            margin-bottom: 10px;
+        }
 
         .prompt-box {
             position: relative;
@@ -156,8 +170,14 @@
             transition: all 0.3s ease;
         }
 
-        .copy-btn:hover { background: #7D3C98; transform: scale(1.05); }
-        .copy-btn.copied { background: var(--green-accent); }
+        .copy-btn:hover {
+            background: #7D3C98;
+            transform: scale(1.05);
+        }
+
+        .copy-btn.copied {
+            background: var(--green-accent);
+        }
 
         .exercise {
             background: #f8f9fa;
@@ -192,7 +212,9 @@
             transition: all 0.3s ease;
         }
 
-        .check-item:hover { background: #e8daef; }
+        .check-item:hover {
+            background: #e8daef;
+        }
 
         .check-item input[type="checkbox"] {
             width: 22px;
@@ -217,7 +239,10 @@
             border-left: 4px solid var(--green-accent);
         }
 
-        .point-box h4 { color: #27ae60; margin-bottom: 10px; }
+        .point-box h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
 
         .review-box {
             background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
@@ -234,8 +259,15 @@
             border-bottom: 1px dashed #ccc;
         }
 
-        .review-item:last-child { border-bottom: none; }
-        .review-item .day { font-weight: bold; color: var(--purple-accent); min-width: 60px; }
+        .review-item:last-child {
+            border-bottom: none;
+        }
+
+        .review-item .day {
+            font-weight: bold;
+            color: var(--purple-accent);
+            min-width: 60px;
+        }
 
         .challenge-box {
             background: linear-gradient(135deg, #e8daef, #d7bde2);
@@ -245,7 +277,10 @@
             border: 3px solid var(--purple-accent);
         }
 
-        .challenge-box h3 { color: var(--purple-accent); margin-bottom: 15px; }
+        .challenge-box h3 {
+            color: var(--purple-accent);
+            margin-bottom: 15px;
+        }
 
         .nav-buttons {
             display: flex;
@@ -266,9 +301,21 @@
             text-align: center;
         }
 
-        .nav-btn.prev { background: #f0f0f0; color: var(--dark-text); }
-        .nav-btn.next { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; font-weight: bold; }
-        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
+        .nav-btn.prev {
+            background: #f0f0f0;
+            color: var(--dark-text);
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: white;
+            font-weight: bold;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
         .achievement {
             text-align: center;
@@ -279,7 +326,10 @@
             color: white;
         }
 
-        .achievement-icon { font-size: 4em; margin-bottom: 15px; }
+        .achievement-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
 
         .complete-btn {
             display: none;
@@ -301,7 +351,9 @@
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .complete-btn.show { display: inline-block; }
+        .complete-btn.show {
+            display: inline-block;
+        }
 
         /* お祝いエフェクト */
         .celebration-overlay {
@@ -315,7 +367,9 @@
             z-index: 9999;
         }
 
-        .celebration-overlay.active { display: block; }
+        .celebration-overlay.active {
+            display: block;
+        }
 
         .confetti {
             position: absolute;
@@ -333,19 +387,46 @@
         }
 
         @keyframes confetti-fall {
-            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
         }
 
         @keyframes firework-explode {
-            0% { transform: scale(0); opacity: 1; }
-            50% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(1.5); opacity: 0; }
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
         }
 
         @keyframes star-twinkle {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.5); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.5);
+            }
         }
 
         .celebration-message {
@@ -367,9 +448,19 @@
             transform: translate(-50%, -50%) scale(1);
         }
 
-        .celebration-message h2 { font-size: 2.5em; margin-bottom: 15px; }
-        .celebration-message p { font-size: 1.2em; margin-bottom: 20px; }
-        .celebration-message .trophy { font-size: 5em; }
+        .celebration-message h2 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .celebration-message p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .celebration-message .trophy {
+            font-size: 5em;
+        }
 
         .close-celebration {
             background: white;
@@ -384,13 +475,157 @@
         }
 
         @media (max-width: 600px) {
-            .drill-header h1 { font-size: 1.4em; }
-            .nav-buttons { flex-direction: column; }
-            .celebration-message { padding: 30px 40px; }
-            .celebration-message h2 { font-size: 1.8em; }
+            .drill-header h1 {
+                font-size: 1.4em;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .celebration-message {
+                padding: 30px 40px;
+            }
+
+            .celebration-message h2 {
+                font-size: 1.8em;
+            }
+        }
+
+        /* --- パーティーモード（演出中）のスタイル --- */
+        body.party-mode {
+            background: #050505 !important;
+            color: white !important;
+            transition: background 0.5s;
+        }
+
+        body.party-mode .container {
+            opacity: 0.8;
+        }
+
+        body.party-mode .drill-header,
+        body.party-mode .drill-section,
+        body.party-mode .progress-section,
+        body.party-mode .goal-box,
+        body.party-mode .review-box,
+        body.party-mode .challenge-box,
+        body.party-mode .exercise,
+        body.party-mode .point-box {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(5px);
+            color: white !important;
+            box-shadow: 0 0 50px rgba(255, 0, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+
+        body.party-mode h1,
+        body.party-mode h2,
+        body.party-mode h3,
+        body.party-mode p,
+        body.party-mode span,
+        body.party-mode .day-number,
+        body.party-mode li {
+            color: white !important;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* --- ディスコライト演出 --- */
+        #disco-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 9000;
+            overflow: hidden;
+        }
+
+        body.party-mode #disco-layer {
+            opacity: 1;
+        }
+
+        .laser-beam {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200vmax;
+            height: 200vmax;
+            background: conic-gradient(from 0deg, rgba(255, 0, 255, 0.5) 0deg, transparent 20deg, rgba(0, 255, 255, 0.5) 120deg, transparent 140deg, rgba(255, 255, 0, 0.5) 240deg, transparent 260deg);
+            transform: translate(-50%, -50%);
+            mix-blend-mode: screen;
+            animation: spin 4s linear infinite;
+        }
+
+        .laser-beam.reverse {
+            background: conic-gradient(from 180deg, rgba(0, 0, 255, 0.5) 0deg, transparent 15deg, rgba(0, 255, 0, 0.5) 120deg, transparent 135deg, rgba(255, 0, 0, 0.5) 240deg, transparent 255deg);
+            animation: spin-reverse 5s linear infinite;
+        }
+
+        .strobe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            opacity: 0;
+            mix-blend-mode: overlay;
+        }
+
+        body.party-mode .strobe {
+            animation: strobe-flash 0.5s infinite;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fall 2s linear forwards;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        @keyframes spin-reverse {
+            100% {
+                transform: translate(-50%, -50%) rotate(-360deg);
+            }
+        }
+
+        @keyframes strobe-flash {
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.2;
+            }
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(720deg) scale(0);
+                opacity: 0;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="drill-header">
@@ -576,12 +811,19 @@
         <button class="close-celebration" onclick="closeCelebration()">次へ進む</button>
     </div>
 
+    <!-- 演出用レイヤー -->
+    <div id="disco-layer">
+        <div class="laser-beam"></div>
+        <div class="laser-beam reverse"></div>
+        <div class="strobe"></div>
+    </div>
+
     <script>
         document.querySelectorAll('.prompt-box').forEach(box => {
             const btn = document.createElement('button');
             btn.className = 'copy-btn';
             btn.textContent = 'コピー';
-            btn.onclick = function(e) {
+            btn.onclick = function (e) {
                 e.stopPropagation();
                 const text = box.innerText.replace('コピー', '').replace(box.querySelector('.prompt-label')?.textContent || '', '').trim();
                 navigator.clipboard.writeText(text).then(() => {
@@ -623,6 +865,8 @@
 
         // お祝いエフェクト
         function celebrate() {
+            startParty(); // ディスコモード開始
+
             const overlay = document.getElementById('celebrationOverlay');
             const message = document.getElementById('celebrationMessage');
 
@@ -689,10 +933,98 @@
         }
 
         function closeCelebration() {
+            stopParty();
             document.getElementById('celebrationOverlay').classList.remove('active');
             document.getElementById('celebrationMessage').classList.remove('show');
             window.location.href = '../week3/day13.html';
         }
+
+        let audioCtx;
+        let particleInterval;
+
+        function startParty() {
+            document.body.classList.add('party-mode');
+            playDiscoMusic();
+            if (particleInterval) clearInterval(particleInterval);
+            particleInterval = setInterval(createParticle, 50);
+        }
+
+        function stopParty() {
+            document.body.classList.remove('party-mode');
+            if (particleInterval) clearInterval(particleInterval);
+            if (audioCtx) { audioCtx.close(); audioCtx = null; }
+        }
+
+        function createParticle() {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            const x = Math.random() * 100;
+            const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ffffff', '#00ff00'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            p.style.left = x + 'vw';
+            p.style.top = window.scrollY + 'px';
+            p.style.background = color;
+            p.style.boxShadow = `0 0 10px ${color}`;
+            const size = Math.random() * 10 + 5;
+            p.style.width = size + 'px'; p.style.height = size + 'px';
+            if (Math.random() > 0.5) p.style.borderRadius = '0%';
+            const layer = document.getElementById('disco-layer');
+            if (layer) layer.appendChild(p);
+            setTimeout(() => { p.remove(); }, 2000);
+        }
+
+        function playDiscoMusic() {
+            if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+            else if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+
+            const now = audioCtx.currentTime;
+            const bpm = 130; const beatTime = 60 / bpm;
+
+            for (let i = 0; i < 16; i++) {
+                const time = now + i * beatTime;
+                playKick(time);
+                if (i % 1 === 0.5 || true) { playHiHat(time + beatTime / 2); }
+                if (i % 2 === 0) { playBass(time, 300); } else { playBass(time, 600); }
+            }
+            playLead(now);
+        }
+
+        function playKick(time) {
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+            osc.frequency.setValueAtTime(150, time); osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.5);
+            gain.gain.setValueAtTime(1, time); gain.gain.exponentialRampToValueAtTime(0.01, time + 0.5);
+            osc.connect(gain); gain.connect(audioCtx.destination); osc.start(time); osc.stop(time + 0.5);
+        }
+
+        function playHiHat(time) {
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+            osc.type = 'square'; osc.frequency.setValueAtTime(800, time); osc.frequency.linearRampToValueAtTime(1200, time + 0.05);
+            gain.gain.setValueAtTime(0.3, time); gain.gain.exponentialRampToValueAtTime(0.01, time + 0.05);
+            osc.connect(gain); gain.connect(audioCtx.destination); osc.start(time); osc.stop(time + 0.05);
+        }
+
+        function playBass(time, freq) {
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+            osc.type = 'sawtooth'; osc.frequency.setValueAtTime(50, time);
+            const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.setValueAtTime(freq, time); filter.frequency.exponentialRampToValueAtTime(100, time + 0.4);
+            gain.gain.setValueAtTime(0.5, time); gain.gain.linearRampToValueAtTime(0, time + 0.4);
+            osc.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); osc.start(time); osc.stop(time + 0.5);
+        }
+
+        function playLead(time) {
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            const notes = [523.25, 659.25, 783.99, 1046.50];
+            notes.forEach((note, index) => {
+                const noteTime = time + index * 0.15;
+                osc.frequency.setValueAtTime(note, noteTime);
+                gain.gain.setValueAtTime(0, noteTime);
+                gain.gain.linearRampToValueAtTime(0.3, noteTime + 0.05);
+                gain.gain.linearRampToValueAtTime(0, noteTime + 0.15);
+            });
+            osc.connect(gain); gain.connect(audioCtx.destination); osc.start(time); osc.stop(time + 2);
+        }
     </script>
 </body>
+
 </html>
