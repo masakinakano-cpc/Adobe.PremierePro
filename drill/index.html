@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,13 +55,18 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
             animation: rotate 20s linear infinite;
         }
 
         @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .header h1 {
@@ -137,18 +143,34 @@
             color: white;
         }
 
-        .week-1 .week-icon { background: linear-gradient(135deg, var(--pink-vivid), #FF8FAB); }
-        .week-2 .week-icon { background: linear-gradient(135deg, var(--purple-accent), #8E44AD); }
-        .week-3 .week-icon { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .week-1 .week-icon {
+            background: linear-gradient(135deg, var(--pink-vivid), #FF8FAB);
+        }
+
+        .week-2 .week-icon {
+            background: linear-gradient(135deg, var(--purple-accent), #8E44AD);
+        }
+
+        .week-3 .week-icon {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
 
         .week-title h2 {
             font-size: 1.5em;
             margin-bottom: 3px;
         }
 
-        .week-1 .week-title h2 { color: var(--pink-vivid); }
-        .week-2 .week-title h2 { color: var(--purple-accent); }
-        .week-3 .week-title h2 { color: #667eea; }
+        .week-1 .week-title h2 {
+            color: var(--pink-vivid);
+        }
+
+        .week-2 .week-title h2 {
+            color: var(--purple-accent);
+        }
+
+        .week-3 .week-title h2 {
+            color: #667eea;
+        }
 
         .week-title p {
             color: #666;
@@ -179,9 +201,17 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
 
-        .week-1 .day-card:hover { border-color: var(--pink-vivid); }
-        .week-2 .day-card:hover { border-color: var(--purple-accent); }
-        .week-3 .day-card:hover { border-color: #667eea; }
+        .week-1 .day-card:hover {
+            border-color: var(--pink-vivid);
+        }
+
+        .week-2 .day-card:hover {
+            border-color: var(--purple-accent);
+        }
+
+        .week-3 .day-card:hover {
+            border-color: #667eea;
+        }
 
         .day-number {
             display: inline-block;
@@ -193,9 +223,17 @@
             color: white;
         }
 
-        .week-1 .day-number { background: linear-gradient(135deg, var(--pink-vivid), #FF8FAB); }
-        .week-2 .day-number { background: linear-gradient(135deg, var(--purple-accent), #8E44AD); }
-        .week-3 .day-number { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .week-1 .day-number {
+            background: linear-gradient(135deg, var(--pink-vivid), #FF8FAB);
+        }
+
+        .week-2 .day-number {
+            background: linear-gradient(135deg, var(--purple-accent), #8E44AD);
+        }
+
+        .week-3 .day-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
 
         .day-card h3 {
             font-size: 1.1em;
@@ -262,9 +300,17 @@
             transition: width 0.5s ease;
         }
 
-        .week-1 .progress-fill { background: linear-gradient(90deg, var(--pink-vivid), #FF8FAB); }
-        .week-2 .progress-fill { background: linear-gradient(90deg, var(--purple-accent), #8E44AD); }
-        .week-3 .progress-fill { background: linear-gradient(90deg, #667eea, #764ba2); }
+        .week-1 .progress-fill {
+            background: linear-gradient(90deg, var(--pink-vivid), #FF8FAB);
+        }
+
+        .week-2 .progress-fill {
+            background: linear-gradient(90deg, var(--purple-accent), #8E44AD);
+        }
+
+        .week-3 .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
 
         .progress-text {
             font-size: 0.85em;
@@ -302,170 +348,9 @@
             }
         }
     </style>
-    <!-- Disco Effect CSS -->
-    <style>
-      /* --- パーティーモード（演出中）のスタイル --- */
-
-      /* 全体の暗転と背景アニメーション */
-      body.party-mode {
-        background: #050505 !important; /* 強制的に暗く */
-        color: white !important;
-        transition: background 0.5s;
-      }
-
-      /* UIを少し暗くして目立たなくする */
-      body.party-mode .container {
-        opacity: 0.8;
-      }
-      body.party-mode .header,
-      body.party-mode .intro,
-      body.party-mode .week-section,
-      body.party-mode .progress-section {
-         background: rgba(255, 255, 255, 0.1) !important;
-         backdrop-filter: blur(5px);
-         color: white !important;
-         box-shadow: 0 0 50px rgba(255, 0, 255, 0.5);
-         border: 1px solid rgba(255,255,255,0.2);
-      }
-      body.party-mode h1,
-      body.party-mode h2,
-      body.party-mode h3,
-      body.party-mode p,
-      body.party-mode .day-number {
-          color: white !important;
-          text-shadow: 0 0 10px rgba(255,255,255,0.5);
-      }
-
-      /* --- ディスコライト演出 --- */
-      #disco-layer {
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        pointer-events: none;
-        opacity: 0;
-        z-index: 9999; /* 最前面 */
-        overflow: hidden;
-      }
-
-      body.party-mode #disco-layer {
-        opacity: 1;
-      }
-
-      /* 回転するレーザーライト */
-      .laser-beam {
-        position: absolute;
-        top: 50%; left: 50%;
-        width: 200vmax; height: 200vmax;
-        background: conic-gradient(
-          from 0deg,
-          rgba(255,0,255,0.5) 0deg, transparent 20deg,
-          rgba(0,255,255,0.5) 120deg, transparent 140deg,
-          rgba(255,255,0,0.5) 240deg, transparent 260deg
-        );
-        transform: translate(-50%, -50%);
-        mix-blend-mode: screen;
-        animation: spin 4s linear infinite;
-      }
-
-      /* 逆回転のライト */
-      .laser-beam.reverse {
-        background: conic-gradient(
-          from 180deg,
-          rgba(0,0,255,0.5) 0deg, transparent 15deg,
-          rgba(0,255,0,0.5) 120deg, transparent 135deg,
-          rgba(255,0,0,0.5) 240deg, transparent 255deg
-        );
-        animation: spin-reverse 5s linear infinite;
-      }
-
-      /* ストロボフラッシュ */
-      .strobe {
-        position: absolute;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: white;
-        opacity: 0;
-        mix-blend-mode: overlay;
-      }
-      body.party-mode .strobe {
-        animation: strobe-flash 0.5s infinite;
-      }
-
-      /* 祝福メッセージ */
-      .congrats-msg {
-        position: absolute;
-        top: 30%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0);
-        font-size: 5rem;
-        font-weight: 900;
-        color: white;
-        text-transform: uppercase;
-        text-shadow:
-          0 0 10px #ff00ff,
-          0 0 20px #ff00ff,
-          0 0 40px #ff00ff,
-          0 0 80px #ff00ff;
-        white-space: nowrap;
-        opacity: 0;
-        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      }
-
-      body.party-mode .congrats-msg {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-        animation: pulse-text 0.4s infinite alternate;
-      }
-
-      /* パーティクル（紙吹雪・キラキラ） */
-      .particle {
-        position: absolute;
-        width: 10px; height: 10px;
-        background: white;
-        border-radius: 50%;
-        pointer-events: none;
-        animation: fall 2s linear forwards;
-      }
-
-      /* アニメーション用ボタン */
-      .complete-btn {
-        display: inline-block;
-        margin-top: 20px;
-        background: linear-gradient(45deg, #007bff, #0056b3);
-        color: white;
-        border: none;
-        padding: 12px 30px;
-        font-size: 1rem;
-        font-weight: bold;
-        border-radius: 50px;
-        cursor: pointer;
-        box-shadow: 0 5px 15px rgba(0,123,255,0.4);
-        transition: transform 0.1s, box-shadow 0.1s;
-        text-decoration: none;
-      }
-      .complete-btn:active { transform: scale(0.95); }
-      .week-1 .complete-btn { background: linear-gradient(45deg, #F26D9E, #FF8FAB); box-shadow: 0 5px 15px rgba(242,109,158,0.4); }
-      .week-2 .complete-btn { background: linear-gradient(45deg, #9B59B6, #8E44AD); box-shadow: 0 5px 15px rgba(155,89,182,0.4); }
-      .week-3 .complete-btn { background: linear-gradient(45deg, #667eea, #764ba2); box-shadow: 0 5px 15px rgba(102,126,234,0.4); }
-
-      /* --- アニメーション定義 --- */
-      @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
-      @keyframes spin-reverse { 100% { transform: translate(-50%, -50%) rotate(-360deg); } }
-
-      @keyframes strobe-flash {
-        0%, 100% { opacity: 0; }
-        50% { opacity: 0.2; }
-      }
-
-      @keyframes pulse-text {
-        from { text-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff; transform: translate(-50%, -50%) scale(1); }
-        to { text-shadow: 0 0 20px #00ffff, 0 0 60px #00ffff; transform: translate(-50%, -50%) scale(1.1); }
-      }
-
-      @keyframes fall {
-        0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
-        100% { transform: translateY(100vh) rotate(720deg) scale(0); opacity: 0; }
-      }
-    </style>
+    <link rel="stylesheet" href="./disco.css">
 </head>
+
 <body>
     <div class="container">
         <!-- ヘッダー -->
@@ -580,7 +465,7 @@
                 </a>
                 </a>
             </div>
-             <div style="text-align: center;">
+            <div style="text-align: center;">
                 <button class="complete-btn" onclick="startParty()">WEEK 2 COMPLETE! 🚀</button>
             </div>
         </div>
@@ -648,175 +533,7 @@
         <div class="congrats-msg">WEEK CLEAR!!</div>
     </div>
 
-<script>
-  let audioCtx;
-
-  function startParty() {
-    const body = document.body;
-
-    // 1. 画面効果ON
-    body.classList.add('party-mode');
-
-    // 2. 音を鳴らす (Web Audio APIで簡易シンセサイザー)
-    playDiscoMusic();
-
-    // 3. パーティクル生成ループ開始
-    const particleInterval = setInterval(createParticle, 50); // 0.05秒ごとに生成
-
-    // 4. 6秒後に終了
-    setTimeout(() => {
-      stopParty(particleInterval);
-    }, 6000);
-  }
-
-  function stopParty(intervalId) {
-    const body = document.body;
-    clearInterval(intervalId);
-    body.classList.remove('party-mode');
-
-    // 音を止める処理は今回は簡易的なので自然減衰に任せるか、AudioContextをcloseする
-    if(audioCtx) {
-      audioCtx.close();
-      audioCtx = null;
-    }
-  }
-
-  // --- 視覚効果: パーティクル生成 ---
-  function createParticle() {
-    const p = document.createElement('div');
-    p.classList.add('particle');
-
-    // ランダムな位置と色
-    const x = Math.random() * 100; // vw
-    const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ffffff', '#00ff00'];
-    const color = colors[Math.floor(Math.random() * colors.length)];
-
-    p.style.left = x + 'vw';
-    p.style.top = window.scrollY + 'px'; // 現在のスクロール位置から降らせる
-    p.style.background = color;
-    p.style.boxShadow = `0 0 10px ${color}`;
-
-    // ランダムな大きさ
-    const size = Math.random() * 10 + 5;
-    p.style.width = size + 'px';
-    p.style.height = size + 'px';
-
-    // 形状をランダムに（丸か四角）
-    if (Math.random() > 0.5) p.style.borderRadius = '0%';
-
-    document.getElementById('disco-layer').appendChild(p);
-
-    // アニメーション終了後に削除
-    setTimeout(() => { p.remove(); }, 2000);
-  }
-
-  // --- 音響効果: Web Audio APIによる簡易BGM生成 ---
-  function playDiscoMusic() {
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    } else if (audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
-
-    const now = audioCtx.currentTime;
-    const bpm = 130;
-    const beatTime = 60 / bpm;
-
-    // 4小節分のビートを作成
-    for (let i = 0; i < 16; i++) {
-      const time = now + i * beatTime;
-
-      // キックドラム (ドン！)
-      playKick(time);
-
-      // ハイハット (チッ) - 裏拍
-      if (i % 1 === 0.5 || true) { // 8分音符
-         playHiHat(time + beatTime / 2);
-      }
-
-      // ベース (ブッ)
-      if (i % 2 === 0) {
-        playBass(time, 300); // 低音
-      } else {
-        playBass(time, 600); // オクターブ上
-      }
-    }
-
-    // ファンファーレ的なリードシンセ
-    playLead(now);
-  }
-
-  function playKick(time) {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.frequency.setValueAtTime(150, time);
-    osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.5);
-    gain.gain.setValueAtTime(1, time);
-    gain.gain.exponentialRampToValueAtTime(0.01, time + 0.5);
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start(time);
-    osc.stop(time + 0.5);
-  }
-
-  function playHiHat(time) {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'square';
-    osc.frequency.setValueAtTime(800, time);
-    osc.frequency.linearRampToValueAtTime(1200, time + 0.05);
-
-    gain.gain.setValueAtTime(0.3, time);
-    gain.gain.exponentialRampToValueAtTime(0.01, time + 0.05);
-
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start(time);
-    osc.stop(time + 0.05);
-  }
-
-  function playBass(time, freq) {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(50, time);
-
-    const filter = audioCtx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(freq, time);
-    filter.frequency.exponentialRampToValueAtTime(100, time + 0.4);
-
-    gain.gain.setValueAtTime(0.5, time);
-    gain.gain.linearRampToValueAtTime(0, time + 0.4);
-
-    osc.connect(filter);
-    filter.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start(time);
-    osc.stop(time + 0.5);
-  }
-
-  function playLead(time) {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'triangle';
-
-    // メロディ: ドーミーソー (アルペジオ)
-    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
-
-    notes.forEach((note, index) => {
-      const noteTime = time + index * 0.15;
-      osc.frequency.setValueAtTime(note, noteTime);
-      gain.gain.setValueAtTime(0, noteTime);
-      gain.gain.linearRampToValueAtTime(0.3, noteTime + 0.05);
-      gain.gain.linearRampToValueAtTime(0, noteTime + 0.15);
-    });
-
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start(time);
-    osc.stop(time + 2);
-  }
-</script>
+    <script src="./disco.js"></script>
 </body>
+
 </html>

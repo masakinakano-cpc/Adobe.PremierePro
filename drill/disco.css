@@ -1,0 +1,164 @@
+/* --- MAX Party Mode Styles --- */
+
+/* 1. Rainbow Gaming Glow Background */
+body.party-mode {
+    background: #000 !important;
+    animation: rainbow-bg 2s linear infinite;
+    color: white !important;
+    overflow-x: hidden; /* Prevent shake scrollbar */
+}
+
+@keyframes rainbow-bg {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+/* 2. UI Dimming & Glassmorphism */
+body.party-mode .container {
+    opacity: 0.9;
+    transition: opacity 0.3s;
+}
+
+body.party-mode .drill-header,
+body.party-mode .drill-section,
+body.party-mode .progress-section,
+body.party-mode .goal-box,
+body.party-mode .review-box,
+body.party-mode .challenge-box,
+body.party-mode .exercise,
+body.party-mode .point-box,
+body.party-mode .achievement {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px);
+    color: white !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5), inset 0 0 20px rgba(255,0,255,0.2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+body.party-mode h1, body.party-mode h2, body.party-mode h3,
+body.party-mode p, body.party-mode span, body.party-mode li,
+body.party-mode .day-number {
+    color: white !important;
+    text-shadow: 0 0 5px rgba(255,255,255,0.8), 0 0 10px #ff00ff;
+}
+
+/* 3. Screen Shake Class (Triggered by JS) */
+body.party-shake {
+    animation: shake 0.1s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+    10%, 90% { transform: translate3d(-2px, 2px, 0); }
+    20%, 80% { transform: translate3d(2px, -2px, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, -4px, 0); }
+    40%, 60% { transform: translate3d(4px, 4px, 0); }
+}
+
+/* 4. Text Pumping Class (Triggered by JS) */
+.pump-it {
+    transition: transform 0.05s;
+    transform: scale(1.2) !important;
+}
+
+/* 5. Mirror Ball */
+.mirror-ball {
+    position: fixed;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle at 30% 30%, #fff, #888);
+    border-radius: 50%;
+    z-index: 9500;
+    box-shadow: 0 0 50px white;
+    animation: spin-ball 5s linear infinite;
+    opacity: 0;
+    transition: top 1s ease-out;
+}
+
+body.party-mode .mirror-ball {
+    opacity: 1;
+    top: 20px;
+}
+
+/* Mirror ball texture simulation */
+.mirror-ball::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 50%;
+    background:
+        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 11px),
+        repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 11px);
+    mix-blend-mode: overlay;
+}
+
+@keyframes spin-ball {
+    0% { transform: translateX(-50%) rotate(0deg); }
+    100% { transform: translateX(-50%) rotate(360deg); }
+}
+
+/* 6. Existing Disco Elements (Lasers, Strobes, Particles) */
+#disco-layer {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 9000;
+    overflow: hidden;
+}
+
+body.party-mode #disco-layer { opacity: 1; }
+
+.laser-beam {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 250vmax; height: 250vmax;
+    background: conic-gradient(
+        from 0deg,
+        rgba(255,0,0,0.5) 0deg, transparent 10deg,
+        rgba(0,255,0,0.5) 120deg, transparent 130deg,
+        rgba(0,0,255,0.5) 240deg, transparent 250deg
+    );
+    transform: translate(-50%, -50%);
+    mix-blend-mode: screen;
+    animation: spin-laser 3s linear infinite;
+}
+
+.laser-beam.reverse {
+    background: conic-gradient(
+        from 180deg,
+        rgba(255,255,0,0.5) 0deg, transparent 10deg,
+        rgba(0,255,255,0.5) 120deg, transparent 130deg,
+        rgba(255,0,255,0.5) 240deg, transparent 250deg
+    );
+    animation: spin-laser-reverse 4s linear infinite;
+}
+
+.strobe {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: white; opacity: 0; mix-blend-mode: overlay;
+}
+body.party-mode .strobe { animation: strobe-flash 0.1s infinite; }
+
+.particle {
+    position: absolute;
+    width: 15px; height: 15px;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: fall-spin 2s linear forwards;
+}
+
+@keyframes spin-laser { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+@keyframes spin-laser-reverse { 100% { transform: translate(-50%, -50%) rotate(-360deg); } }
+@keyframes strobe-flash { 0%, 50%, 100% { opacity: 0; } 25%, 75% { opacity: 0.3; } }
+@keyframes fall-spin {
+    0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg) scale(0.5); opacity: 0; }
+}
+
+/* Celebration Message Pumping */
+.celebration-message.pump-target {
+    transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
