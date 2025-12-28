@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 14: プロフィールカードを作ろう - 応用ドリル</title>
+    <style>
+        :root {
+            --pink-vivid: #F26D9E;
+            --pink-light: #F2C9CC;
+            --peach: #F2E4DC;
+            --green-accent: #5CCFAD;
+            --purple-accent: #9B59B6;
+            --gradient-main: linear-gradient(135deg, #667eea, #764ba2);
+            --dark-text: #333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #4facfe 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.8;
+            color: var(--dark-text);
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .drill-header {
+            background: var(--gradient-main);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .drill-header h1 { font-size: 1.8em; margin-bottom: 10px; }
+
+        .drill-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .meta-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .progress-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-main);
+            border-radius: 10px;
+        }
+
+        .drill-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #ddd;
+        }
+
+        .goal-box {
+            background: linear-gradient(135deg, #e0c3fc, #8ec5fc);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .goal-box h3 { color: #5b4b8a; margin-bottom: 10px; }
+
+        .prompt-box {
+            position: relative;
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            padding: 20px;
+            padding-top: 35px;
+            border-radius: 12px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+
+        .prompt-label {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: var(--gradient-main);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--gradient-main);
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover { transform: scale(1.05); }
+        .copy-btn.copied { background: var(--green-accent); }
+
+        .exercise {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border: 2px solid #e0c3fc;
+        }
+
+        .exercise-number {
+            display: inline-block;
+            background: var(--gradient-main);
+            color: white;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background: #fafafa;
+            border-radius: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .check-item:hover { background: #e0c3fc; }
+
+        .check-item input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            accent-color: #667eea;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .check-item.completed {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            text-decoration: line-through;
+            color: #666;
+        }
+
+        .hint-box {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .hint-box summary { cursor: pointer; font-weight: bold; color: #e67e22; }
+        .hint-box[open] summary { margin-bottom: 10px; }
+
+        .point-box {
+            background: linear-gradient(135deg, #e8f8f5, #d1f2eb);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-left: 4px solid var(--green-accent);
+        }
+
+        .point-box h4 { color: #27ae60; margin-bottom: 10px; }
+
+        .preview-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            max-width: 300px;
+            margin: 20px auto;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .preview-card .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--gradient-main);
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .nav-btn.prev { background: #f0f0f0; color: var(--dark-text); }
+        .nav-btn.next { background: var(--gradient-main); color: white; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
+
+        .achievement {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #e0c3fc, #8ec5fc);
+            border-radius: 15px;
+            margin-top: 25px;
+        }
+
+        .achievement-icon { font-size: 3em; margin-bottom: 10px; }
+
+        @media (max-width: 600px) {
+            .drill-header h1 { font-size: 1.4em; }
+            .nav-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="drill-header">
+            <h1>Day 14: プロフィールカードを作ろう</h1>
+            <p>Week 3 - 応用編</p>
+            <div class="drill-meta">
+                <span class="meta-badge">所要時間: 約20分</span>
+                <span class="meta-badge">実践プロジェクト</span>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <strong>Week 3 進捗状況</strong>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 33.2%;"></div>
+            </div>
+            <p style="text-align: right; margin-top: 8px; color: #888;">Day 14 / 18（Week 3: Day 2）</p>
+        </div>
+
+        <div class="drill-section">
+            <div class="goal-box">
+                <h3>今日のゴール</h3>
+                <p>AIで生成したアバター画像を使った、おしゃれなプロフィールカードを作成する！</p>
+            </div>
+        </div>
+
+        <!-- 完成イメージ -->
+        <div class="drill-section">
+            <h2 class="section-title">完成イメージ（1分）</h2>
+
+            <div class="preview-card">
+                <div class="avatar">🧑‍💻</div>
+                <h3>山田 太郎</h3>
+                <p style="color: #666; font-size: 0.9em;">Webデザイナー</p>
+                <p style="font-size: 0.85em; margin-top: 10px;">クリエイティブなデザインで<br>あなたのビジネスを支援します</p>
+            </div>
+
+            <p style="text-align: center; color: #666;">↑ このようなカードを作ります！（アバターはAI生成画像に）</p>
+
+            <div class="check-item" onclick="toggleCheck(this)">
+                <input type="checkbox">
+                <span>完成イメージを確認した</span>
+            </div>
+        </div>
+
+        <!-- 練習1 -->
+        <div class="drill-section">
+            <h2 class="section-title">練習1: アバター画像を生成（6分）</h2>
+
+            <div class="exercise">
+                <p><span class="exercise-number">1</span><strong>プロフィール用アバターを生成</strong></p>
+
+                <div class="prompt-box">
+                    <span class="prompt-label">画像生成プロンプト</span>
+シンプルでモダンなアバターイラスト、正方形、フラットデザイン、パステルカラーの背景、ビジネスプロフェッショナルな雰囲気、抽象的な人物シルエット</div>
+
+                <p style="margin-top: 10px; font-size: 0.9em;">※ 実際の顔写真ではなく、抽象的なアバターを作ることをおすすめします</p>
+
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <input type="checkbox">
+                    <span>アバター画像を生成した</span>
+                </div>
+            </div>
+
+            <details class="hint-box">
+                <summary>他のアバタースタイル例</summary>
+                <p>・「かわいい猫のアバター、丸いフレーム」</p>
+                <p>・「幾何学的なパターンのアバター、青と紫のグラデーション」</p>
+                <p>・「ミニマルなロボットアイコン、フレンドリーな雰囲気」</p>
+            </details>
+        </div>
+
+        <!-- 練習2 -->
+        <div class="drill-section">
+            <h2 class="section-title">練習2: プロフィールカードHTMLを作成（8分）</h2>
+
+            <div class="exercise">
+                <p><span class="exercise-number">2</span><strong>Antigravityでカードを作成</strong></p>
+
+                <div class="prompt-box">
+                    <span class="prompt-label">Geminiへの指示</span>
+profile-card.htmlを作成してください。
+
+おしゃれなプロフィールカードを作ってください：
+- 中央配置のカード（最大幅350px）
+- カードに影をつける（box-shadow）
+- 上部に丸いアバター画像エリア（150x150px）
+  - 画像パスは images/avatar.png を想定
+  - 画像がない場合は代替テキストを表示
+- 名前「山田 太郎」を大きく表示
+- 肩書き「Webデザイナー」を小さく表示
+- 自己紹介文を3行程度
+- SNSリンクボタン（Twitter、Instagram、GitHub）を3つ横並びで
+- 全体的にパステルカラーでおしゃれなデザイン
+- ホバーエフェクトをつける</div>
+
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <input type="checkbox">
+                    <span>profile-card.html が作成された</span>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <input type="checkbox">
+                    <span>プレビューでデザインを確認した</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 練習3 -->
+        <div class="drill-section">
+            <h2 class="section-title">練習3: カスタマイズ（5分）</h2>
+
+            <div class="exercise">
+                <p><span class="exercise-number">3</span><strong>自分好みにカスタマイズ</strong></p>
+                <p>以下のどれかをカスタマイズしてみましょう。</p>
+
+                <div class="prompt-box">
+                    <span class="prompt-label">カスタマイズ例</span>
+profile-card.htmlの背景色をピンク系のグラデーション（#ffecd2から#fcb69f）に変更してください</div>
+
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <input type="checkbox">
+                    <span>何かしらのカスタマイズを行った</span>
+                </div>
+            </div>
+
+            <div class="point-box">
+                <h4>カスタマイズアイデア</h4>
+                <ul style="margin-left: 20px;">
+                    <li>背景色やグラデーションを変える</li>
+                    <li>名前や自己紹介文を自分のものに変える</li>
+                    <li>カードの角をもっと丸くする</li>
+                    <li>アニメーションを追加する</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- まとめ -->
+        <div class="drill-section">
+            <div class="point-box">
+                <h4>Day 14 まとめ</h4>
+                <ul style="margin-left: 20px;">
+                    <li>AIでアバター画像を生成できる</li>
+                    <li>プロフィールカードはポートフォリオの定番</li>
+                    <li>box-shadowやホバーエフェクトでおしゃれに</li>
+                    <li>画像パスを指定してHTMLに組み込む</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="achievement">
+            <div class="achievement-icon">👤</div>
+            <h3>Day 14 完了チェック</h3>
+            <p id="completion-text">すべてのチェックボックスを確認しましょう！</p>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="day13.html" class="nav-btn prev">← Day 13 に戻る</a>
+            <a href="day15.html" class="nav-btn next">Day 15 へ進む →</a>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.prompt-box').forEach(box => {
+            const btn = document.createElement('button');
+            btn.className = 'copy-btn';
+            btn.textContent = 'コピー';
+            btn.onclick = function(e) {
+                e.stopPropagation();
+                const text = box.innerText.replace('コピー', '').replace(box.querySelector('.prompt-label')?.textContent || '', '').trim();
+                navigator.clipboard.writeText(text).then(() => {
+                    btn.textContent = 'コピー完了!';
+                    btn.classList.add('copied');
+                    setTimeout(() => { btn.textContent = 'コピー'; btn.classList.remove('copied'); }, 2000);
+                });
+            };
+            box.appendChild(btn);
+        });
+
+        function toggleCheck(element) {
+            const checkbox = element.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            element.classList.toggle('completed', checkbox.checked);
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.check-item input[type="checkbox"]');
+            const checked = document.querySelectorAll('.check-item input[type="checkbox"]:checked').length;
+            const total = checkboxes.length;
+
+            if (checked === total) {
+                document.getElementById('completion-text').innerHTML = '🎉 素晴らしい！Day 14 完了です！';
+            } else {
+                document.getElementById('completion-text').innerHTML = `進捗: ${checked}/${total} 完了`;
+            }
+        }
+    </script>
+</body>
+</html>

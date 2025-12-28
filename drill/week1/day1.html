@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 1: 画像生成の基本 - 復習ドリル</title>
+    <style>
+        :root {
+            --pink-vivid: #F26D9E;
+            --pink-light: #F2C9CC;
+            --peach: #F2E4DC;
+            --green-accent: #5CCFAD;
+            --dark-text: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+            background: linear-gradient(135deg, var(--peach) 0%, #fff 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.8;
+            color: var(--dark-text);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* ヘッダー */
+        .drill-header {
+            background: linear-gradient(135deg, var(--pink-vivid), #FF8FAB);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(242, 109, 158, 0.3);
+        }
+
+        .drill-header h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .drill-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .meta-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        /* 進捗バー */
+        .progress-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pink-vivid), var(--green-accent));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* セクション */
+        .drill-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            color: var(--pink-vivid);
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed var(--pink-light);
+        }
+
+        /* 学習目標 */
+        .goal-box {
+            background: linear-gradient(135deg, #e8f4fd, #d6eaf8);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        .goal-box h3 {
+            color: #2980b9;
+            margin-bottom: 10px;
+        }
+
+        /* プロンプトボックス */
+        .prompt-box {
+            position: relative;
+            background: linear-gradient(135deg, var(--pink-light), var(--peach));
+            padding: 20px;
+            padding-top: 35px;
+            border-radius: 12px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .prompt-label {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: var(--pink-vivid);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--pink-vivid);
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #d85a8a;
+            transform: scale(1.05);
+        }
+
+        .copy-btn.copied {
+            background: var(--green-accent);
+        }
+
+        /* 練習問題 */
+        .exercise {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border: 2px solid var(--pink-light);
+        }
+
+        .exercise-number {
+            display: inline-block;
+            background: var(--pink-vivid);
+            color: white;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        /* チェックボックス */
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background: #fafafa;
+            border-radius: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .check-item:hover {
+            background: var(--pink-light);
+        }
+
+        .check-item input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            accent-color: var(--pink-vivid);
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .check-item.completed {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            text-decoration: line-through;
+            color: #666;
+        }
+
+        /* ヒントボックス */
+        .hint-box {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .hint-box summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: #e67e22;
+        }
+
+        .hint-box[open] summary {
+            margin-bottom: 10px;
+        }
+
+        /* ポイント解説 */
+        .point-box {
+            background: linear-gradient(135deg, #e8f8f5, #d1f2eb);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-left: 4px solid var(--green-accent);
+        }
+
+        .point-box h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+
+        /* ナビゲーション */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .nav-btn.prev {
+            background: #f0f0f0;
+            color: var(--dark-text);
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--pink-vivid), #FF8FAB);
+            color: white;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* 達成度表示 */
+        .achievement {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            border-radius: 15px;
+            margin-top: 25px;
+        }
+
+        .achievement-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        /* 用語解説 */
+        .glossary-box {
+            background: linear-gradient(135deg, #e8f4fd, #d6eaf8);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .glossary-box summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: #2980b9;
+        }
+
+        .glossary-term {
+            background: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+
+        .glossary-term strong {
+            color: var(--pink-vivid);
+        }
+
+        @media (max-width: 600px) {
+            .drill-header h1 {
+                font-size: 1.4em;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <div class="drill-header">
+            <h1>Day 1: 画像生成の基本をマスターしよう</h1>
+            <p>Week 1 - 画像生成マスター編</p>
+            <div class="drill-meta">
+                <span class="meta-badge">所要時間: 約20分</span>
+                <span class="meta-badge">難易度: やさしい</span>
+            </div>
+        </div>
+
+        <!-- 進捗 -->
+        <div class="progress-section">
+            <strong>Week 1 進捗状況</strong>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 16.6%;"></div>
+            </div>
+            <p style="text-align: right; margin-top: 8px; color: #888;">Day 1 / 6</p>
+        </div>
+
+        <!-- 今日の目標 -->
+        <div class="drill-section">
+            <div class="goal-box">
+                <h3>今日のゴール</h3>
+                <p>画像生成AIの基本操作を思い出し、シンプルなプロンプトで画像を生成できるようになる！</p>
+            </div>
+        </div>
+
+        <!-- ウォームアップ -->
+        <div class="drill-section">
+            <h2 class="section-title">ウォームアップ（3分）</h2>
+            <p>まずは画像生成AIにアクセスしましょう。どちらか好きな方を選んでください。</p>
+
+            <div class="exercise">
+                <p><span class="exercise-number">1</span><strong>AIツールにアクセス</strong></p>
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <input type="checkbox">
+                    <span><a href="https://chatgpt.com" target="_blank">ChatGPT</a> または <a href="https://gemini.google.com" target="_blank">Gemini</a> にアクセスした</span>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <input type="checkbox">
+                    <span>ログインできた</span>
+                </div>
+            </div>
+
+            <details class="glossary-box">
+                <summary>用語をおさらい</summary>
+                <div class="glossary-term">
+                    <strong>プロンプト</strong>：AIに指示を出すための文章のこと。「こんな画像を作って」という依頼文です。
+                </div>
+                <div class="glossary-term">
+                    <strong>DALL-E 3（ダリスリー）</strong>：ChatGPTに搭載されている画像生成AI。
+                </div>
+                <div class="glossary-term">
+                    <strong>Imagen 3（イマジェン）</strong>：Geminiに搭載されている画像生成AI。
+                </div>
+            </details>
+        </div>
+
+        <!-- 練習1 -->
+        <div class="drill-section">
+            <h2 class="section-title">練習1: シンプルな画像生成（7分）</h2>
+            <p>まずはシンプルなプロンプトで画像を生成してみましょう。</p>
+
+            <div class="exercise">
+                <p><span class="exercise-number">2</span><strong>以下のプロンプトをコピーして使ってみよう</strong></p>
+
+                <div class="prompt-box">
+                    <span class="prompt-label">プロンプト例1</span>
+                    かわいい猫のイラスト
+                </div>
+
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <input type="checkbox">
+                    <span>プロンプトを入力して、画像が生成された</span>
+                </div>
+            </div>
+
+            <div class="point-box">
+                <h4>ポイント</h4>
+                <p>このようなシンプルなプロンプトでも画像は生成されますが、<strong>具体的な指示を追加</strong>するとより思い通りの画像になります！</p>
+            </div>
+        </div>
+
+        <!-- 練習2 -->
+        <div class="drill-section">
+            <h2 class="section-title">練習2: 詳細を追加してみよう（7分）</h2>
+            <p>同じ「猫のイラスト」でも、詳細を追加すると結果が変わります。</p>
+
+            <div class="exercise">
+                <p><span class="exercise-number">3</span><strong>詳細を追加したプロンプトを試そう</strong></p>
+
+                <div class="prompt-box">
+                    <span class="prompt-label">プロンプト例2</span>
+                    ふわふわの白い子猫が、ピンクのクッションの上で眠っている、水彩画風のかわいいイラスト
+                </div>
+
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <input type="checkbox">
+                    <span>詳細なプロンプトで画像が生成された</span>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <input type="checkbox">
+                    <span>最初の画像と比べて、どう違うか確認した</span>
+                </div>
+            </div>
+
+            <details class="hint-box">
+                <summary>うまくいかないときは？</summary>
+                <p>・画像が生成されない → ページを更新して再度試してみてください</p>
+                <p>・思った画像と違う → 同じプロンプトで「再生成」を試すか、言葉を少し変えてみましょう</p>
+            </details>
+        </div>
+
+        <!-- 練習3 -->
+        <div class="drill-section">
+            <h2 class="section-title">練習3: 自分でプロンプトを作ろう（3分）</h2>
+
+            <div class="exercise">
+                <p><span class="exercise-number">4</span><strong>チャレンジ！</strong></p>
+                <p>以下の要素を組み合わせて、オリジナルのプロンプトを作ってみましょう。</p>
+
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 15px 0;">
+                    <p><strong>組み合わせ例：</strong></p>
+                    <p>【何を】犬、花、風景、食べ物...</p>
+                    <p>【どんな】かわいい、かっこいい、幻想的な...</p>
+                    <p>【スタイル】イラスト風、写真風、水彩画風...</p>
+                </div>
+
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <input type="checkbox">
+                    <span>自分で考えたプロンプトで画像を生成できた</span>
+                </div>
+            </div>
+
+            <div class="point-box">
+                <h4>今日のまとめ</h4>
+                <ul style="margin-left: 20px;">
+                    <li>シンプルなプロンプトでも画像は作れる</li>
+                    <li>詳細を追加すると、より思い通りの画像になる</li>
+                    <li>「何を」「どんな」「スタイル」を意識するとGood！</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 達成度チェック -->
+        <div class="achievement">
+            <div class="achievement-icon">🎨</div>
+            <h3>Day 1 完了チェック</h3>
+            <p id="completion-text">すべてのチェックボックスを確認しましょう！</p>
+        </div>
+
+        <!-- ナビゲーション -->
+        <div class="nav-buttons">
+            <a href="../index.html" class="nav-btn prev">ドリルトップへ</a>
+            <a href="day2.html" class="nav-btn next">Day 2 へ進む →</a>
+        </div>
+    </div>
+
+    <script>
+        // コピーボタン機能
+        document.querySelectorAll('.prompt-box').forEach(box => {
+            const btn = document.createElement('button');
+            btn.className = 'copy-btn';
+            btn.textContent = 'コピー';
+            btn.onclick = function(e) {
+                e.stopPropagation();
+                const text = box.innerText.replace('コピー', '').replace(box.querySelector('.prompt-label')?.textContent || '', '').trim();
+                navigator.clipboard.writeText(text).then(() => {
+                    btn.textContent = 'コピー完了!';
+                    btn.classList.add('copied');
+                    setTimeout(() => {
+                        btn.textContent = 'コピー';
+                        btn.classList.remove('copied');
+                    }, 2000);
+                });
+            };
+            box.appendChild(btn);
+        });
+
+        // チェックボックス機能
+        function toggleCheck(element) {
+            const checkbox = element.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            element.classList.toggle('completed', checkbox.checked);
+            updateProgress();
+        }
+
+        // 進捗更新
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.check-item input[type="checkbox"]');
+            const checked = document.querySelectorAll('.check-item input[type="checkbox"]:checked').length;
+            const total = checkboxes.length;
+            const percentage = (checked / total) * 100;
+
+            if (percentage === 100) {
+                document.getElementById('completion-text').innerHTML = '🎉 素晴らしい！Day 1 完了です！';
+            } else {
+                document.getElementById('completion-text').innerHTML = `進捗: ${checked}/${total} 完了`;
+            }
+        }
+    </script>
+</body>
+</html>

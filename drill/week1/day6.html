@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 6: Week 1 総復習＆チャレンジ - 復習ドリル</title>
+    <style>
+        :root {
+            --pink-vivid: #F26D9E;
+            --pink-light: #F2C9CC;
+            --peach: #F2E4DC;
+            --green-accent: #5CCFAD;
+            --dark-text: #333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+            background: linear-gradient(135deg, var(--peach) 0%, #fff 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.8;
+            color: var(--dark-text);
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .drill-header {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(255, 165, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .drill-header::before {
+            content: '🎯';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 2em;
+        }
+
+        .drill-header::after {
+            content: '🏆';
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 2em;
+        }
+
+        .drill-header h1 { font-size: 1.8em; margin-bottom: 10px; }
+
+        .drill-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .meta-badge {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .progress-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFD700, var(--green-accent));
+            border-radius: 10px;
+        }
+
+        .drill-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            color: var(--pink-vivid);
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed var(--pink-light);
+        }
+
+        .goal-box {
+            background: linear-gradient(135deg, #fff9e6, #fff3cd);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #FFD700;
+        }
+
+        .goal-box h3 { color: #e6ac00; margin-bottom: 10px; }
+
+        .prompt-box {
+            position: relative;
+            background: linear-gradient(135deg, var(--pink-light), var(--peach));
+            padding: 20px;
+            padding-top: 35px;
+            border-radius: 12px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .prompt-label {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: var(--pink-vivid);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--pink-vivid);
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover { background: #d85a8a; transform: scale(1.05); }
+        .copy-btn.copied { background: var(--green-accent); }
+
+        .exercise {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border: 2px solid var(--pink-light);
+        }
+
+        .exercise-number {
+            display: inline-block;
+            background: var(--pink-vivid);
+            color: white;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background: #fafafa;
+            border-radius: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .check-item:hover { background: var(--pink-light); }
+
+        .check-item input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            accent-color: var(--pink-vivid);
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .check-item.completed {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            text-decoration: line-through;
+            color: #666;
+        }
+
+        .hint-box {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .hint-box summary { cursor: pointer; font-weight: bold; color: #e67e22; }
+        .hint-box[open] summary { margin-bottom: 10px; }
+
+        .point-box {
+            background: linear-gradient(135deg, #e8f8f5, #d1f2eb);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-left: 4px solid var(--green-accent);
+        }
+
+        .point-box h4 { color: #27ae60; margin-bottom: 10px; }
+
+        .review-box {
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+        }
+
+        .review-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px dashed #ccc;
+        }
+
+        .review-item:last-child { border-bottom: none; }
+        .review-item .day { font-weight: bold; color: var(--pink-vivid); min-width: 60px; }
+
+        .challenge-box {
+            background: linear-gradient(135deg, #ffe6f0, #ffcce0);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 3px solid var(--pink-vivid);
+        }
+
+        .challenge-box h3 { color: var(--pink-vivid); margin-bottom: 15px; }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .nav-btn.prev { background: #f0f0f0; color: var(--dark-text); }
+        .nav-btn.next { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; font-weight: bold; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
+
+        .achievement {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border-radius: 20px;
+            margin-top: 25px;
+            color: white;
+        }
+
+        .achievement-icon { font-size: 4em; margin-bottom: 15px; }
+
+        .complete-btn {
+            display: none;
+            margin-top: 20px;
+            padding: 20px 40px;
+            font-size: 1.3em;
+            background: white;
+            color: #FFA500;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .complete-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .complete-btn.show { display: inline-block; }
+
+        /* 花火・クラッカーエフェクト */
+        .celebration-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .celebration-overlay.active { display: block; }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+        }
+
+        .firework {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        @keyframes firework-explode {
+            0% { transform: scale(0); opacity: 1; }
+            50% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .celebration-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: white;
+            padding: 40px 60px;
+            border-radius: 30px;
+            text-align: center;
+            z-index: 10000;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .celebration-message.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .celebration-message h2 { font-size: 2.5em; margin-bottom: 15px; }
+        .celebration-message p { font-size: 1.2em; margin-bottom: 20px; }
+        .celebration-message .trophy { font-size: 5em; }
+
+        .close-celebration {
+            background: white;
+            color: #FFA500;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .drill-header h1 { font-size: 1.4em; }
+            .nav-buttons { flex-direction: column; }
+            .celebration-message { padding: 30px 40px; }
+            .celebration-message h2 { font-size: 1.8em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="drill-header">
+            <h1>Day 6: Week 1 総復習＆チャレンジ</h1>
+            <p>Week 1 - 画像生成マスター編【最終日】</p>
+            <div class="drill-meta">
+                <span class="meta-badge">所要時間: 約20分</span>
+                <span class="meta-badge">総まとめ</span>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <strong>Week 1 進捗状況</strong>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 100%;"></div>
+            </div>
+            <p style="text-align: right; margin-top: 8px; color: #888;">Day 6 / 6（最終日！）</p>
+        </div>
+
+        <div class="drill-section">
+            <div class="goal-box">
+                <h3>今日のゴール</h3>
+                <p>Week 1で学んだすべてを活かして、総合的な作品を作り上げる！</p>
+            </div>
+        </div>
+
+        <!-- 復習 -->
+        <div class="drill-section">
+            <h2 class="section-title">Week 1 で学んだこと（2分）</h2>
+
+            <div class="review-box">
+                <div class="review-item">
+                    <span class="day">Day 1</span>
+                    <span>基本的なプロンプトの作り方</span>
+                </div>
+                <div class="review-item">
+                    <span class="day">Day 2</span>
+                    <span>スタイル指定（水彩画、アニメ、写真風など）</span>
+                </div>
+                <div class="review-item">
+                    <span class="day">Day 3</span>
+                    <span>構図とアングル（俯瞰、クローズアップ等）</span>
+                </div>
+                <div class="review-item">
+                    <span class="day">Day 4</span>
+                    <span>文字・テキストを入れる方法</span>
+                </div>
+                <div class="review-item">
+                    <span class="day">Day 5</span>
+                    <span>サムネイル・SNS用画像の作り方</span>
+                </div>
+            </div>
+
+            <div class="check-item" onclick="toggleCheck(this)">
+                <input type="checkbox">
+                <span>Week 1 の学習内容を確認した</span>
+            </div>
+        </div>
+
+        <!-- 総合チャレンジ -->
+        <div class="drill-section">
+            <h2 class="section-title">総合チャレンジ（15分）</h2>
+
+            <div class="challenge-box">
+                <h3>チャレンジ課題：ブログ用アイキャッチ画像を作ろう！</h3>
+                <p>以下の要素をすべて含めた画像を1枚作成してください。</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>スタイル</strong>を指定する</li>
+                    <li><strong>構図・アングル</strong>を意識する</li>
+                    <li><strong>サムネイル用の比率</strong>（16:9など）を指定する</li>
+                    <li>できれば<strong>テキストやスペース</strong>も意識する</li>
+                </ul>
+            </div>
+
+            <div class="exercise">
+                <p><span class="exercise-number">1</span><strong>テーマを選ぶ</strong></p>
+                <p>以下から1つ選ぶか、自分で考えてみましょう。</p>
+
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 15px 0;">
+                    <p>A. 「働き方改革」についてのビジネス記事</p>
+                    <p>B. 「おすすめカフェ巡り」の旅行記事</p>
+                    <p>C. 「初心者向けプログラミング入門」の技術記事</p>
+                    <p>D. 自分で考えたオリジナルテーマ</p>
+                </div>
+
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <input type="checkbox">
+                    <span>テーマを選んだ</span>
+                </div>
+            </div>
+
+            <div class="exercise">
+                <p><span class="exercise-number">2</span><strong>プロンプトを考える</strong></p>
+                <p>学んだ要素を組み合わせてプロンプトを作りましょう。</p>
+
+                <details class="hint-box">
+                    <summary>プロンプトの組み立て方ヒント</summary>
+                    <p><strong>基本構造：</strong></p>
+                    <p>「[メイン被写体]、[スタイル]、[構図/アングル]、[比率]、[雰囲気/色調]」</p>
+                    <p><br><strong>例（カフェ記事の場合）：</strong></p>
+                    <p>「おしゃれなカフェの外観、写真風、正面から撮影、16:9の横長、暖かい午後の光、パステルカラーの壁、上部にテキスト用スペース」</p>
+                </details>
+
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <input type="checkbox">
+                    <span>プロンプトを作成した</span>
+                </div>
+            </div>
+
+            <div class="exercise">
+                <p><span class="exercise-number">3</span><strong>画像を生成する</strong></p>
+                <p>作成したプロンプトで画像を生成しましょう！</p>
+
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <input type="checkbox">
+                    <span>画像を生成できた</span>
+                </div>
+            </div>
+
+            <div class="exercise">
+                <p><span class="exercise-number">4</span><strong>振り返り</strong></p>
+                <p>生成した画像を見て、以下をチェックしましょう。</p>
+
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <input type="checkbox">
+                    <span>指定したスタイルが反映されている</span>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <input type="checkbox">
+                    <span>構図やアングルが意図通りになっている</span>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <input type="checkbox">
+                    <span>ブログのアイキャッチとして使えそう</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- まとめ -->
+        <div class="drill-section">
+            <div class="point-box">
+                <h4>Week 1 完了おめでとうございます！ 🎉</h4>
+                <p>画像生成の基礎をしっかり身につけました。これで以下のことができるようになりました：</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>効果的なプロンプトを書く</li>
+                    <li>様々なスタイルで画像を生成する</li>
+                    <li>構図やアングルを指定する</li>
+                    <li>テキスト入り画像を作る</li>
+                    <li>SNSやブログ用のサムネイルを作成する</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 達成 -->
+        <div class="achievement">
+            <div class="achievement-icon">🏆</div>
+            <h3>Week 1 完了チェック</h3>
+            <p id="completion-text">すべてのタスクを完了してください！</p>
+            <button class="complete-btn" id="completeBtn" onclick="celebrate()">
+                Week 1 完了！ 🎉
+            </button>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="day5.html" class="nav-btn prev">← Day 5 に戻る</a>
+            <a href="../week2/day7.html" class="nav-btn next">Week 2 へ進む →</a>
+        </div>
+    </div>
+
+    <!-- お祝いエフェクト -->
+    <div class="celebration-overlay" id="celebrationOverlay"></div>
+    <div class="celebration-message" id="celebrationMessage">
+        <div class="trophy">🏆</div>
+        <h2>Week 1 完了！</h2>
+        <p>画像生成マスター編をクリアしました！<br>素晴らしい成果です！</p>
+        <p style="font-size: 0.9em; opacity: 0.9;">次はWeek 2でAntigravityを学びましょう！</p>
+        <button class="close-celebration" onclick="closeCelebration()">次へ進む</button>
+    </div>
+
+    <script>
+        document.querySelectorAll('.prompt-box').forEach(box => {
+            const btn = document.createElement('button');
+            btn.className = 'copy-btn';
+            btn.textContent = 'コピー';
+            btn.onclick = function(e) {
+                e.stopPropagation();
+                const text = box.innerText.replace('コピー', '').replace(box.querySelector('.prompt-label')?.textContent || '', '').trim();
+                navigator.clipboard.writeText(text).then(() => {
+                    btn.textContent = 'コピー完了!';
+                    btn.classList.add('copied');
+                    setTimeout(() => { btn.textContent = 'コピー'; btn.classList.remove('copied'); }, 2000);
+                });
+            };
+            box.appendChild(btn);
+        });
+
+        function toggleCheck(element) {
+            const checkbox = element.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            element.classList.toggle('completed', checkbox.checked);
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.check-item input[type="checkbox"]');
+            const checked = document.querySelectorAll('.check-item input[type="checkbox"]:checked').length;
+            const total = checkboxes.length;
+
+            if (checked === total) {
+                document.getElementById('completion-text').innerHTML = '🎉 すべて完了！ボタンを押してお祝いしよう！';
+                document.getElementById('completeBtn').classList.add('show');
+            } else {
+                document.getElementById('completion-text').innerHTML = `進捗: ${checked}/${total} 完了`;
+                document.getElementById('completeBtn').classList.remove('show');
+            }
+        }
+
+        // お祝いエフェクト
+        function celebrate() {
+            const overlay = document.getElementById('celebrationOverlay');
+            const message = document.getElementById('celebrationMessage');
+
+            overlay.classList.add('active');
+
+            // 紙吹雪を生成
+            const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8'];
+
+            for (let i = 0; i < 150; i++) {
+                setTimeout(() => {
+                    createConfetti(overlay, colors);
+                }, i * 30);
+            }
+
+            // 花火を生成
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    createFirework(overlay, colors);
+                }, i * 400);
+            }
+
+            // メッセージ表示
+            setTimeout(() => {
+                message.classList.add('show');
+            }, 500);
+        }
+
+        function createConfetti(container, colors) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.width = (Math.random() * 10 + 5) + 'px';
+            confetti.style.height = (Math.random() * 10 + 5) + 'px';
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+            confetti.style.animation = `confetti-fall ${Math.random() * 3 + 2}s linear forwards`;
+
+            container.appendChild(confetti);
+
+            setTimeout(() => confetti.remove(), 5000);
+        }
+
+        function createFirework(container, colors) {
+            const x = Math.random() * 80 + 10;
+            const y = Math.random() * 40 + 10;
+
+            for (let i = 0; i < 20; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'firework';
+                spark.style.left = x + 'vw';
+                spark.style.top = y + 'vh';
+                spark.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+                const angle = (i / 20) * Math.PI * 2;
+                const distance = Math.random() * 100 + 50;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+
+                spark.style.animation = `firework-explode 1s ease-out forwards`;
+                spark.style.transform = `translate(${tx}px, ${ty}px)`;
+
+                container.appendChild(spark);
+
+                setTimeout(() => spark.remove(), 1000);
+            }
+        }
+
+        function closeCelebration() {
+            document.getElementById('celebrationOverlay').classList.remove('active');
+            document.getElementById('celebrationMessage').classList.remove('show');
+        }
+    </script>
+</body>
+</html>
