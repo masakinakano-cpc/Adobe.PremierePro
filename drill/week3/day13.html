@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +16,11 @@
             --dark-text: #333;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
@@ -27,7 +32,10 @@
             color: var(--dark-text);
         }
 
-        .container { max-width: 800px; margin: 0 auto; }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
         .drill-header {
             background: var(--gradient-main);
@@ -48,16 +56,27 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
             animation: shimmer 3s infinite;
         }
 
         @keyframes shimmer {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(180deg); }
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            50% {
+                transform: rotate(180deg);
+            }
         }
 
-        .drill-header h1 { font-size: 1.8em; margin-bottom: 10px; position: relative; }
+        .drill-header h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            position: relative;
+        }
 
         .drill-meta {
             display: flex;
@@ -125,7 +144,10 @@
             border-left: 4px solid #667eea;
         }
 
-        .goal-box h3 { color: #5b4b8a; margin-bottom: 10px; }
+        .goal-box h3 {
+            color: #5b4b8a;
+            margin-bottom: 10px;
+        }
 
         .prompt-box {
             position: relative;
@@ -164,8 +186,14 @@
             transition: all 0.3s ease;
         }
 
-        .copy-btn:hover { transform: scale(1.05); box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
-        .copy-btn.copied { background: var(--green-accent); }
+        .copy-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .copy-btn.copied {
+            background: var(--green-accent);
+        }
 
         .exercise {
             background: #f8f9fa;
@@ -200,7 +228,9 @@
             transition: all 0.3s ease;
         }
 
-        .check-item:hover { background: #e0c3fc; }
+        .check-item:hover {
+            background: #e0c3fc;
+        }
 
         .check-item input[type="checkbox"] {
             width: 22px;
@@ -225,8 +255,15 @@
             border-left: 4px solid #f39c12;
         }
 
-        .hint-box summary { cursor: pointer; font-weight: bold; color: #e67e22; }
-        .hint-box[open] summary { margin-bottom: 10px; }
+        .hint-box summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: #e67e22;
+        }
+
+        .hint-box[open] summary {
+            margin-bottom: 10px;
+        }
 
         .point-box {
             background: linear-gradient(135deg, #e8f8f5, #d1f2eb);
@@ -236,7 +273,10 @@
             border-left: 4px solid var(--green-accent);
         }
 
-        .point-box h4 { color: #27ae60; margin-bottom: 10px; }
+        .point-box h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
 
         .combo-badge {
             display: inline-block;
@@ -267,9 +307,20 @@
             text-align: center;
         }
 
-        .nav-btn.prev { background: #f0f0f0; color: var(--dark-text); }
-        .nav-btn.next { background: var(--gradient-main); color: white; }
-        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
+        .nav-btn.prev {
+            background: #f0f0f0;
+            color: var(--dark-text);
+        }
+
+        .nav-btn.next {
+            background: var(--gradient-main);
+            color: white;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
         .achievement {
             text-align: center;
@@ -279,14 +330,23 @@
             margin-top: 25px;
         }
 
-        .achievement-icon { font-size: 3em; margin-bottom: 10px; }
+        .achievement-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
 
         @media (max-width: 600px) {
-            .drill-header h1 { font-size: 1.4em; }
-            .nav-buttons { flex-direction: column; }
+            .drill-header h1 {
+                font-size: 1.4em;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="drill-header">
@@ -351,7 +411,8 @@
 
                 <div class="prompt-box">
                     <span class="prompt-label">画像生成プロンプト</span>
-テクノロジーとクリエイティビティを表現したモダンなイラスト、16:9の横長、パステルカラーのグラデーション背景、Webサイトのヒーローイメージ用、抽象的でおしゃれなデザイン</div>
+                    テクノロジーとクリエイティビティを表現したモダンなイラスト、16:9の横長、パステルカラーのグラデーション背景、Webサイトのヒーローイメージ用、抽象的でおしゃれなデザイン
+                </div>
 
                 <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
@@ -394,7 +455,8 @@
 
                 <div class="prompt-box">
                     <span class="prompt-label">Claudeへの指示</span>
-imagesという名前のフォルダを作成してください</div>
+                    imagesという名前のフォルダを作成してください
+                </div>
 
                 <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
@@ -413,14 +475,15 @@ imagesという名前のフォルダを作成してください</div>
 
                 <div class="prompt-box">
                     <span class="prompt-label">Claudeへの指示</span>
-index.htmlを作成してください。
+                    index.htmlを作成してください。
 
-以下の内容でお願いします：
-- ヒーローセクション（hero-image.pngを背景として表示）
-- サイトタイトル「私のポートフォリオ」を中央に大きく表示
-- サブタイトル「クリエイティブな作品をご覧ください」
-- モダンでおしゃれなデザイン
-- 画像はimagesフォルダ内にある想定で</div>
+                    以下の内容でお願いします：
+                    - ヒーローセクション（hero-image.pngを背景として表示）
+                    - サイトタイトル「私のポートフォリオ」を中央に大きく表示
+                    - サブタイトル「クリエイティブな作品をご覧ください」
+                    - モダンでおしゃれなデザイン
+                    - 画像はimagesフォルダ内にある想定で
+                </div>
 
                 <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
@@ -431,7 +494,8 @@ index.htmlを作成してください。
             <div class="point-box">
                 <h4>今日のポイント</h4>
                 <p>画像のアップロード機能はAntigravityのワークスペースによって異なりますが、<br>
-                <strong>「images/hero-image.png」のように画像パスを指定する</strong>方法を覚えておくことが大切です！</p>
+                    <strong>「images/hero-image.png」のように画像パスを指定する</strong>方法を覚えておくことが大切です！
+                </p>
                 <p style="margin-top: 10px;">実際の運用では、画像はGitHubやクラウドストレージからURLで参照することもあります。</p>
             </div>
         </div>
@@ -466,7 +530,7 @@ index.htmlを作成してください。
             const btn = document.createElement('button');
             btn.className = 'copy-btn';
             btn.textContent = 'コピー';
-            btn.onclick = function(e) {
+            btn.onclick = function (e) {
                 e.stopPropagation();
                 const text = box.innerText.replace('コピー', '').replace(box.querySelector('.prompt-label')?.textContent || '', '').trim();
                 navigator.clipboard.writeText(text).then(() => {
@@ -499,10 +563,12 @@ index.htmlを作成してください。
 
             if (checked === total) {
                 document.getElementById('completion-text').innerHTML = '🎉 素晴らしい！Day 13 完了です！';
+                localStorage.setItem('drill_day_13_complete', 'true');
             } else {
                 document.getElementById('completion-text').innerHTML = `進捗: ${checked}/${total} 完了`;
             }
         }
     </script>
 </body>
+
 </html>

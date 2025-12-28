@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +16,11 @@
             --dark-text: #333;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
@@ -27,7 +32,10 @@
             color: var(--dark-text);
         }
 
-        .container { max-width: 800px; margin: 0 auto; }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
         .drill-header {
             background: var(--gradient-main);
@@ -39,7 +47,10 @@
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
         }
 
-        .drill-header h1 { font-size: 1.8em; margin-bottom: 10px; }
+        .drill-header h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
 
         .drill-meta {
             display: flex;
@@ -105,7 +116,10 @@
             border-left: 4px solid #667eea;
         }
 
-        .goal-box h3 { color: #5b4b8a; margin-bottom: 10px; }
+        .goal-box h3 {
+            color: #5b4b8a;
+            margin-bottom: 10px;
+        }
 
         .prompt-box {
             position: relative;
@@ -144,8 +158,13 @@
             transition: all 0.3s ease;
         }
 
-        .copy-btn:hover { transform: scale(1.05); }
-        .copy-btn.copied { background: var(--green-accent); }
+        .copy-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .copy-btn.copied {
+            background: var(--green-accent);
+        }
 
         .exercise {
             background: #f8f9fa;
@@ -180,7 +199,9 @@
             transition: all 0.3s ease;
         }
 
-        .check-item:hover { background: #e0c3fc; }
+        .check-item:hover {
+            background: #e0c3fc;
+        }
 
         .check-item input[type="checkbox"] {
             width: 22px;
@@ -205,8 +226,15 @@
             border-left: 4px solid #f39c12;
         }
 
-        .hint-box summary { cursor: pointer; font-weight: bold; color: #e67e22; }
-        .hint-box[open] summary { margin-bottom: 10px; }
+        .hint-box summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: #e67e22;
+        }
+
+        .hint-box[open] summary {
+            margin-bottom: 10px;
+        }
 
         .point-box {
             background: linear-gradient(135deg, #e8f8f5, #d1f2eb);
@@ -216,7 +244,10 @@
             border-left: 4px solid var(--green-accent);
         }
 
-        .point-box h4 { color: #27ae60; margin-bottom: 10px; }
+        .point-box h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
 
         .folder-structure {
             background: #2d2d2d;
@@ -227,8 +258,13 @@
             margin: 15px 0;
         }
 
-        .folder-structure .folder { color: #f1c40f; }
-        .folder-structure .file { color: #3498db; }
+        .folder-structure .folder {
+            color: #f1c40f;
+        }
+
+        .folder-structure .file {
+            color: #3498db;
+        }
 
         .nav-buttons {
             display: flex;
@@ -249,9 +285,20 @@
             text-align: center;
         }
 
-        .nav-btn.prev { background: #f0f0f0; color: var(--dark-text); }
-        .nav-btn.next { background: var(--gradient-main); color: white; }
-        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
+        .nav-btn.prev {
+            background: #f0f0f0;
+            color: var(--dark-text);
+        }
+
+        .nav-btn.next {
+            background: var(--gradient-main);
+            color: white;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
         .achievement {
             text-align: center;
@@ -261,14 +308,23 @@
             margin-top: 25px;
         }
 
-        .achievement-icon { font-size: 3em; margin-bottom: 10px; }
+        .achievement-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
 
         @media (max-width: 600px) {
-            .drill-header h1 { font-size: 1.4em; }
-            .nav-buttons { flex-direction: column; }
+            .drill-header h1 {
+                font-size: 1.4em;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="drill-header">
@@ -326,11 +382,13 @@
 
                 <div class="prompt-box">
                     <span class="prompt-label">ヒーロー背景</span>
-クリエイティブなワークスペースの抽象的なイラスト、パステルパープルとブルーのグラデーション、ミニマルデザイン、16:9</div>
+                    クリエイティブなワークスペースの抽象的なイラスト、パステルパープルとブルーのグラデーション、ミニマルデザイン、16:9
+                </div>
 
                 <div class="prompt-box">
                     <span class="prompt-label">プロフィール画像</span>
-プロフェッショナルなアバターアイコン、幾何学的なデザイン、紫とピンクの配色、正方形</div>
+                    プロフェッショナルなアバターアイコン、幾何学的なデザイン、紫とピンクの配色、正方形
+                </div>
 
                 <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
@@ -348,37 +406,38 @@
 
                 <div class="prompt-box">
                     <span class="prompt-label">Claudeへの指示</span>
-portfolioというフォルダを作成し、以下の4ページからなるポートフォリオサイトを作ってください。
-すべてのページで共通のナビゲーションヘッダー（Home, About, Works, Contact）とフッターを使用してください。
+                    portfolioというフォルダを作成し、以下の4ページからなるポートフォリオサイトを作ってください。
+                    すべてのページで共通のナビゲーションヘッダー（Home, About, Works, Contact）とフッターを使用してください。
 
-【index.html - トップページ】
-- フルスクリーンのヒーローセクション
-- キャッチコピー「Creating Digital Experiences」
-- 「View My Works」ボタン
-- 簡単な自己紹介（3行程度）
-- 作品のプレビュー（3つのカード）
+                    【index.html - トップページ】
+                    - フルスクリーンのヒーローセクション
+                    - キャッチコピー「Creating Digital Experiences」
+                    - 「View My Works」ボタン
+                    - 簡単な自己紹介（3行程度）
+                    - 作品のプレビュー（3つのカード）
 
-【about.html - 自己紹介】
-- プロフィール画像エリア
-- 自己紹介文
-- スキルリスト（HTML, CSS, JavaScript, AIツール）
-- 経歴タイムライン
+                    【about.html - 自己紹介】
+                    - プロフィール画像エリア
+                    - 自己紹介文
+                    - スキルリスト（HTML, CSS, JavaScript, AIツール）
+                    - 経歴タイムライン
 
-【works.html - 作品一覧】
-- 6つの作品カード（グリッドレイアウト）
-- 各カードには画像、タイトル、説明
-- ホバーエフェクト
+                    【works.html - 作品一覧】
+                    - 6つの作品カード（グリッドレイアウト）
+                    - 各カードには画像、タイトル、説明
+                    - ホバーエフェクト
 
-【contact.html - お問い合わせ】
-- お問い合わせフォーム（名前、メール、メッセージ）
-- SNSリンク（アイコン形式）
+                    【contact.html - お問い合わせ】
+                    - お問い合わせフォーム（名前、メール、メッセージ）
+                    - SNSリンク（アイコン形式）
 
-【デザイン共通】
-- カラー：紫（#667eea）と青（#764ba2）のグラデーション
-- モダンでミニマルなデザイン
-- レスポンシブ対応
-- スムーズなホバーエフェクト
-- フォント：sans-serif系</div>
+                    【デザイン共通】
+                    - カラー：紫（#667eea）と青（#764ba2）のグラデーション
+                    - モダンでミニマルなデザイン
+                    - レスポンシブ対応
+                    - スムーズなホバーエフェクト
+                    - フォント：sans-serif系
+                </div>
 
                 <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
@@ -401,8 +460,9 @@ portfolioというフォルダを作成し、以下の4ページからなるポ�
 
                 <div class="prompt-box">
                     <span class="prompt-label">カスタマイズ例</span>
-index.htmlのキャッチコピーを「デザインで、想いを形に」に変更してください。
-また、自己紹介文を「クリエイティブなデザインと技術で、あなたのビジネスをサポートします。」に変更してください。</div>
+                    index.htmlのキャッチコピーを「デザインで、想いを形に」に変更してください。
+                    また、自己紹介文を「クリエイティブなデザインと技術で、あなたのビジネスをサポートします。」に変更してください。
+                </div>
 
                 <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
@@ -438,7 +498,7 @@ index.htmlのキャッチコピーを「デザインで、想いを形に」に�
             const btn = document.createElement('button');
             btn.className = 'copy-btn';
             btn.textContent = 'コピー';
-            btn.onclick = function(e) {
+            btn.onclick = function (e) {
                 e.stopPropagation();
                 const text = box.innerText.replace('コピー', '').replace(box.querySelector('.prompt-label')?.textContent || '', '').trim();
                 navigator.clipboard.writeText(text).then(() => {
@@ -471,10 +531,12 @@ index.htmlのキャッチコピーを「デザインで、想いを形に」に�
 
             if (checked === total) {
                 document.getElementById('completion-text').innerHTML = '🎉 素晴らしい！Day 17 完了です！';
+                localStorage.setItem('drill_day_17_complete', 'true');
             } else {
                 document.getElementById('completion-text').innerHTML = `進捗: ${checked}/${total} 完了`;
             }
         }
     </script>
 </body>
+
 </html>

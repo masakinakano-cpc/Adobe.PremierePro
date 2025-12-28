@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +15,11 @@
             --dark-text: #333;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
@@ -25,7 +30,10 @@
             color: var(--dark-text);
         }
 
-        .container { max-width: 800px; margin: 0 auto; }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
         .drill-header {
             background: linear-gradient(135deg, var(--purple-accent), #8E44AD);
@@ -37,7 +45,10 @@
             box-shadow: 0 10px 30px rgba(155, 89, 182, 0.3);
         }
 
-        .drill-header h1 { font-size: 1.8em; margin-bottom: 10px; }
+        .drill-header h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
 
         .drill-meta {
             display: flex;
@@ -100,7 +111,10 @@
             border-left: 4px solid #3498db;
         }
 
-        .goal-box h3 { color: #2980b9; margin-bottom: 10px; }
+        .goal-box h3 {
+            color: #2980b9;
+            margin-bottom: 10px;
+        }
 
         .prompt-box {
             position: relative;
@@ -139,8 +153,14 @@
             transition: all 0.3s ease;
         }
 
-        .copy-btn:hover { background: #7D3C98; transform: scale(1.05); }
-        .copy-btn.copied { background: var(--green-accent); }
+        .copy-btn:hover {
+            background: #7D3C98;
+            transform: scale(1.05);
+        }
+
+        .copy-btn.copied {
+            background: var(--green-accent);
+        }
 
         .exercise {
             background: #f8f9fa;
@@ -175,7 +195,9 @@
             transition: all 0.3s ease;
         }
 
-        .check-item:hover { background: #e8daef; }
+        .check-item:hover {
+            background: #e8daef;
+        }
 
         .check-item input[type="checkbox"] {
             width: 22px;
@@ -200,8 +222,15 @@
             border-left: 4px solid #f39c12;
         }
 
-        .hint-box summary { cursor: pointer; font-weight: bold; color: #e67e22; }
-        .hint-box[open] summary { margin-bottom: 10px; }
+        .hint-box summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: #e67e22;
+        }
+
+        .hint-box[open] summary {
+            margin-bottom: 10px;
+        }
 
         .point-box {
             background: linear-gradient(135deg, #e8f8f5, #d1f2eb);
@@ -211,7 +240,10 @@
             border-left: 4px solid var(--green-accent);
         }
 
-        .point-box h4 { color: #27ae60; margin-bottom: 10px; }
+        .point-box h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
 
         .folder-structure {
             background: #2d2d2d;
@@ -222,8 +254,13 @@
             margin: 15px 0;
         }
 
-        .folder-structure .folder { color: #f1c40f; }
-        .folder-structure .file { color: #3498db; }
+        .folder-structure .folder {
+            color: #f1c40f;
+        }
+
+        .folder-structure .file {
+            color: #3498db;
+        }
 
         .nav-buttons {
             display: flex;
@@ -244,9 +281,20 @@
             text-align: center;
         }
 
-        .nav-btn.prev { background: #f0f0f0; color: var(--dark-text); }
-        .nav-btn.next { background: linear-gradient(135deg, var(--purple-accent), #8E44AD); color: white; }
-        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
+        .nav-btn.prev {
+            background: #f0f0f0;
+            color: var(--dark-text);
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--purple-accent), #8E44AD);
+            color: white;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
         .achievement {
             text-align: center;
@@ -256,14 +304,23 @@
             margin-top: 25px;
         }
 
-        .achievement-icon { font-size: 3em; margin-bottom: 10px; }
+        .achievement-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
 
         @media (max-width: 600px) {
-            .drill-header h1 { font-size: 1.4em; }
-            .nav-buttons { flex-direction: column; }
+            .drill-header h1 {
+                font-size: 1.4em;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="drill-header">
@@ -322,16 +379,17 @@
 
                 <div class="prompt-box">
                     <span class="prompt-label">Claudeへの指示</span>
-mini-siteというフォルダを作成し、その中にindex.htmlを作ってください。
+                    mini-siteというフォルダを作成し、その中にindex.htmlを作ってください。
 
-index.htmlは以下の内容でお願いします：
-- タイトル：「私のサイト」
-- ヘッダーにサイト名を表示
-- ナビゲーションメニュー（トップ、自己紹介、お問い合わせ の3つのリンク）
-- メインコンテンツに「ようこそ！」というウェルカムメッセージ
-- フッターに著作権表示
+                    index.htmlは以下の内容でお願いします：
+                    - タイトル：「私のサイト」
+                    - ヘッダーにサイト名を表示
+                    - ナビゲーションメニュー（トップ、自己紹介、お問い合わせ の3つのリンク）
+                    - メインコンテンツに「ようこそ！」というウェルカムメッセージ
+                    - フッターに著作権表示
 
-かわいいパステルカラーのデザインでお願いします。</div>
+                    かわいいパステルカラーのデザインでお願いします。
+                </div>
 
                 <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
@@ -349,12 +407,13 @@ index.htmlは以下の内容でお願いします：
 
                 <div class="prompt-box">
                     <span class="prompt-label">Claudeへの指示</span>
-mini-siteフォルダに about.html を作成してください。
+                    mini-siteフォルダに about.html を作成してください。
 
-- index.htmlと同じデザイン（ヘッダー、ナビ、フッター）を使う
-- メインコンテンツは自己紹介
-- 名前、趣味、好きな食べ物を箇条書きで表示
-- ナビのリンクはindex.htmlと同じ3つ</div>
+                    - index.htmlと同じデザイン（ヘッダー、ナビ、フッター）を使う
+                    - メインコンテンツは自己紹介
+                    - 名前、趣味、好きな食べ物を箇条書きで表示
+                    - ナビのリンクはindex.htmlと同じ3つ
+                </div>
 
                 <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
@@ -367,12 +426,13 @@ mini-siteフォルダに about.html を作成してください。
 
                 <div class="prompt-box">
                     <span class="prompt-label">Claudeへの指示</span>
-mini-siteフォルダに contact.html を作成してください。
+                    mini-siteフォルダに contact.html を作成してください。
 
-- index.htmlと同じデザインを使う
-- メインコンテンツはシンプルなお問い合わせフォーム
-- 名前、メールアドレス、メッセージの入力欄
-- 送信ボタン（実際には動かなくてOK）</div>
+                    - index.htmlと同じデザインを使う
+                    - メインコンテンツはシンプルなお問い合わせフォーム
+                    - 名前、メールアドレス、メッセージの入力欄
+                    - 送信ボタン（実際には動かなくてOK）
+                </div>
 
                 <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
@@ -390,7 +450,8 @@ mini-siteフォルダに contact.html を作成してください。
 
                 <div class="prompt-box">
                     <span class="prompt-label">Claudeへの指示</span>
-mini-site/index.html をプレビューで開いてください</div>
+                    mini-site/index.html をプレビューで開いてください
+                </div>
 
                 <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
@@ -448,7 +509,7 @@ mini-site/index.html をプレビューで開いてください</div>
             const btn = document.createElement('button');
             btn.className = 'copy-btn';
             btn.textContent = 'コピー';
-            btn.onclick = function(e) {
+            btn.onclick = function (e) {
                 e.stopPropagation();
                 const text = box.innerText.replace('コピー', '').replace(box.querySelector('.prompt-label')?.textContent || '', '').trim();
                 navigator.clipboard.writeText(text).then(() => {
@@ -481,10 +542,12 @@ mini-site/index.html をプレビューで開いてください</div>
 
             if (checked === total) {
                 document.getElementById('completion-text').innerHTML = '🎉 素晴らしい！Day 11 完了です！';
+                localStorage.setItem('drill_day_11_complete', 'true');
             } else {
                 document.getElementById('completion-text').innerHTML = `進捗: ${checked}/${total} 完了`;
             }
         }
     </script>
 </body>
+
 </html>

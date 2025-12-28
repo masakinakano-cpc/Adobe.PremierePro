@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -284,8 +285,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .comparison-box {
@@ -369,6 +377,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <!-- ヘッダー -->
@@ -568,7 +577,7 @@
             const btn = document.createElement('button');
             btn.className = 'copy-btn';
             btn.textContent = 'コピー';
-            btn.onclick = function(e) {
+            btn.onclick = function (e) {
                 e.stopPropagation();
                 const text = box.innerText.replace('コピー', '').replace(box.querySelector('.prompt-label')?.textContent || '', '').trim();
                 navigator.clipboard.writeText(text).then(() => {
@@ -604,6 +613,7 @@
 
             if (checked === total) {
                 document.getElementById('completion-text').innerHTML = '🎉 素晴らしい！Day 2 完了です！';
+                localStorage.setItem('drill_day_2_complete', 'true');
             } else {
                 document.getElementById('completion-text').innerHTML = `進捗: ${checked}/${total} 完了`;
             }
@@ -642,4 +652,5 @@
         }
     </script>
 </body>
+
 </html>

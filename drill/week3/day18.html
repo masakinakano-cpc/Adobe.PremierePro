@@ -699,6 +699,7 @@
 
         // 特別な卒業エフェクト
         function celebrate() {
+            localStorage.setItem('drill_day_18_complete', 'true'); // メダル獲得
             startParty(); // ディスコモード開始
 
             const overlay = document.getElementById('celebrationOverlay');

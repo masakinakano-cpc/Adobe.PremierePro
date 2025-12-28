@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -343,6 +344,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <!-- ヘッダー -->
@@ -381,7 +383,8 @@
                 <p><span class="exercise-number">1</span><strong>AIツールにアクセス</strong></p>
                 <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
-                    <span><a href="https://chatgpt.com" target="_blank">ChatGPT</a> または <a href="https://gemini.google.com" target="_blank">Gemini</a> にアクセスした</span>
+                    <span><a href="https://chatgpt.com" target="_blank">ChatGPT</a> または <a
+                            href="https://gemini.google.com" target="_blank">Gemini</a> にアクセスした</span>
                 </div>
                 <div class="check-item" onclick="toggleCheck(this, event)">
                     <input type="checkbox">
@@ -509,7 +512,7 @@
             const btn = document.createElement('button');
             btn.className = 'copy-btn';
             btn.textContent = 'コピー';
-            btn.onclick = function(e) {
+            btn.onclick = function (e) {
                 e.stopPropagation();
                 const text = box.innerText.replace('コピー', '').replace(box.querySelector('.prompt-label')?.textContent || '', '').trim();
                 navigator.clipboard.writeText(text).then(() => {
@@ -551,10 +554,12 @@
 
             if (percentage === 100) {
                 document.getElementById('completion-text').innerHTML = '🎉 素晴らしい！Day 1 完了です！';
+                localStorage.setItem('drill_day_1_complete', 'true');
             } else {
                 document.getElementById('completion-text').innerHTML = `進捗: ${checked}/${total} 完了`;
             }
         }
     </script>
 </body>
+
 </html>

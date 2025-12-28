@@ -419,7 +419,7 @@
                 </a>
             </div>
             <div style="text-align: center;">
-                <button class="complete-btn" onclick="startParty()">WEEK 1 COMPLETE! 🎉</button>
+                <button class="complete-btn" onclick="startPartyWithCheck(1)">WEEK 1 COMPLETE! 🎉</button>
             </div>
         </div>
 
@@ -466,7 +466,7 @@
                 </a>
             </div>
             <div style="text-align: center;">
-                <button class="complete-btn" onclick="startParty()">WEEK 2 COMPLETE! 🚀</button>
+                <button class="complete-btn" onclick="startPartyWithCheck(2)">WEEK 2 COMPLETE! 🚀</button>
             </div>
         </div>
 
@@ -513,16 +513,17 @@
                 </a>
             </div>
             <div style="text-align: center;">
-                <button class="complete-btn" onclick="startParty()">WEEK 3 COMPLETE! ✨</button>
+                <div style="text-align: center;">
+                    <button class="complete-btn" onclick="startPartyWithCheck(3)">WEEK 3 COMPLETE! ✨</button>
+                </div>
+            </div>
+
+            <!-- フッター -->
+            <div class="footer">
+                <p><a href="../index.html">← メインページに戻る</a></p>
+                <p style="margin-top: 10px;">頑張って最後まで完走しましょう！🎉</p>
             </div>
         </div>
-
-        <!-- フッター -->
-        <div class="footer">
-            <p><a href="../index.html">← メインページに戻る</a></p>
-            <p style="margin-top: 10px;">頑張って最後まで完走しましょう！🎉</p>
-        </div>
-    </div>
     </div>
 
     <!-- 演出用レイヤー -->
@@ -534,6 +535,67 @@
     </div>
 
     <script src="./disco.js"></script>
+    <script>
+        // Medal System Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            updateMedals();
+        });
+
+        function updateMedals() {
+            const days = document.querySelectorAll('.day-card');
+            days.forEach(card => {
+                const href = card.getAttribute('href');
+                if (!href) return;
+
+                // Extract Day Number (e.g., "week1/day1.html" -> 1)
+                const match = href.match(/day(\d+)\.html/);
+                if (match) {
+                    const dayNum = parseInt(match[1]);
+                    if (localStorage.getItem(`drill_day_${dayNum}_complete`) === 'true') {
+                        // Add Medal
+                        if (!card.querySelector('.medal')) {
+                            const medal = document.createElement('span');
+                            medal.className = 'medal';
+                            medal.textContent = '🏅';
+                            medal.style.position = 'absolute';
+                            medal.style.top = '10px';
+                            medal.style.right = '10px';
+                            medal.style.fontSize = '1.5em';
+                            card.appendChild(medal);
+                            card.style.background = 'linear-gradient(to bottom right, #fff, #f0f8ff)';
+                            card.style.border = '2px solid #FFD700'; // Gold border
+                        }
+                    }
+                }
+            });
+        }
+
+        function startPartyWithCheck(weekNum) {
+            // Define days for each week
+            const weekDays = {
+                1: [1, 2, 3, 4, 5, 6],
+                2: [7, 8, 9, 10, 11, 12],
+                3: [13, 14, 15, 16, 17, 18]
+            };
+
+            const targetDays = weekDays[weekNum];
+            const incompleteDays = [];
+
+            targetDays.forEach(day => {
+                if (localStorage.getItem(`drill_day_${day}_complete`) !== 'true') {
+                    incompleteDays.push(day);
+                }
+            });
+
+            if (incompleteDays.length === 0) {
+                // All clear!
+                startParty();
+            } else {
+                // Not finished yet
+                alert(`まだ完了していないDayがあります！\nDay: ${incompleteDays.join(', ')}\n\n全てのメダルを集めてウィークリークリアを目指しましょう！🏅`);
+            }
+        }
+    </script>
 </body>
 
 </html>
