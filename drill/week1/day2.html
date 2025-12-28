@@ -251,11 +251,41 @@
             border: 2px solid var(--pink-light);
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
         }
 
         .style-card:hover {
             border-color: var(--pink-vivid);
             transform: translateY(-2px);
+        }
+
+        .style-card.active {
+            border-color: var(--pink-vivid);
+            background: linear-gradient(135deg, var(--pink-light), var(--peach));
+        }
+
+        .style-description {
+            display: none;
+            background: linear-gradient(135deg, #fff, #f8f9fa);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+            border: 2px solid var(--pink-vivid);
+            box-shadow: 0 4px 15px rgba(242, 109, 158, 0.2);
+        }
+
+        .style-description.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .style-description strong {
+            color: var(--pink-vivid);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .comparison-box {
@@ -392,17 +422,21 @@
             <h2 class="section-title">使えるスタイル一覧（3分）</h2>
             <p>画像生成でよく使うスタイルを覚えましょう。タップして確認！</p>
 
-            <div style="margin: 20px 0;">
-                <span class="style-card">水彩画風</span>
-                <span class="style-card">油絵風</span>
-                <span class="style-card">アニメ風</span>
-                <span class="style-card">写真風</span>
-                <span class="style-card">ピクセルアート</span>
-                <span class="style-card">3DCG風</span>
-                <span class="style-card">鉛筆スケッチ風</span>
-                <span class="style-card">ポップアート</span>
-                <span class="style-card">ミニマリスト</span>
-                <span class="style-card">レトロ風</span>
+            <div class="style-cards-container" style="margin: 20px 0;">
+                <span class="style-card" data-style="watercolor" onclick="showStyleDescription(this)">水彩画風</span>
+                <span class="style-card" data-style="oil" onclick="showStyleDescription(this)">油絵風</span>
+                <span class="style-card" data-style="anime" onclick="showStyleDescription(this)">アニメ風</span>
+                <span class="style-card" data-style="photo" onclick="showStyleDescription(this)">写真風</span>
+                <span class="style-card" data-style="pixel" onclick="showStyleDescription(this)">ピクセルアート</span>
+                <span class="style-card" data-style="3dcg" onclick="showStyleDescription(this)">3DCG風</span>
+                <span class="style-card" data-style="pencil" onclick="showStyleDescription(this)">鉛筆スケッチ風</span>
+                <span class="style-card" data-style="popart" onclick="showStyleDescription(this)">ポップアート</span>
+                <span class="style-card" data-style="minimal" onclick="showStyleDescription(this)">ミニマリスト</span>
+                <span class="style-card" data-style="retro" onclick="showStyleDescription(this)">レトロ風</span>
+            </div>
+
+            <div id="style-description-box" class="style-description">
+                <p id="style-description-text"></p>
             </div>
 
             <div class="check-item" onclick="toggleCheck(this, event)">
@@ -573,6 +607,38 @@
             } else {
                 document.getElementById('completion-text').innerHTML = `進捗: ${checked}/${total} 完了`;
             }
+        }
+
+        const styleDescriptions = {
+            watercolor: '<strong>水彩画風</strong>：透明感のある柔らかいタッチ。にじみやぼかしが特徴的。風景画やイラストに最適。<br>使い方: 「水彩画風」「水彩画スタイル」「透明水彩」など',
+            oil: '<strong>油絵風</strong>：重厚感のある質感とはっきりした筆のタッチ。色の深みが特徴。ポートレートや風景に人気。<br>使い方: 「油絵風」「油彩画」「厚塗り」など',
+            anime: '<strong>アニメ風</strong>：日本のアニメーションのようなスタイル。はっきりした輪郭線とフラットな色彩。キャラクターに最適。<br>使い方: 「アニメ風」「アニメスタイル」「ジブリ風」など',
+            photo: '<strong>写真風</strong>：実際の写真のようなリアルな表現。高解像度で詳細な描写が可能。<br>使い方: 「写真風」「フォトリアル」「一眼レフで撮影したような」など',
+            pixel: '<strong>ピクセルアート</strong>：レトロゲームのようなドット絵スタイル。懐かしさやゲーム感を演出。アイコンやゲーム素材に。<br>使い方: 「ピクセルアート」「ドット絵」「8bit風」など',
+            '3dcg': '<strong>3DCG風</strong>：3Dモデリングのような立体感のある表現。映画やゲームのような仕上がり。<br>使い方: 「3DCG」「3Dレンダリング」「Pixar風」など',
+            pencil: '<strong>鉛筆スケッチ風</strong>：手描きの鉛筆画のような温かみのある表現。下書きやコンセプトアートに。<br>使い方: 「鉛筆スケッチ」「鉛筆画」「手描き風」など',
+            popart: '<strong>ポップアート</strong>：アンディ・ウォーホルのような大胆な色使いとグラフィカルな表現。インパクト重視。<br>使い方: 「ポップアート」「ウォーホル風」「コミック風」など',
+            minimal: '<strong>ミニマリスト</strong>：シンプルで洗練されたデザイン。余白を活かした上品な表現。ロゴやアイコンに最適。<br>使い方: 「ミニマリスト」「シンプル」「フラットデザイン」など',
+            retro: '<strong>レトロ風</strong>：70年代〜90年代のような懐かしい雰囲気。ビンテージ感のある色調やテクスチャ。<br>使い方: 「レトロ」「ビンテージ」「80年代風」など'
+        };
+
+        function showStyleDescription(element) {
+            const style = element.dataset.style;
+            const descriptionBox = document.getElementById('style-description-box');
+            const descriptionText = document.getElementById('style-description-text');
+
+            document.querySelectorAll('.style-card').forEach(card => {
+                card.classList.remove('active');
+            });
+
+            if (descriptionBox.classList.contains('show') && element.classList.contains('active')) {
+                descriptionBox.classList.remove('show');
+                return;
+            }
+
+            element.classList.add('active');
+            descriptionText.innerHTML = styleDescriptions[style];
+            descriptionBox.classList.add('show');
         }
     </script>
 </body>
