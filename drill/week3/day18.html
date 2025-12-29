@@ -699,7 +699,7 @@
                 if (btn) btn.classList.add('show');
 
                 // Auto-save completion flag (Safeguard)
-                const dayNum = window.location.pathname.match(/day(\d+)\.html/)[1];
+                const dayNum = (window.location.pathname.match(/day(\d+)\.html/) || [null, '18'])[1];
                 localStorage.setItem(`drill_day_${dayNum}_complete`, 'true');
             } else {
                 document.getElementById('completion-text').innerHTML = `進捗: ${checked}/${total} 完了`;
@@ -710,7 +710,7 @@
 
         // Restore Progress
         window.addEventListener('load', () => {
-            const dayNum = window.location.pathname.match(/day(\d+)\.html/)[1];
+            const dayNum = (window.location.pathname.match(/day(\d+)\.html/) || [null, '18'])[1];
             const items = document.querySelectorAll('.check-item');
 
             items.forEach((item, index) => {

@@ -549,7 +549,7 @@
             }
 
             // Save state (Generic)
-            const dayNum = window.location.pathname.match(/day(\d+)\.html/)[1];
+            const dayNum = (window.location.pathname.match(/day(\d+)\.html/) || [null, '3'])[1];
             const index = Array.from(document.querySelectorAll('.check-item')).indexOf(element);
             localStorage.setItem(`drill_day_${dayNum}_check_${index}`, checkbox.checked);
 
@@ -562,7 +562,7 @@
             const checked = document.querySelectorAll('.check-item input[type="checkbox"]:checked').length;
             const total = checkboxes.length;
             const percentage = (checked / total) * 100;
-            const dayNum = window.location.pathname.match(/day(\d+)\.html/)[1];
+            const dayNum = (window.location.pathname.match(/day(\d+)\.html/) || [null, '3'])[1];
 
             if (percentage === 100) {
                 document.getElementById('completion-text').innerHTML = `🎉 素晴らしい！Day ${dayNum} 完了です！`;
@@ -574,7 +574,7 @@
 
         // Restore Progress
         window.addEventListener('load', () => {
-            const dayNum = window.location.pathname.match(/day(\d+)\.html/)[1];
+            const dayNum = (window.location.pathname.match(/day(\d+)\.html/) || [null, '3'])[1];
             const items = document.querySelectorAll('.check-item');
 
             items.forEach((item, index) => {
