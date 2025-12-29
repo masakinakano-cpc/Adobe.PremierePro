@@ -28,6 +28,8 @@ function startParty() {
 function stopParty() {
     const body = document.body;
     body.classList.remove('party-mode');
+    body.classList.remove('party-shake'); // 画面シェイクを停止
+
     if (particleInterval) clearInterval(particleInterval);
     if (beatInterval) clearInterval(beatInterval);
 
@@ -35,6 +37,10 @@ function stopParty() {
         audioCtx.close();
         audioCtx = null;
     }
+
+    // Clean up disco elements
+    const discoLayer = document.getElementById('disco-layer');
+    if (discoLayer) discoLayer.innerHTML = '';
 }
 
 function ensureDiscoElements() {
