@@ -760,35 +760,36 @@
         // お祝いエフェクト
         function celebrate() {
             localStorage.setItem('drill_day_6_complete', 'true'); // メダル獲得
-            startParty(); // ディスコモード開始
+
+            // Shared disco party start
+            if (typeof startParty === 'function') {
+                startParty();
+            } else {
+                console.error('startParty function not found. Is disco.js loaded?');
+                alert('Week 1 完了！おめでとうございます！（演出の読み込みに失敗しました）');
+            }
 
             const overlay = document.getElementById('celebrationOverlay');
             const message = document.getElementById('celebrationMessage');
 
             overlay.classList.add('active');
 
-            // 紙吹雪を生成
+            // 紙吹雪を生成 (Local visual effect)
             const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8'];
-
             for (let i = 0; i < 150; i++) {
-                setTimeout(() => {
-                    createConfetti(overlay, colors);
-                }, i * 30);
+                setTimeout(() => createConfetti(overlay, colors), i * 30);
             }
 
-            // 花火を生成
+            // 花火を生成 (Local visual effect)
             for (let i = 0; i < 8; i++) {
-                setTimeout(() => {
-                    createFirework(overlay, colors);
-                }, i * 400);
+                setTimeout(() => createFirework(overlay, colors), i * 400);
             }
 
             // メッセージ表示
-            setTimeout(() => {
-                message.classList.add('show');
-            }, 500);
+            setTimeout(() => message.classList.add('show'), 500);
         }
 
+        // Local Visual Effects Helpers
         function createConfetti(container, colors) {
             const confetti = document.createElement('div');
             confetti.className = 'confetti';
@@ -798,192 +799,35 @@
             confetti.style.height = (Math.random() * 10 + 5) + 'px';
             confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
             confetti.style.animation = `confetti-fall ${Math.random() * 3 + 2}s linear forwards`;
-
             container.appendChild(confetti);
-
             setTimeout(() => confetti.remove(), 5000);
         }
 
         function createFirework(container, colors) {
-            const x = Math.random() * 80 + 10;
+             const x = Math.random() * 80 + 10;
             const y = Math.random() * 40 + 10;
-
             for (let i = 0; i < 20; i++) {
                 const spark = document.createElement('div');
                 spark.className = 'firework';
                 spark.style.left = x + 'vw';
                 spark.style.top = y + 'vh';
                 spark.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-
                 const angle = (i / 20) * Math.PI * 2;
                 const distance = Math.random() * 100 + 50;
                 const tx = Math.cos(angle) * distance;
                 const ty = Math.sin(angle) * distance;
-
                 spark.style.animation = `firework-explode 1s ease-out forwards`;
                 spark.style.transform = `translate(${tx}px, ${ty}px)`;
-
                 container.appendChild(spark);
-
                 setTimeout(() => spark.remove(), 1000);
             }
         }
 
         function closeCelebration() {
-            stopParty(); // ディスコモード終了
+            if (typeof stopParty === 'function') stopParty();
             document.getElementById('celebrationOverlay').classList.remove('active');
             document.getElementById('celebrationMessage').classList.remove('show');
             window.location.href = '../week2/day7.html';
-        }
-
-        function stopParty() {
-            const body = document.body;
-            if (particleInterval) clearInterval(particleInterval);
-            body.classList.remove('party-mode');
-
-            // 音を止める処理は今回は簡易的なので自然減衰に任せるか、AudioContextをcloseする
-            if (audioCtx) {
-                audioCtx.close();
-                audioCtx = null;
-            }
-        }
-
-        // --- 視覚効果: パーティクル生成 ---
-        function createParticle() {
-            const p = document.createElement('div');
-            p.classList.add('particle');
-
-            // ランダムな位置と色
-            const x = Math.random() * 100; // vw
-            const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ffffff', '#00ff00'];
-            const color = colors[Math.floor(Math.random() * colors.length)];
-
-            p.style.left = x + 'vw';
-            p.style.top = window.scrollY + 'px'; // 現在のスクロール位置から降らせる
-            p.style.background = color;
-            p.style.boxShadow = `0 0 10px ${color}`;
-
-            // ランダムな大きさ
-            const size = Math.random() * 10 + 5;
-            p.style.width = size + 'px';
-            p.style.height = size + 'px';
-
-            // 形状をランダムに（丸か四角）
-            if (Math.random() > 0.5) p.style.borderRadius = '0%';
-
-            const layer = document.getElementById('disco-layer');
-            if (layer) layer.appendChild(p);
-
-            // アニメーション終了後に削除
-            setTimeout(() => { p.remove(); }, 2000);
-        }
-
-        // --- 音響効果: Web Audio APIによる簡易BGM生成 ---
-        function playDiscoMusic() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            } else if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-
-            const now = audioCtx.currentTime;
-            const bpm = 130;
-            const beatTime = 60 / bpm;
-
-            // 4小節分のビートを作成
-            for (let i = 0; i < 16; i++) {
-                const time = now + i * beatTime;
-
-                // キックドラム (ドン！)
-                playKick(time);
-
-                // ハイハット (チッ) - 裏拍
-                if (i % 1 === 0.5 || true) { // 8分音符
-                    playHiHat(time + beatTime / 2);
-                }
-
-                // ベース (ブッ)
-                if (i % 2 === 0) {
-                    playBass(time, 300); // 低音
-                } else {
-                    playBass(time, 600); // オクターブ上
-                }
-            }
-
-            // ファンファーレ的なリードシンセ
-            playLead(now);
-        }
-
-        function playKick(time) {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.frequency.setValueAtTime(150, time);
-            osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.5);
-            gain.gain.setValueAtTime(1, time);
-            gain.gain.exponentialRampToValueAtTime(0.01, time + 0.5);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start(time);
-            osc.stop(time + 0.5);
-        }
-
-        function playHiHat(time) {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'square';
-            osc.frequency.setValueAtTime(800, time);
-            osc.frequency.linearRampToValueAtTime(1200, time + 0.05);
-
-            gain.gain.setValueAtTime(0.3, time);
-            gain.gain.exponentialRampToValueAtTime(0.01, time + 0.05);
-
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start(time);
-            osc.stop(time + 0.05);
-        }
-
-        function playBass(time, freq) {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(50, time);
-
-            const filter = audioCtx.createBiquadFilter();
-            filter.type = 'lowpass';
-            filter.frequency.setValueAtTime(freq, time);
-            filter.frequency.exponentialRampToValueAtTime(100, time + 0.4);
-
-            gain.gain.setValueAtTime(0.5, time);
-            gain.gain.linearRampToValueAtTime(0, time + 0.4);
-
-            osc.connect(filter);
-            filter.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start(time);
-            osc.stop(time + 0.5);
-        }
-
-        function playLead(time) {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'triangle';
-
-            // メロディ: ドーミーソー (アルペジオ)
-            const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
-
-            notes.forEach((note, index) => {
-                const noteTime = time + index * 0.15;
-                osc.frequency.setValueAtTime(note, noteTime);
-                gain.gain.setValueAtTime(0, noteTime);
-                gain.gain.linearRampToValueAtTime(0.3, noteTime + 0.05);
-                gain.gain.linearRampToValueAtTime(0, noteTime + 0.15);
-            });
-
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start(time);
-            osc.stop(time + 2);
         }
     </script>
 </body>

@@ -764,7 +764,12 @@
         // お祝いエフェクト
         function celebrate() {
             localStorage.setItem('drill_day_12_complete', 'true'); // メダル獲得
-            startParty(); // ディスコモード開始
+
+            if (typeof startParty === 'function') {
+                startParty(); // ディスコモード開始
+            } else {
+                console.error('startParty not found');
+            }
 
             const overlay = document.getElementById('celebrationOverlay');
             const message = document.getElementById('celebrationMessage');
