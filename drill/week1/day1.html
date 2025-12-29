@@ -501,7 +501,7 @@
 
         <!-- ナビゲーション -->
         <div class="nav-buttons">
-            <a href="../index.html" class="nav-btn prev">ドリルトップへ</a>
+            <a href="../index.html" class="nav-btn home">🏠 ホーム</a>
             <a href="day2.html" class="nav-btn next">Day 2 へ進む →</a>
         </div>
     </div>
@@ -529,19 +529,21 @@
 
         // チェックボックス機能
         function toggleCheck(element, event) {
-            // リンクがクリックされた場合はリンク遷移のみ
-            if (event && event.target.tagName === 'A') {
-                return;
-            }
+            if (event && event.target.tagName === 'A') return;
+
             const checkbox = element.querySelector('input[type="checkbox"]');
-            // チェックボックス自体がクリックされた場合は既にトグルされているので、クラスの更新のみ
             if (event && event.target.tagName === 'INPUT') {
                 element.classList.toggle('completed', checkbox.checked);
             } else {
-                // テキスト部分がクリックされた場合はチェックボックスをトグル
                 checkbox.checked = !checkbox.checked;
                 element.classList.toggle('completed', checkbox.checked);
             }
+
+            // Save state (Generic)
+            const dayNum = window.location.pathname.match(/day(\d+)\.html/)[1];
+            const index = Array.from(document.querySelectorAll('.check-item')).indexOf(element);
+            localStorage.setItem(`drill_day_${dayNum}_check_${index}`, checkbox.checked);
+
             updateProgress();
         }
 
@@ -551,14 +553,32 @@
             const checked = document.querySelectorAll('.check-item input[type="checkbox"]:checked').length;
             const total = checkboxes.length;
             const percentage = (checked / total) * 100;
+            const dayNum = window.location.pathname.match(/day(\d+)\.html/)[1];
 
             if (percentage === 100) {
-                document.getElementById('completion-text').innerHTML = '🎉 素晴らしい！Day 1 完了です！';
-                localStorage.setItem('drill_day_1_complete', 'true');
+                document.getElementById('completion-text').innerHTML = `🎉 素晴らしい！Day ${dayNum} 完了です！`;
+                localStorage.setItem(`drill_day_${dayNum}_complete`, 'true');
             } else {
                 document.getElementById('completion-text').innerHTML = `進捗: ${checked}/${total} 完了`;
             }
         }
+
+        // Restore Progress
+        window.addEventListener('load', () => {
+            const dayNum = window.location.pathname.match(/day(\d+)\.html/)[1];
+            const items = document.querySelectorAll('.check-item');
+
+            items.forEach((item, index) => {
+                const saved = localStorage.getItem(`drill_day_${dayNum}_check_${index}`);
+                if (saved === 'true') {
+                    const checkbox = item.querySelector('input[type="checkbox"]');
+                    checkbox.checked = true;
+                    item.classList.add('completed');
+                }
+            });
+            updateProgress();
+        });
+
     </script>
 </body>
 

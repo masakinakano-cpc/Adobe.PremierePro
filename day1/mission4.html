@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mission 4: マイGPTを作成せよ 🛠️</title>
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Orbitron:wght@700;900&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       --pink-light: #F2C9CC;
@@ -19,94 +22,492 @@
       --gemini-color: #4285F4;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Zen Maru Gothic', sans-serif; background: linear-gradient(135deg, var(--pink-light) 0%, var(--peach) 50%, var(--pink-light) 100%); color: var(--dark); min-height: 100vh; line-height: 1.8; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    nav { background: rgba(255,255,255,0.95); padding: 15px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 2px solid var(--day1-color); }
-    nav a { color: var(--dark); text-decoration: none; opacity: 0.7; transition: opacity 0.3s; }
-    nav a:hover { opacity: 1; }
-    .nav-current { color: var(--day1-color); font-weight: 700; }
+    body {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      background: linear-gradient(135deg, var(--pink-light) 0%, var(--peach) 50%, var(--pink-light) 100%);
+      color: var(--dark);
+      min-height: 100vh;
+      line-height: 1.8;
+    }
 
-    .mission-header { background: linear-gradient(135deg, var(--day1-color), var(--pink-medium)); padding: 40px 20px; text-align: center; color: white; }
-    .mission-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 50px; font-family: 'Orbitron', sans-serif; font-size: 0.9rem; margin-bottom: 15px; }
-    h1 { font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 10px; }
-    .mission-desc { opacity: 0.95; max-width: 600px; margin: 0 auto; }
-    .time-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin-top: 15px; font-size: 0.9rem; }
+    nav {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 2px solid var(--day1-color);
+    }
 
-    main { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
-    section { margin-bottom: 40px; }
-    h2 { color: var(--pink-vivid); font-size: 1.4rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--pink-light); display: flex; align-items: center; gap: 10px; }
-    h3 { color: var(--terracotta); font-size: 1.1rem; margin: 25px 0 15px; }
-    p { margin-bottom: 15px; }
+    nav a {
+      color: var(--dark);
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
 
-    .creation-box { background: linear-gradient(135deg, rgba(242,109,158,0.2), rgba(242,202,179,0.3)); border-radius: 20px; padding: 30px; margin: 30px 0; text-align: center; border: 2px solid var(--pink-vivid); }
-    .creation-icon { font-size: 4rem; margin-bottom: 15px; animation: bounce 2s infinite; }
-    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-    .creation-box h3 { color: var(--pink-vivid); font-size: 1.3rem; margin-bottom: 10px; }
+    nav a:hover {
+      opacity: 1;
+    }
 
-    .compare-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 25px 0; }
-    .compare-card { background: white; border-radius: 16px; padding: 25px; border-top: 4px solid; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
-    .compare-card.gpt { border-color: var(--gpt-color); }
-    .compare-card.gemini { border-color: var(--gemini-color); }
-    .compare-card h4 { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 1.1rem; }
-    .compare-card ul { list-style: none; margin: 0; }
-    .compare-card li { padding: 8px 0; padding-left: 25px; position: relative; font-size: 0.95rem; }
-    .compare-card li::before { content: '•'; position: absolute; left: 8px; color: var(--pink-vivid); }
+    .nav-current {
+      color: var(--day1-color);
+      font-weight: 700;
+    }
 
-    .step-box { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 25px; margin: 20px 0; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
-    .step-number { display: inline-flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: var(--day1-color); color: white; border-radius: 50%; font-family: 'Orbitron', sans-serif; font-weight: 700; margin-right: 10px; }
-    .step-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; }
+    .mission-header {
+      background: linear-gradient(135deg, var(--day1-color), var(--pink-medium));
+      padding: 40px 20px;
+      text-align: center;
+      color: white;
+    }
 
-    .prompt-box { background: linear-gradient(135deg, var(--pink-light), var(--peach)); border-radius: 12px; padding: 20px; margin: 15px 0; border-left: 4px solid var(--pink-vivid); }
-    .prompt-label { color: var(--pink-vivid); font-size: 0.8rem; font-weight: 700; margin-bottom: 10px; display: block; }
+    .mission-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
 
-    .image-guide { background: rgba(255,255,255,0.7); border-radius: 12px; padding: 20px; margin: 15px 0; border: 1px dashed var(--pink-medium); }
-    .image-guide-title { color: var(--terracotta); font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    h1 {
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      margin-bottom: 10px;
+    }
 
-    .form-example { background: white; border-radius: 12px; padding: 20px; margin: 15px 0; }
-    .form-field { margin-bottom: 15px; }
-    .form-label { display: block; color: var(--terracotta); font-size: 0.85rem; margin-bottom: 5px; }
-    .form-input { width: 100%; background: var(--pink-light); border: 1px solid var(--pink-medium); border-radius: 8px; padding: 12px; color: var(--dark); font-size: 0.95rem; }
-    .form-textarea { min-height: 100px; resize: vertical; }
+    .mission-desc {
+      opacity: 0.95;
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-    .point-box { background: linear-gradient(135deg, rgba(242,109,158,0.15), rgba(242,202,179,0.2)); border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 4px solid var(--terracotta); }
-    .point-box h4 { color: var(--terracotta); margin-bottom: 10px; }
+    .time-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px 16px;
+      border-radius: 20px;
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
 
-    .idea-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
-    .idea-card { background: white; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid var(--pink-light); transition: transform 0.3s, border-color 0.3s; }
-    .idea-card:hover { transform: translateY(-3px); border-color: var(--pink-vivid); }
-    .idea-icon { font-size: 2rem; margin-bottom: 10px; }
-    .idea-title { font-weight: 700; margin-bottom: 5px; }
-    .idea-desc { font-size: 0.85rem; opacity: 0.7; }
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
 
-    .business-tips { background: linear-gradient(135deg, rgba(242,109,158,0.1), rgba(242,202,179,0.2)); border: 1px solid var(--pink-vivid); border-radius: 12px; margin: 30px 0; overflow: hidden; }
-    .business-tips summary { padding: 20px; cursor: pointer; font-weight: 700; color: var(--pink-vivid); display: flex; align-items: center; gap: 10px; transition: background 0.3s; list-style: none; }
-    .business-tips summary::-webkit-details-marker { display: none; }
-    .business-tips summary:hover { background: rgba(255,255,255,0.5); }
-    .business-tips summary::before { content: '▶'; font-size: 0.8rem; transition: transform 0.3s; }
-    .business-tips[open] summary::before { transform: rotate(90deg); }
-    .business-content { padding: 0 20px 20px; border-top: 1px solid var(--pink-light); }
-    .business-content h4 { color: var(--terracotta); margin: 20px 0 15px; font-size: 1rem; }
-    .business-list { list-style: none; }
-    .business-list li { padding: 12px 15px; margin: 8px 0; background: rgba(255,255,255,0.7); border-radius: 8px; display: flex; align-items: flex-start; gap: 12px; }
-    .business-list li::before { content: '💼'; flex-shrink: 0; }
+    section {
+      margin-bottom: 40px;
+    }
 
-    .complete-box { background: linear-gradient(135deg, var(--pink-vivid), var(--pink-medium)); border-radius: 20px; padding: 40px; margin: 30px 0; text-align: center; color: white; }
-    .complete-box h3 { color: white; font-size: 1.5rem; margin-bottom: 15px; }
-    .complete-icon { font-size: 4rem; margin-bottom: 15px; }
+    h2 {
+      color: var(--pink-vivid);
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--pink-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-    .checkpoint { background: linear-gradient(135deg, var(--day1-color), var(--pink-medium)); border-radius: 16px; padding: 25px; margin: 30px 0; text-align: center; color: white; }
-    .checkpoint h3 { color: white; margin: 0 0 15px; }
-    .checkpoint p { margin: 0; }
+    h3 {
+      color: var(--terracotta);
+      font-size: 1.1rem;
+      margin: 25px 0 15px;
+    }
 
-    .nav-buttons { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 15px; margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--pink-light); }
-    .nav-btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 25px; background: white; color: var(--dark); text-decoration: none; border-radius: 12px; transition: all 0.3s; border: 2px solid var(--pink-light); }
-    .nav-btn:hover { background: var(--pink-light); border-color: var(--pink-vivid); }
-    .nav-btn.next { background: var(--pink-vivid); border-color: var(--pink-vivid); color: white; }
-    .nav-btn.next:hover { background: var(--terracotta); }
+    p {
+      margin-bottom: 15px;
+    }
+
+    .creation-box {
+      background: linear-gradient(135deg, rgba(242, 109, 158, 0.2), rgba(242, 202, 179, 0.3));
+      border-radius: 20px;
+      padding: 30px;
+      margin: 30px 0;
+      text-align: center;
+      border: 2px solid var(--pink-vivid);
+    }
+
+    .creation-icon {
+      font-size: 4rem;
+      margin-bottom: 15px;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .creation-box h3 {
+      color: var(--pink-vivid);
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+
+    .compare-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin: 25px 0;
+    }
+
+    .compare-card {
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      border-top: 4px solid;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .compare-card.gpt {
+      border-color: var(--gpt-color);
+    }
+
+    .compare-card.gemini {
+      border-color: var(--gemini-color);
+    }
+
+    .compare-card h4 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+
+    .compare-card ul {
+      list-style: none;
+      margin: 0;
+    }
+
+    .compare-card li {
+      padding: 8px 0;
+      padding-left: 25px;
+      position: relative;
+      font-size: 0.95rem;
+    }
+
+    .compare-card li::before {
+      content: '•';
+      position: absolute;
+      left: 8px;
+      color: var(--pink-vivid);
+    }
+
+    .step-box {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 25px;
+      margin: 20px 0;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 35px;
+      height: 35px;
+      background: var(--day1-color);
+      color: white;
+      border-radius: 50%;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      margin-right: 10px;
+    }
+
+    .step-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+
+    .prompt-box {
+      background: linear-gradient(135deg, var(--pink-light), var(--peach));
+      border-radius: 12px;
+      padding: 20px;
+      margin: 15px 0;
+      border-left: 4px solid var(--pink-vivid);
+    }
+
+    .prompt-label {
+      color: var(--pink-vivid);
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .image-guide {
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 15px 0;
+      border: 1px dashed var(--pink-medium);
+    }
+
+    .image-guide-title {
+      color: var(--terracotta);
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-example {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 15px 0;
+    }
+
+    .form-field {
+      margin-bottom: 15px;
+    }
+
+    .form-label {
+      display: block;
+      color: var(--terracotta);
+      font-size: 0.85rem;
+      margin-bottom: 5px;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--pink-light);
+      border: 1px solid var(--pink-medium);
+      border-radius: 8px;
+      padding: 12px;
+      color: var(--dark);
+      font-size: 0.95rem;
+    }
+
+    .form-textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .point-box {
+      background: linear-gradient(135deg, rgba(242, 109, 158, 0.15), rgba(242, 202, 179, 0.2));
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      border-left: 4px solid var(--terracotta);
+    }
+
+    .point-box h4 {
+      color: var(--terracotta);
+      margin-bottom: 10px;
+    }
+
+    .idea-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .idea-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      border: 1px solid var(--pink-light);
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .idea-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--pink-vivid);
+    }
+
+    .idea-icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .idea-title {
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .idea-desc {
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+
+    .business-tips {
+      background: linear-gradient(135deg, rgba(242, 109, 158, 0.1), rgba(242, 202, 179, 0.2));
+      border: 1px solid var(--pink-vivid);
+      border-radius: 12px;
+      margin: 30px 0;
+      overflow: hidden;
+    }
+
+    .business-tips summary {
+      padding: 20px;
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--pink-vivid);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.3s;
+      list-style: none;
+    }
+
+    .business-tips summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .business-tips summary:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .business-tips summary::before {
+      content: '▶';
+      font-size: 0.8rem;
+      transition: transform 0.3s;
+    }
+
+    .business-tips[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    .business-content {
+      padding: 0 20px 20px;
+      border-top: 1px solid var(--pink-light);
+    }
+
+    .business-content h4 {
+      color: var(--terracotta);
+      margin: 20px 0 15px;
+      font-size: 1rem;
+    }
+
+    .business-list {
+      list-style: none;
+    }
+
+    .business-list li {
+      padding: 12px 15px;
+      margin: 8px 0;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .business-list li::before {
+      content: '💼';
+      flex-shrink: 0;
+    }
+
+    .complete-box {
+      background: linear-gradient(135deg, var(--pink-vivid), var(--pink-medium));
+      border-radius: 20px;
+      padding: 40px;
+      margin: 30px 0;
+      text-align: center;
+      color: white;
+    }
+
+    .complete-box h3 {
+      color: white;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    .complete-icon {
+      font-size: 4rem;
+      margin-bottom: 15px;
+    }
+
+    .checkpoint {
+      background: linear-gradient(135deg, var(--day1-color), var(--pink-medium));
+      border-radius: 16px;
+      padding: 25px;
+      margin: 30px 0;
+      text-align: center;
+      color: white;
+    }
+
+    .checkpoint h3 {
+      color: white;
+      margin: 0 0 15px;
+    }
+
+    .checkpoint p {
+      margin: 0;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid var(--pink-light);
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 25px;
+      background: white;
+      color: var(--dark);
+      text-decoration: none;
+      border-radius: 12px;
+      transition: all 0.3s;
+      border: 2px solid var(--pink-light);
+    }
+
+    .nav-btn:hover {
+      background: var(--pink-light);
+      border-color: var(--pink-vivid);
+    }
+
+    .nav-btn.next {
+      background: var(--pink-vivid);
+      border-color: var(--pink-vivid);
+      color: white;
+    }
+
+    .nav-btn.next:hover {
+      background: var(--terracotta);
+    }
 
     /* コピーボタン */
-    .prompt-box { position: relative; }
+    .prompt-box {
+      position: relative;
+    }
+
     .copy-btn {
       position: absolute;
       top: 10px;
@@ -121,8 +522,15 @@
       transition: all 0.3s;
       font-family: 'Zen Maru Gothic', sans-serif;
     }
-    .copy-btn:hover { background: var(--terracotta); transform: scale(1.05); }
-    .copy-btn.copied { background: #27ae60; }
+
+    .copy-btn:hover {
+      background: var(--terracotta);
+      transform: scale(1.05);
+    }
+
+    .copy-btn.copied {
+      background: #27ae60;
+    }
 
     /* トラブルシューティング */
     .trouble-box {
@@ -132,6 +540,7 @@
       margin: 30px 0;
       overflow: hidden;
     }
+
     .trouble-box summary {
       padding: 20px;
       cursor: pointer;
@@ -142,13 +551,41 @@
       gap: 10px;
       list-style: none;
     }
-    .trouble-box summary::-webkit-details-marker { display: none; }
-    .trouble-box summary::before { content: '▶'; font-size: 0.8rem; transition: transform 0.3s; }
-    .trouble-box[open] summary::before { transform: rotate(90deg); }
-    .trouble-content { padding: 0 20px 20px; }
-    .trouble-item { background: white; border-radius: 8px; padding: 15px; margin: 10px 0; }
-    .trouble-item h5 { color: #e74c3c; margin-bottom: 8px; }
-    .trouble-item p { margin: 0; font-size: 0.9rem; }
+
+    .trouble-box summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .trouble-box summary::before {
+      content: '▶';
+      font-size: 0.8rem;
+      transition: transform 0.3s;
+    }
+
+    .trouble-box[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    .trouble-content {
+      padding: 0 20px 20px;
+    }
+
+    .trouble-item {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 10px 0;
+    }
+
+    .trouble-item h5 {
+      color: #e74c3c;
+      margin-bottom: 8px;
+    }
+
+    .trouble-item p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
 
     /* 用語解説 */
     .glossary-box {
@@ -158,13 +595,39 @@
       padding: 20px;
       margin: 30px 0;
     }
-    .glossary-box h4 { color: #2980b9; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-    .glossary-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px dashed #3498db; }
-    .glossary-item:last-child { border-bottom: none; }
-    .glossary-term { font-weight: 700; color: #2c3e50; min-width: 120px; }
-    .glossary-desc { color: #34495e; font-size: 0.9rem; }
+
+    .glossary-box h4 {
+      color: #2980b9;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .glossary-item {
+      display: flex;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px dashed #3498db;
+    }
+
+    .glossary-item:last-child {
+      border-bottom: none;
+    }
+
+    .glossary-term {
+      font-weight: 700;
+      color: #2c3e50;
+      min-width: 120px;
+    }
+
+    .glossary-desc {
+      color: #34495e;
+      font-size: 0.9rem;
+    }
   </style>
 </head>
+
 <body>
   <nav>
     <a href="../index.html">🏠 ホーム</a>
@@ -199,11 +662,21 @@
       <div class="compare-cards">
         <div class="compare-card gpt">
           <h4>🟢 マイGPT（ChatGPT）</h4>
-          <ul><li>高いカスタマイズ性</li><li>知識ファイルをアップロード可能</li><li>画像生成も組み込み可</li><li>公開・共有が簡単</li></ul>
+          <ul>
+            <li>高いカスタマイズ性</li>
+            <li>知識ファイルをアップロード可能</li>
+            <li>画像生成も組み込み可</li>
+            <li>公開・共有が簡単</li>
+          </ul>
         </div>
         <div class="compare-card gemini">
           <h4>🔵 Gem（Gemini）</h4>
-          <ul><li>シンプルで作りやすい</li><li>Googleサービスと連携</li><li>最新情報へのアクセス</li><li>モバイルでも使いやすい</li></ul>
+          <ul>
+            <li>シンプルで作りやすい</li>
+            <li>Googleサービスと連携</li>
+            <li>最新情報へのアクセス</li>
+            <li>モバイルでも使いやすい</li>
+          </ul>
         </div>
       </div>
       <p>今回は<strong>マイGPT</strong>を作成します！（時間があればGemも）</p>
@@ -229,8 +702,10 @@
         <div class="step-title"><span class="step-number">2</span>基本情報を入力</div>
         <p>「構成」タブで以下の情報を入力します：</p>
         <div class="form-example">
-          <div class="form-field"><span class="form-label">📛 名前</span><input type="text" class="form-input" value="時短シェフ〇〇（自分の名前）" readonly></div>
-          <div class="form-field"><span class="form-label">📝 説明</span><input type="text" class="form-input" value="忙しい毎日でも美味しい料理を！15分以内の時短レシピを提案する専属シェフAI" readonly></div>
+          <div class="form-field"><span class="form-label">📛 名前</span><input type="text" class="form-input"
+              value="時短シェフ〇〇（自分の名前）" readonly></div>
+          <div class="form-field"><span class="form-label">📝 説明</span><input type="text" class="form-input"
+              value="忙しい毎日でも美味しい料理を！15分以内の時短レシピを提案する専属シェフAI" readonly></div>
         </div>
       </div>
 
@@ -244,13 +719,17 @@
           【性格】<br>- 親しみやすく、フレンドリーな口調<br>- 褒め上手で、料理初心者でも安心できる<br>- 「〇〇さん」と名前で呼びかける<br><br>
           【ルール】<br>- 難しい調理器具は使わない<br>- スーパーで手に入る食材のみ使う<br>- 手順は5ステップ以内に収める<br>- レシピには所要時間を必ず記載する
         </div>
-        <div class="point-box"><h4>💡 カスタマイズのコツ</h4><p style="margin:0;">Deep Research で得た情報を「知識」として盛り込むと、より専門的なアドバイスができるAIになります！</p></div>
+        <div class="point-box">
+          <h4>💡 カスタマイズのコツ</h4>
+          <p style="margin:0;">Deep Research で得た情報を「知識」として盛り込むと、より専門的なアドバイスができるAIになります！</p>
+        </div>
       </div>
 
       <div class="step-box">
         <div class="step-title"><span class="step-number">4</span>会話の開始メッセージを設定</div>
         <div class="form-example">
-          <div class="form-field"><span class="form-label">💬 会話スターター（例）</span><textarea class="form-input form-textarea" readonly>こんにちは！時短シェフです🍳
+          <div class="form-field"><span class="form-label">💬 会話スターター（例）</span><textarea
+              class="form-input form-textarea" readonly>こんにちは！時短シェフです🍳
 今日はどんな料理を作りましょうか？
 
 ・冷蔵庫の中身を教えてくれたらレシピを提案します
@@ -283,10 +762,26 @@
     <section>
       <h2>💡 他にもこんなマイGPTが作れる</h2>
       <div class="idea-grid">
-        <div class="idea-card"><div class="idea-icon">🎮</div><div class="idea-title">ゲーム攻略アドバイザー</div><div class="idea-desc">好きなゲームの攻略を教えてくれる</div></div>
-        <div class="idea-card"><div class="idea-icon">👔</div><div class="idea-title">コーデ提案AI</div><div class="idea-desc">天気や予定に合わせた服装提案</div></div>
-        <div class="idea-card"><div class="idea-icon">📚</div><div class="idea-title">読書ソムリエ</div><div class="idea-desc">好みに合わせた本をレコメンド</div></div>
-        <div class="idea-card"><div class="idea-icon">🏋️</div><div class="idea-title">筋トレコーチ</div><div class="idea-desc">目標に合わせたトレーニング提案</div></div>
+        <div class="idea-card">
+          <div class="idea-icon">🎮</div>
+          <div class="idea-title">ゲーム攻略アドバイザー</div>
+          <div class="idea-desc">好きなゲームの攻略を教えてくれる</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-icon">👔</div>
+          <div class="idea-title">コーデ提案AI</div>
+          <div class="idea-desc">天気や予定に合わせた服装提案</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-icon">📚</div>
+          <div class="idea-title">読書ソムリエ</div>
+          <div class="idea-desc">好みに合わせた本をレコメンド</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-icon">🏋️</div>
+          <div class="idea-title">筋トレコーチ</div>
+          <div class="idea-desc">目標に合わせたトレーニング提案</div>
+        </div>
       </div>
     </section>
 
@@ -337,14 +832,25 @@
       <div class="business-content">
         <h4>🏢 マイGPT/Gem の業務活用シーン</h4>
         <ul class="business-list">
-          <li><div><strong>社内FAQ Bot</strong><br><span style="opacity:0.7">よくある質問と回答を学習させて、新入社員や問い合わせ対応を自動化</span></div></li>
-          <li><div><strong>議事録作成アシスタント</strong><br><span style="opacity:0.7">会議の録音テキストを入れると、フォーマット通りの議事録を自動生成</span></div></li>
-          <li><div><strong>業界特化アドバイザー</strong><br><span style="opacity:0.7">業界の専門知識を学習させて、専門的な相談に対応できるAI</span></div></li>
-          <li><div><strong>文章チェッカー</strong><br><span style="opacity:0.7">社内の文章ルールを学習させて、文章の校正・統一を自動化</span></div></li>
-          <li><div><strong>オンボーディングガイド</strong><br><span style="opacity:0.7">新入社員向けの情報を集約。「〇〇ってどうすればいい？」に即答</span></div></li>
+          <li>
+            <div><strong>社内FAQ Bot</strong><br><span style="opacity:0.7">よくある質問と回答を学習させて、新入社員や問い合わせ対応を自動化</span></div>
+          </li>
+          <li>
+            <div><strong>議事録作成アシスタント</strong><br><span style="opacity:0.7">会議の録音テキストを入れると、フォーマット通りの議事録を自動生成</span></div>
+          </li>
+          <li>
+            <div><strong>業界特化アドバイザー</strong><br><span style="opacity:0.7">業界の専門知識を学習させて、専門的な相談に対応できるAI</span></div>
+          </li>
+          <li>
+            <div><strong>文章チェッカー</strong><br><span style="opacity:0.7">社内の文章ルールを学習させて、文章の校正・統一を自動化</span></div>
+          </li>
+          <li>
+            <div><strong>オンボーディングガイド</strong><br><span style="opacity:0.7">新入社員向けの情報を集約。「〇〇ってどうすればいい？」に即答</span></div>
+          </li>
         </ul>
         <h4>💡 業務で使う際のポイント</h4>
-        <p style="background:rgba(255,255,255,0.7); padding:15px; border-radius:8px;">社内向けマイGPTを作る場合は、<strong>機密情報の取り扱い</strong>に注意。公開範囲を「自分だけ」または「リンクを持つ人」に設定し、機密データは直接入力しないようにしましょう。</p>
+        <p style="background:rgba(255,255,255,0.7); padding:15px; border-radius:8px;">
+          社内向けマイGPTを作る場合は、<strong>機密情報の取り扱い</strong>に注意。公開範囲を「自分だけ」または「リンクを持つ人」に設定し、機密データは直接入力しないようにしましょう。</p>
       </div>
     </details>
 
@@ -355,7 +861,7 @@
 
     <div class="nav-buttons">
       <a href="mission3.html" class="nav-btn">← Mission 3</a>
-      <a href="../index.html" class="nav-btn">🏠 ホームに戻る</a>
+      <a href="../index.html" class="nav-btn">🏠 ホーム</a>
       <a href="../day2/mission5.html" class="nav-btn next">Day 2 へ進む →</a>
     </div>
   </main>
@@ -365,7 +871,7 @@
       const btn = document.createElement('button');
       btn.className = 'copy-btn';
       btn.textContent = 'コピー';
-      btn.onclick = function() {
+      btn.onclick = function () {
         const text = box.innerText.replace('コピー', '').replace(box.querySelector('.prompt-label')?.textContent || '', '').trim();
         navigator.clipboard.writeText(text).then(() => {
           btn.textContent = 'コピー完了!';
@@ -380,4 +886,5 @@
     });
   </script>
 </body>
+
 </html>

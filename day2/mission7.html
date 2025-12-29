@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mission 7: トレンドデータ作成 📊</title>
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Orbitron:wght@700;900&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Orbitron:wght@700;900&family=Fira+Code:wght@400;700&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       --pink-light: #F2C9CC;
@@ -20,89 +23,450 @@
       --gemini-color: #4285F4;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Zen Maru Gothic', sans-serif; background: linear-gradient(135deg, var(--peach) 0%, var(--pink-light) 50%, var(--pink-medium) 100%); color: var(--dark); min-height: 100vh; line-height: 1.8; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    nav { background: rgba(255,255,255,0.95); padding: 15px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 2px solid var(--day2-color); }
-    nav a { color: var(--dark); text-decoration: none; opacity: 0.7; transition: opacity 0.3s; }
-    nav a:hover { opacity: 1; }
-    .nav-current { color: var(--day2-color); font-weight: 700; }
+    body {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      background: linear-gradient(135deg, var(--peach) 0%, var(--pink-light) 50%, var(--pink-medium) 100%);
+      color: var(--dark);
+      min-height: 100vh;
+      line-height: 1.8;
+    }
 
-    .mission-header { background: linear-gradient(135deg, var(--day2-color), var(--pink-vivid)); padding: 40px 20px; text-align: center; color: white; }
-    .mission-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 50px; font-family: 'Orbitron', sans-serif; font-size: 0.9rem; margin-bottom: 15px; }
-    h1 { font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 10px; }
-    .mission-desc { opacity: 0.95; max-width: 600px; margin: 0 auto; }
-    .time-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin-top: 15px; font-size: 0.9rem; }
+    nav {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 2px solid var(--day2-color);
+    }
 
-    main { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
-    section { margin-bottom: 40px; }
-    h2 { color: var(--pink-vivid); font-size: 1.4rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--pink-light); display: flex; align-items: center; gap: 10px; }
-    h3 { color: var(--terracotta); font-size: 1.1rem; margin: 25px 0 15px; }
-    p { margin-bottom: 15px; }
+    nav a {
+      color: var(--dark);
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
 
-    .fashion-box { background: linear-gradient(135deg, rgba(242,109,158,0.2), rgba(242,202,179,0.3)); border-radius: 20px; padding: 30px; margin: 30px 0; text-align: center; border: 2px solid var(--pink-vivid); }
-    .fashion-icon { font-size: 4rem; margin-bottom: 15px; }
-    .fashion-box h3 { color: var(--pink-vivid); font-size: 1.3rem; margin-bottom: 10px; }
+    nav a:hover {
+      opacity: 1;
+    }
 
-    .color-preview { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
-    .color-chip { width: 50px; height: 50px; border-radius: 50%; box-shadow: 0 3px 10px rgba(0,0,0,0.2); border: 3px solid white; }
+    .nav-current {
+      color: var(--day2-color);
+      font-weight: 700;
+    }
 
-    .terminal { background: var(--terminal-bg); border-radius: 12px; overflow: hidden; margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-    .terminal-header { background: #323232; padding: 10px 15px; display: flex; align-items: center; gap: 8px; }
-    .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
-    .terminal-dot.red { background: #FF5F56; }
-    .terminal-dot.yellow { background: #FFBD2E; }
-    .terminal-dot.green { background: #27C93F; }
-    .terminal-title { margin-left: 10px; font-size: 0.85rem; opacity: 0.7; color: white; }
-    .terminal-body { padding: 20px; font-family: 'Fira Code', monospace; font-size: 0.9rem; line-height: 1.6; color: white; }
-    .terminal-line { margin: 5px 0; }
-    .terminal-prompt { color: var(--terminal-green); }
-    .terminal-command { color: #DCDCDC; }
-    .terminal-output { color: #9CDCFE; opacity: 0.8; }
-    .terminal-comment { color: #6A9955; }
-    .terminal-gemini { color: #4285F4; }
+    .mission-header {
+      background: linear-gradient(135deg, var(--day2-color), var(--pink-vivid));
+      padding: 40px 20px;
+      text-align: center;
+      color: white;
+    }
 
-    .step-box { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 25px; margin: 20px 0; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
-    .step-number { display: inline-flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: var(--day2-color); color: white; border-radius: 50%; font-family: 'Orbitron', sans-serif; font-weight: 700; margin-right: 10px; }
-    .step-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; }
+    .mission-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
 
-    .prompt-box { background: linear-gradient(135deg, var(--pink-light), var(--peach)); border-radius: 12px; padding: 20px; margin: 15px 0; border-left: 4px solid var(--pink-vivid); }
-    .prompt-label { color: var(--pink-vivid); font-size: 0.8rem; font-weight: 700; margin-bottom: 10px; display: block; }
+    h1 {
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      margin-bottom: 10px;
+    }
 
-    .data-preview { background: white; border-radius: 12px; padding: 20px; margin: 20px 0; overflow-x: auto; }
-    .data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-    .data-table th, .data-table td { padding: 10px; text-align: left; border-bottom: 1px solid var(--pink-light); }
-    .data-table th { background: rgba(242,109,158,0.1); color: var(--pink-vivid); }
-    .color-cell { display: flex; align-items: center; gap: 10px; }
-    .mini-chip { width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--pink-light); }
+    .mission-desc {
+      opacity: 0.95;
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-    .point-box { background: linear-gradient(135deg, rgba(242,109,158,0.15), rgba(242,202,179,0.2)); border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 4px solid var(--terracotta); }
-    .point-box h4 { color: var(--terracotta); margin-bottom: 10px; }
+    .time-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px 16px;
+      border-radius: 20px;
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
 
-    .business-tips { background: linear-gradient(135deg, rgba(242,109,158,0.1), rgba(242,202,179,0.2)); border: 1px solid var(--pink-vivid); border-radius: 12px; margin: 30px 0; overflow: hidden; }
-    .business-tips summary { padding: 20px; cursor: pointer; font-weight: 700; color: var(--pink-vivid); display: flex; align-items: center; gap: 10px; transition: background 0.3s; list-style: none; }
-    .business-tips summary::-webkit-details-marker { display: none; }
-    .business-tips summary:hover { background: rgba(255,255,255,0.5); }
-    .business-tips summary::before { content: '▶'; font-size: 0.8rem; transition: transform 0.3s; }
-    .business-tips[open] summary::before { transform: rotate(90deg); }
-    .business-content { padding: 0 20px 20px; border-top: 1px solid var(--pink-light); }
-    .business-content h4 { color: var(--terracotta); margin: 20px 0 15px; font-size: 1rem; }
-    .business-list { list-style: none; }
-    .business-list li { padding: 12px 15px; margin: 8px 0; background: rgba(255,255,255,0.7); border-radius: 8px; display: flex; align-items: flex-start; gap: 12px; }
-    .business-list li::before { content: '💼'; flex-shrink: 0; }
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
 
-    .checkpoint { background: linear-gradient(135deg, var(--day2-color), var(--pink-vivid)); border-radius: 16px; padding: 25px; margin: 30px 0; text-align: center; color: white; }
-    .checkpoint h3 { color: white; margin: 0 0 15px; }
-    .checkpoint p { margin: 0; }
+    section {
+      margin-bottom: 40px;
+    }
 
-    .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--pink-light); }
-    .nav-btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 25px; background: white; color: var(--dark); text-decoration: none; border-radius: 12px; transition: all 0.3s; border: 2px solid var(--pink-light); }
-    .nav-btn:hover { background: var(--pink-light); border-color: var(--pink-vivid); }
-    .nav-btn.next { background: var(--day2-color); border-color: var(--day2-color); color: white; }
-    .nav-btn.next:hover { background: var(--pink-vivid); }
+    h2 {
+      color: var(--pink-vivid);
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--pink-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h3 {
+      color: var(--terracotta);
+      font-size: 1.1rem;
+      margin: 25px 0 15px;
+    }
+
+    p {
+      margin-bottom: 15px;
+    }
+
+    .fashion-box {
+      background: linear-gradient(135deg, rgba(242, 109, 158, 0.2), rgba(242, 202, 179, 0.3));
+      border-radius: 20px;
+      padding: 30px;
+      margin: 30px 0;
+      text-align: center;
+      border: 2px solid var(--pink-vivid);
+    }
+
+    .fashion-icon {
+      font-size: 4rem;
+      margin-bottom: 15px;
+    }
+
+    .fashion-box h3 {
+      color: var(--pink-vivid);
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+
+    .color-preview {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .color-chip {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      border: 3px solid white;
+    }
+
+    .terminal {
+      background: var(--terminal-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 20px 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .terminal-header {
+      background: #323232;
+      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .terminal-dot.red {
+      background: #FF5F56;
+    }
+
+    .terminal-dot.yellow {
+      background: #FFBD2E;
+    }
+
+    .terminal-dot.green {
+      background: #27C93F;
+    }
+
+    .terminal-title {
+      margin-left: 10px;
+      font-size: 0.85rem;
+      opacity: 0.7;
+      color: white;
+    }
+
+    .terminal-body {
+      padding: 20px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: white;
+    }
+
+    .terminal-line {
+      margin: 5px 0;
+    }
+
+    .terminal-prompt {
+      color: var(--terminal-green);
+    }
+
+    .terminal-command {
+      color: #DCDCDC;
+    }
+
+    .terminal-output {
+      color: #9CDCFE;
+      opacity: 0.8;
+    }
+
+    .terminal-comment {
+      color: #6A9955;
+    }
+
+    .terminal-gemini {
+      color: #4285F4;
+    }
+
+    .step-box {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 25px;
+      margin: 20px 0;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 35px;
+      height: 35px;
+      background: var(--day2-color);
+      color: white;
+      border-radius: 50%;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      margin-right: 10px;
+    }
+
+    .step-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+
+    .prompt-box {
+      background: linear-gradient(135deg, var(--pink-light), var(--peach));
+      border-radius: 12px;
+      padding: 20px;
+      margin: 15px 0;
+      border-left: 4px solid var(--pink-vivid);
+    }
+
+    .prompt-label {
+      color: var(--pink-vivid);
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .data-preview {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--pink-light);
+    }
+
+    .data-table th {
+      background: rgba(242, 109, 158, 0.1);
+      color: var(--pink-vivid);
+    }
+
+    .color-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mini-chip {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1px solid var(--pink-light);
+    }
+
+    .point-box {
+      background: linear-gradient(135deg, rgba(242, 109, 158, 0.15), rgba(242, 202, 179, 0.2));
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      border-left: 4px solid var(--terracotta);
+    }
+
+    .point-box h4 {
+      color: var(--terracotta);
+      margin-bottom: 10px;
+    }
+
+    .business-tips {
+      background: linear-gradient(135deg, rgba(242, 109, 158, 0.1), rgba(242, 202, 179, 0.2));
+      border: 1px solid var(--pink-vivid);
+      border-radius: 12px;
+      margin: 30px 0;
+      overflow: hidden;
+    }
+
+    .business-tips summary {
+      padding: 20px;
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--pink-vivid);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.3s;
+      list-style: none;
+    }
+
+    .business-tips summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .business-tips summary:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .business-tips summary::before {
+      content: '▶';
+      font-size: 0.8rem;
+      transition: transform 0.3s;
+    }
+
+    .business-tips[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    .business-content {
+      padding: 0 20px 20px;
+      border-top: 1px solid var(--pink-light);
+    }
+
+    .business-content h4 {
+      color: var(--terracotta);
+      margin: 20px 0 15px;
+      font-size: 1rem;
+    }
+
+    .business-list {
+      list-style: none;
+    }
+
+    .business-list li {
+      padding: 12px 15px;
+      margin: 8px 0;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .business-list li::before {
+      content: '💼';
+      flex-shrink: 0;
+    }
+
+    .checkpoint {
+      background: linear-gradient(135deg, var(--day2-color), var(--pink-vivid));
+      border-radius: 16px;
+      padding: 25px;
+      margin: 30px 0;
+      text-align: center;
+      color: white;
+    }
+
+    .checkpoint h3 {
+      color: white;
+      margin: 0 0 15px;
+    }
+
+    .checkpoint p {
+      margin: 0;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid var(--pink-light);
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 25px;
+      background: white;
+      color: var(--dark);
+      text-decoration: none;
+      border-radius: 12px;
+      transition: all 0.3s;
+      border: 2px solid var(--pink-light);
+    }
+
+    .nav-btn:hover {
+      background: var(--pink-light);
+      border-color: var(--pink-vivid);
+    }
+
+    .nav-btn.next {
+      background: var(--day2-color);
+      border-color: var(--day2-color);
+      color: white;
+    }
+
+    .nav-btn.next:hover {
+      background: var(--pink-vivid);
+    }
 
     /* コピーボタン */
-    .prompt-box { position: relative; }
+    .prompt-box {
+      position: relative;
+    }
+
     .copy-btn {
       position: absolute;
       top: 10px;
@@ -117,8 +481,15 @@
       transition: all 0.3s;
       font-family: 'Zen Maru Gothic', sans-serif;
     }
-    .copy-btn:hover { background: var(--terracotta); transform: scale(1.05); }
-    .copy-btn.copied { background: #27ae60; }
+
+    .copy-btn:hover {
+      background: var(--terracotta);
+      transform: scale(1.05);
+    }
+
+    .copy-btn.copied {
+      background: #27ae60;
+    }
 
     /* トラブルシューティング */
     .trouble-box {
@@ -128,6 +499,7 @@
       margin: 30px 0;
       overflow: hidden;
     }
+
     .trouble-box summary {
       padding: 20px;
       cursor: pointer;
@@ -138,13 +510,41 @@
       gap: 10px;
       list-style: none;
     }
-    .trouble-box summary::-webkit-details-marker { display: none; }
-    .trouble-box summary::before { content: '▶'; font-size: 0.8rem; transition: transform 0.3s; }
-    .trouble-box[open] summary::before { transform: rotate(90deg); }
-    .trouble-content { padding: 0 20px 20px; }
-    .trouble-item { background: white; border-radius: 8px; padding: 15px; margin: 10px 0; }
-    .trouble-item h5 { color: #e74c3c; margin-bottom: 8px; }
-    .trouble-item p { margin: 0; font-size: 0.9rem; }
+
+    .trouble-box summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .trouble-box summary::before {
+      content: '▶';
+      font-size: 0.8rem;
+      transition: transform 0.3s;
+    }
+
+    .trouble-box[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    .trouble-content {
+      padding: 0 20px 20px;
+    }
+
+    .trouble-item {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 10px 0;
+    }
+
+    .trouble-item h5 {
+      color: #e74c3c;
+      margin-bottom: 8px;
+    }
+
+    .trouble-item p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
 
     /* 用語解説 */
     .glossary-box {
@@ -154,13 +554,39 @@
       padding: 20px;
       margin: 30px 0;
     }
-    .glossary-box h4 { color: #2980b9; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-    .glossary-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px dashed #3498db; }
-    .glossary-item:last-child { border-bottom: none; }
-    .glossary-term { font-weight: 700; color: #2c3e50; min-width: 120px; }
-    .glossary-desc { color: #34495e; font-size: 0.9rem; }
+
+    .glossary-box h4 {
+      color: #2980b9;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .glossary-item {
+      display: flex;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px dashed #3498db;
+    }
+
+    .glossary-item:last-child {
+      border-bottom: none;
+    }
+
+    .glossary-term {
+      font-weight: 700;
+      color: #2c3e50;
+      min-width: 120px;
+    }
+
+    .glossary-desc {
+      color: #34495e;
+      font-size: 0.9rem;
+    }
   </style>
 </head>
+
 <body>
   <nav>
     <a href="../index.html">🏠 ホーム</a>
@@ -226,26 +652,45 @@
         <p>こんな感じのデータが生成されます：</p>
         <div class="data-preview">
           <table class="data-table">
-            <tr><th>年</th><th>季節</th><th>色名</th><th>コード</th><th>カテゴリ</th><th>人気度</th></tr>
             <tr>
-              <td>2024</td><td>春</td>
+              <th>年</th>
+              <th>季節</th>
+              <th>色名</th>
+              <th>コード</th>
+              <th>カテゴリ</th>
+              <th>人気度</th>
+            </tr>
+            <tr>
+              <td>2024</td>
+              <td>春</td>
               <td><span class="color-cell"><span class="mini-chip" style="background:#FFB6C1;"></span>桜ピンク</span></td>
-              <td>#FFB6C1</td><td>パステル</td><td>95</td>
+              <td>#FFB6C1</td>
+              <td>パステル</td>
+              <td>95</td>
             </tr>
             <tr>
-              <td>2024</td><td>春</td>
+              <td>2024</td>
+              <td>春</td>
               <td><span class="color-cell"><span class="mini-chip" style="background:#98FB98;"></span>若草色</span></td>
-              <td>#98FB98</td><td>パステル</td><td>88</td>
+              <td>#98FB98</td>
+              <td>パステル</td>
+              <td>88</td>
             </tr>
             <tr>
-              <td>2024</td><td>夏</td>
+              <td>2024</td>
+              <td>夏</td>
               <td><span class="color-cell"><span class="mini-chip" style="background:#00CED1;"></span>ターコイズ</span></td>
-              <td>#00CED1</td><td>ビビッド</td><td>92</td>
+              <td>#00CED1</td>
+              <td>ビビッド</td>
+              <td>92</td>
             </tr>
             <tr>
-              <td>2024</td><td>秋</td>
+              <td>2024</td>
+              <td>秋</td>
               <td><span class="color-cell"><span class="mini-chip" style="background:#D2691E;"></span>テラコッタ</span></td>
-              <td>#D2691E</td><td>アース</td><td>85</td>
+              <td>#D2691E</td>
+              <td>アース</td>
+              <td>85</td>
             </tr>
           </table>
         </div>
@@ -259,7 +704,10 @@
           <span class="prompt-label">📝 AIへのお願い</span>
           さっき作ったトレンドカラーデータを、trend_colors.csv という名前のCSVファイルでも保存してください。
         </div>
-        <div class="point-box"><h4>💡 ポイント</h4><p style="margin:0;">JSONはプログラムで使いやすく、CSVはExcelで開きやすい。両方あると便利！</p></div>
+        <div class="point-box">
+          <h4>💡 ポイント</h4>
+          <p style="margin:0;">JSONはプログラムで使いやすく、CSVはExcelで開きやすい。両方あると便利！</p>
+        </div>
       </div>
     </section>
 
@@ -318,10 +766,19 @@
       <div class="business-content">
         <h4>🏢 データ生成の業務活用</h4>
         <ul class="business-list">
-          <li><div><strong>テストデータ作成</strong><br><span style="opacity:0.7">開発やテストに必要なダミーデータを大量生成。顧客情報、商品情報、売上データなど</span></div></li>
-          <li><div><strong>デモ用データ</strong><br><span style="opacity:0.7">プレゼンやデモで使うリアルっぽいサンプルデータを即座に作成</span></div></li>
-          <li><div><strong>分析用サンプル</strong><br><span style="opacity:0.7">新しい分析手法を試す前に、似た構造のサンプルデータで練習</span></div></li>
-          <li><div><strong>プロトタイプ用</strong><br><span style="opacity:0.7">本番データがない段階でもUIやダッシュボードを先に作れる</span></div></li>
+          <li>
+            <div><strong>テストデータ作成</strong><br><span style="opacity:0.7">開発やテストに必要なダミーデータを大量生成。顧客情報、商品情報、売上データなど</span>
+            </div>
+          </li>
+          <li>
+            <div><strong>デモ用データ</strong><br><span style="opacity:0.7">プレゼンやデモで使うリアルっぽいサンプルデータを即座に作成</span></div>
+          </li>
+          <li>
+            <div><strong>分析用サンプル</strong><br><span style="opacity:0.7">新しい分析手法を試す前に、似た構造のサンプルデータで練習</span></div>
+          </li>
+          <li>
+            <div><strong>プロトタイプ用</strong><br><span style="opacity:0.7">本番データがない段階でもUIやダッシュボードを先に作れる</span></div>
+          </li>
         </ul>
       </div>
     </details>
@@ -333,6 +790,7 @@
 
     <div class="nav-buttons">
       <a href="mission6_5.html" class="nav-btn">← Mission 6.5</a>
+      <a href="../index.html" class="nav-btn">🏠 ホーム</a>
       <a href="mission8.html" class="nav-btn next">Mission 8 へ →</a>
     </div>
   </main>
@@ -342,7 +800,7 @@
       const btn = document.createElement('button');
       btn.className = 'copy-btn';
       btn.textContent = 'コピー';
-      btn.onclick = function() {
+      btn.onclick = function () {
         const text = box.innerText.replace('コピー', '').replace(box.querySelector('.prompt-label')?.textContent || '', '').trim();
         navigator.clipboard.writeText(text).then(() => {
           btn.textContent = 'コピー完了!';
@@ -357,4 +815,5 @@
     });
   </script>
 </body>
+
 </html>

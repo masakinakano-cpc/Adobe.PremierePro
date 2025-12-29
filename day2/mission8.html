@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mission 8: ダッシュボード構築 🎛️</title>
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Orbitron:wght@700;900&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Orbitron:wght@700;900&family=Fira+Code:wght@400;700&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       --pink-light: #F2C9CC;
@@ -20,91 +23,474 @@
       --gemini-color: #4285F4;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Zen Maru Gothic', sans-serif; background: linear-gradient(135deg, var(--peach) 0%, var(--pink-light) 50%, var(--pink-medium) 100%); color: var(--dark); min-height: 100vh; line-height: 1.8; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    nav { background: rgba(255,255,255,0.95); padding: 15px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 2px solid var(--day2-color); }
-    nav a { color: var(--dark); text-decoration: none; opacity: 0.7; transition: opacity 0.3s; }
-    nav a:hover { opacity: 1; }
-    .nav-current { color: var(--day2-color); font-weight: 700; }
+    body {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      background: linear-gradient(135deg, var(--peach) 0%, var(--pink-light) 50%, var(--pink-medium) 100%);
+      color: var(--dark);
+      min-height: 100vh;
+      line-height: 1.8;
+    }
 
-    .mission-header { background: linear-gradient(135deg, var(--day2-color), var(--pink-vivid)); padding: 40px 20px; text-align: center; color: white; }
-    .mission-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 50px; font-family: 'Orbitron', sans-serif; font-size: 0.9rem; margin-bottom: 15px; }
-    h1 { font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 10px; }
-    .mission-desc { opacity: 0.95; max-width: 600px; margin: 0 auto; }
-    .time-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin-top: 15px; font-size: 0.9rem; }
+    nav {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 2px solid var(--day2-color);
+    }
 
-    main { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
-    section { margin-bottom: 40px; }
-    h2 { color: var(--pink-vivid); font-size: 1.4rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--pink-light); display: flex; align-items: center; gap: 10px; }
-    h3 { color: var(--terracotta); font-size: 1.1rem; margin: 25px 0 15px; }
-    p { margin-bottom: 15px; }
+    nav a {
+      color: var(--dark);
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
 
-    .dashboard-preview { background: linear-gradient(135deg, rgba(242,109,158,0.15), rgba(242,202,179,0.2)); border-radius: 20px; padding: 30px; margin: 30px 0; border: 2px solid var(--pink-vivid); }
-    .dashboard-preview h3 { color: var(--pink-vivid); text-align: center; margin-bottom: 20px; }
-    .preview-mockup { background: white; border-radius: 12px; padding: 20px; display: grid; gap: 15px; }
-    .preview-filters { display: flex; gap: 10px; flex-wrap: wrap; }
-    .preview-filter { background: var(--pink-light); padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; }
-    .preview-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
-    .preview-card { background: rgba(242,201,204,0.3); border-radius: 8px; padding: 15px; text-align: center; }
-    .preview-card .color-sample { width: 40px; height: 40px; border-radius: 50%; margin: 0 auto 10px; border: 2px solid white; }
-    .preview-card .color-name { font-size: 0.8rem; }
+    nav a:hover {
+      opacity: 1;
+    }
 
-    .terminal { background: var(--terminal-bg); border-radius: 12px; overflow: hidden; margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-    .terminal-header { background: #323232; padding: 10px 15px; display: flex; align-items: center; gap: 8px; }
-    .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
-    .terminal-dot.red { background: #FF5F56; }
-    .terminal-dot.yellow { background: #FFBD2E; }
-    .terminal-dot.green { background: #27C93F; }
-    .terminal-title { margin-left: 10px; font-size: 0.85rem; opacity: 0.7; color: white; }
-    .terminal-body { padding: 20px; font-family: 'Fira Code', monospace; font-size: 0.9rem; line-height: 1.6; color: white; }
-    .terminal-line { margin: 5px 0; }
-    .terminal-prompt { color: var(--terminal-green); }
-    .terminal-command { color: #DCDCDC; }
-    .terminal-output { color: #9CDCFE; opacity: 0.8; }
-    .terminal-comment { color: #6A9955; }
-    .terminal-gemini { color: #4285F4; }
+    .nav-current {
+      color: var(--day2-color);
+      font-weight: 700;
+    }
 
-    .step-box { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 25px; margin: 20px 0; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
-    .step-number { display: inline-flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: var(--day2-color); color: white; border-radius: 50%; font-family: 'Orbitron', sans-serif; font-weight: 700; margin-right: 10px; }
-    .step-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; }
+    .mission-header {
+      background: linear-gradient(135deg, var(--day2-color), var(--pink-vivid));
+      padding: 40px 20px;
+      text-align: center;
+      color: white;
+    }
 
-    .prompt-box { background: linear-gradient(135deg, var(--pink-light), var(--peach)); border-radius: 12px; padding: 20px; margin: 15px 0; border-left: 4px solid var(--pink-vivid); }
-    .prompt-label { color: var(--pink-vivid); font-size: 0.8rem; font-weight: 700; margin-bottom: 10px; display: block; }
+    .mission-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
 
-    .feature-list { display: grid; gap: 15px; margin: 20px 0; }
-    .feature-item { background: white; border-radius: 12px; padding: 20px; display: flex; align-items: center; gap: 15px; border: 1px solid var(--pink-light); }
-    .feature-icon { font-size: 2rem; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; background: var(--pink-light); border-radius: 12px; flex-shrink: 0; }
-    .feature-content h4 { color: var(--terracotta); margin-bottom: 5px; }
-    .feature-content p { margin: 0; font-size: 0.9rem; opacity: 0.8; }
+    h1 {
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      margin-bottom: 10px;
+    }
 
-    .point-box { background: linear-gradient(135deg, rgba(242,109,158,0.15), rgba(242,202,179,0.2)); border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 4px solid var(--terracotta); }
-    .point-box h4 { color: var(--terracotta); margin-bottom: 10px; }
+    .mission-desc {
+      opacity: 0.95;
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-    .business-tips { background: linear-gradient(135deg, rgba(242,109,158,0.1), rgba(242,202,179,0.2)); border: 1px solid var(--pink-vivid); border-radius: 12px; margin: 30px 0; overflow: hidden; }
-    .business-tips summary { padding: 20px; cursor: pointer; font-weight: 700; color: var(--pink-vivid); display: flex; align-items: center; gap: 10px; transition: background 0.3s; list-style: none; }
-    .business-tips summary::-webkit-details-marker { display: none; }
-    .business-tips summary:hover { background: rgba(255,255,255,0.5); }
-    .business-tips summary::before { content: '▶'; font-size: 0.8rem; transition: transform 0.3s; }
-    .business-tips[open] summary::before { transform: rotate(90deg); }
-    .business-content { padding: 0 20px 20px; border-top: 1px solid var(--pink-light); }
-    .business-content h4 { color: var(--terracotta); margin: 20px 0 15px; font-size: 1rem; }
-    .business-list { list-style: none; }
-    .business-list li { padding: 12px 15px; margin: 8px 0; background: rgba(255,255,255,0.7); border-radius: 8px; display: flex; align-items: flex-start; gap: 12px; }
-    .business-list li::before { content: '💼'; flex-shrink: 0; }
+    .time-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px 16px;
+      border-radius: 20px;
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
 
-    .checkpoint { background: linear-gradient(135deg, var(--day2-color), var(--pink-vivid)); border-radius: 16px; padding: 25px; margin: 30px 0; text-align: center; color: white; }
-    .checkpoint h3 { color: white; margin: 0 0 15px; }
-    .checkpoint p { margin: 0; }
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
 
-    .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--pink-light); }
-    .nav-btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 25px; background: white; color: var(--dark); text-decoration: none; border-radius: 12px; transition: all 0.3s; border: 2px solid var(--pink-light); }
-    .nav-btn:hover { background: var(--pink-light); border-color: var(--pink-vivid); }
-    .nav-btn.next { background: var(--day2-color); border-color: var(--day2-color); color: white; }
-    .nav-btn.next:hover { background: var(--pink-vivid); }
+    section {
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      color: var(--pink-vivid);
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--pink-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h3 {
+      color: var(--terracotta);
+      font-size: 1.1rem;
+      margin: 25px 0 15px;
+    }
+
+    p {
+      margin-bottom: 15px;
+    }
+
+    .dashboard-preview {
+      background: linear-gradient(135deg, rgba(242, 109, 158, 0.15), rgba(242, 202, 179, 0.2));
+      border-radius: 20px;
+      padding: 30px;
+      margin: 30px 0;
+      border: 2px solid var(--pink-vivid);
+    }
+
+    .dashboard-preview h3 {
+      color: var(--pink-vivid);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .preview-mockup {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      display: grid;
+      gap: 15px;
+    }
+
+    .preview-filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .preview-filter {
+      background: var(--pink-light);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+
+    .preview-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+    }
+
+    .preview-card {
+      background: rgba(242, 201, 204, 0.3);
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .preview-card .color-sample {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin: 0 auto 10px;
+      border: 2px solid white;
+    }
+
+    .preview-card .color-name {
+      font-size: 0.8rem;
+    }
+
+    .terminal {
+      background: var(--terminal-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 20px 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .terminal-header {
+      background: #323232;
+      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .terminal-dot.red {
+      background: #FF5F56;
+    }
+
+    .terminal-dot.yellow {
+      background: #FFBD2E;
+    }
+
+    .terminal-dot.green {
+      background: #27C93F;
+    }
+
+    .terminal-title {
+      margin-left: 10px;
+      font-size: 0.85rem;
+      opacity: 0.7;
+      color: white;
+    }
+
+    .terminal-body {
+      padding: 20px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: white;
+    }
+
+    .terminal-line {
+      margin: 5px 0;
+    }
+
+    .terminal-prompt {
+      color: var(--terminal-green);
+    }
+
+    .terminal-command {
+      color: #DCDCDC;
+    }
+
+    .terminal-output {
+      color: #9CDCFE;
+      opacity: 0.8;
+    }
+
+    .terminal-comment {
+      color: #6A9955;
+    }
+
+    .terminal-gemini {
+      color: #4285F4;
+    }
+
+    .step-box {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 25px;
+      margin: 20px 0;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 35px;
+      height: 35px;
+      background: var(--day2-color);
+      color: white;
+      border-radius: 50%;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      margin-right: 10px;
+    }
+
+    .step-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+
+    .prompt-box {
+      background: linear-gradient(135deg, var(--pink-light), var(--peach));
+      border-radius: 12px;
+      padding: 20px;
+      margin: 15px 0;
+      border-left: 4px solid var(--pink-vivid);
+    }
+
+    .prompt-label {
+      color: var(--pink-vivid);
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .feature-item {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border: 1px solid var(--pink-light);
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--pink-light);
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+
+    .feature-content h4 {
+      color: var(--terracotta);
+      margin-bottom: 5px;
+    }
+
+    .feature-content p {
+      margin: 0;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .point-box {
+      background: linear-gradient(135deg, rgba(242, 109, 158, 0.15), rgba(242, 202, 179, 0.2));
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      border-left: 4px solid var(--terracotta);
+    }
+
+    .point-box h4 {
+      color: var(--terracotta);
+      margin-bottom: 10px;
+    }
+
+    .business-tips {
+      background: linear-gradient(135deg, rgba(242, 109, 158, 0.1), rgba(242, 202, 179, 0.2));
+      border: 1px solid var(--pink-vivid);
+      border-radius: 12px;
+      margin: 30px 0;
+      overflow: hidden;
+    }
+
+    .business-tips summary {
+      padding: 20px;
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--pink-vivid);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.3s;
+      list-style: none;
+    }
+
+    .business-tips summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .business-tips summary:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .business-tips summary::before {
+      content: '▶';
+      font-size: 0.8rem;
+      transition: transform 0.3s;
+    }
+
+    .business-tips[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    .business-content {
+      padding: 0 20px 20px;
+      border-top: 1px solid var(--pink-light);
+    }
+
+    .business-content h4 {
+      color: var(--terracotta);
+      margin: 20px 0 15px;
+      font-size: 1rem;
+    }
+
+    .business-list {
+      list-style: none;
+    }
+
+    .business-list li {
+      padding: 12px 15px;
+      margin: 8px 0;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .business-list li::before {
+      content: '💼';
+      flex-shrink: 0;
+    }
+
+    .checkpoint {
+      background: linear-gradient(135deg, var(--day2-color), var(--pink-vivid));
+      border-radius: 16px;
+      padding: 25px;
+      margin: 30px 0;
+      text-align: center;
+      color: white;
+    }
+
+    .checkpoint h3 {
+      color: white;
+      margin: 0 0 15px;
+    }
+
+    .checkpoint p {
+      margin: 0;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid var(--pink-light);
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 25px;
+      background: white;
+      color: var(--dark);
+      text-decoration: none;
+      border-radius: 12px;
+      transition: all 0.3s;
+      border: 2px solid var(--pink-light);
+    }
+
+    .nav-btn:hover {
+      background: var(--pink-light);
+      border-color: var(--pink-vivid);
+    }
+
+    .nav-btn.next {
+      background: var(--day2-color);
+      border-color: var(--day2-color);
+      color: white;
+    }
+
+    .nav-btn.next:hover {
+      background: var(--pink-vivid);
+    }
 
     /* コピーボタン */
-    .prompt-box { position: relative; }
+    .prompt-box {
+      position: relative;
+    }
+
     .copy-btn {
       position: absolute;
       top: 10px;
@@ -119,8 +505,15 @@
       transition: all 0.3s;
       font-family: 'Zen Maru Gothic', sans-serif;
     }
-    .copy-btn:hover { background: var(--terracotta); transform: scale(1.05); }
-    .copy-btn.copied { background: #27ae60; }
+
+    .copy-btn:hover {
+      background: var(--terracotta);
+      transform: scale(1.05);
+    }
+
+    .copy-btn.copied {
+      background: #27ae60;
+    }
 
     /* トラブルシューティング */
     .trouble-box {
@@ -130,6 +523,7 @@
       margin: 30px 0;
       overflow: hidden;
     }
+
     .trouble-box summary {
       padding: 20px;
       cursor: pointer;
@@ -140,13 +534,41 @@
       gap: 10px;
       list-style: none;
     }
-    .trouble-box summary::-webkit-details-marker { display: none; }
-    .trouble-box summary::before { content: '▶'; font-size: 0.8rem; transition: transform 0.3s; }
-    .trouble-box[open] summary::before { transform: rotate(90deg); }
-    .trouble-content { padding: 0 20px 20px; }
-    .trouble-item { background: white; border-radius: 8px; padding: 15px; margin: 10px 0; }
-    .trouble-item h5 { color: #e74c3c; margin-bottom: 8px; }
-    .trouble-item p { margin: 0; font-size: 0.9rem; }
+
+    .trouble-box summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .trouble-box summary::before {
+      content: '▶';
+      font-size: 0.8rem;
+      transition: transform 0.3s;
+    }
+
+    .trouble-box[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    .trouble-content {
+      padding: 0 20px 20px;
+    }
+
+    .trouble-item {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 10px 0;
+    }
+
+    .trouble-item h5 {
+      color: #e74c3c;
+      margin-bottom: 8px;
+    }
+
+    .trouble-item p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
 
     /* 用語解説 */
     .glossary-box {
@@ -156,13 +578,39 @@
       padding: 20px;
       margin: 30px 0;
     }
-    .glossary-box h4 { color: #2980b9; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-    .glossary-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px dashed #3498db; }
-    .glossary-item:last-child { border-bottom: none; }
-    .glossary-term { font-weight: 700; color: #2c3e50; min-width: 120px; }
-    .glossary-desc { color: #34495e; font-size: 0.9rem; }
+
+    .glossary-box h4 {
+      color: #2980b9;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .glossary-item {
+      display: flex;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px dashed #3498db;
+    }
+
+    .glossary-item:last-child {
+      border-bottom: none;
+    }
+
+    .glossary-term {
+      font-weight: 700;
+      color: #2c3e50;
+      min-width: 120px;
+    }
+
+    .glossary-desc {
+      color: #34495e;
+      font-size: 0.9rem;
+    }
   </style>
 </head>
+
 <body>
   <nav>
     <a href="../index.html">🏠 ホーム</a>
@@ -189,10 +637,22 @@
           <span class="preview-filter">🔍 検索...</span>
         </div>
         <div class="preview-cards">
-          <div class="preview-card"><div class="color-sample" style="background: #F26D9E;"></div><div class="color-name">コーラルピンク</div></div>
-          <div class="preview-card"><div class="color-sample" style="background: #F28DB2;"></div><div class="color-name">ローズピンク</div></div>
-          <div class="preview-card"><div class="color-sample" style="background: #F2CAB3;"></div><div class="color-name">ピーチベージュ</div></div>
-          <div class="preview-card"><div class="color-sample" style="background: #BF7C63;"></div><div class="color-name">テラコッタ</div></div>
+          <div class="preview-card">
+            <div class="color-sample" style="background: #F26D9E;"></div>
+            <div class="color-name">コーラルピンク</div>
+          </div>
+          <div class="preview-card">
+            <div class="color-sample" style="background: #F28DB2;"></div>
+            <div class="color-name">ローズピンク</div>
+          </div>
+          <div class="preview-card">
+            <div class="color-sample" style="background: #F2CAB3;"></div>
+            <div class="color-name">ピーチベージュ</div>
+          </div>
+          <div class="preview-card">
+            <div class="color-sample" style="background: #BF7C63;"></div>
+            <div class="color-name">テラコッタ</div>
+          </div>
         </div>
       </div>
     </div>
@@ -206,10 +666,34 @@
     <section>
       <h2>✨ 実装する機能</h2>
       <div class="feature-list">
-        <div class="feature-item"><div class="feature-icon">🔍</div><div class="feature-content"><h4>検索機能</h4><p>色名やカテゴリでリアルタイム検索</p></div></div>
-        <div class="feature-item"><div class="feature-icon">📅</div><div class="feature-content"><h4>年フィルタ</h4><p>2020〜2025年のデータを切り替え表示</p></div></div>
-        <div class="feature-item"><div class="feature-icon">🌸</div><div class="feature-content"><h4>季節フィルタ</h4><p>春/夏/秋/冬でトレンドカラーを絞り込み</p></div></div>
-        <div class="feature-item"><div class="feature-icon">🎨</div><div class="feature-content"><h4>カラー可視化</h4><p>色コードを実際の色で表示</p></div></div>
+        <div class="feature-item">
+          <div class="feature-icon">🔍</div>
+          <div class="feature-content">
+            <h4>検索機能</h4>
+            <p>色名やカテゴリでリアルタイム検索</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">📅</div>
+          <div class="feature-content">
+            <h4>年フィルタ</h4>
+            <p>2020〜2025年のデータを切り替え表示</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🌸</div>
+          <div class="feature-content">
+            <h4>季節フィルタ</h4>
+            <p>春/夏/秋/冬でトレンドカラーを絞り込み</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🎨</div>
+          <div class="feature-content">
+            <h4>カラー可視化</h4>
+            <p>色コードを実際の色で表示</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -249,7 +733,10 @@
           <li style="padding: 8px 0;">3. 右側にプレビューパネルが表示される</li>
         </ul>
         <p>フィルタや検索を試してみてください！</p>
-        <div class="point-box"><h4>💡 うまく動かない場合</h4><p style="margin:0;">「検索が効かない」「フィルタが動かない」などあれば、その症状をAIに伝えると修正してくれます！<br>例：「検索ボックスに入力しても絞り込まれません」</p></div>
+        <div class="point-box">
+          <h4>💡 うまく動かない場合</h4>
+          <p style="margin:0;">「検索が効かない」「フィルタが動かない」などあれば、その症状をAIに伝えると修正してくれます！<br>例：「検索ボックスに入力しても絞り込まれません」</p>
+        </div>
       </div>
 
       <div class="step-box">
@@ -312,13 +799,23 @@
       <div class="business-content">
         <h4>🏢 ダッシュボードの業務活用</h4>
         <ul class="business-list">
-          <li><div><strong>売上管理ダッシュボード</strong><br><span style="opacity:0.7">月別・商品別・エリア別の売上をフィルタ。グラフ表示で推移を可視化</span></div></li>
-          <li><div><strong>KPIダッシュボード</strong><br><span style="opacity:0.7">部門ごとの目標達成率を一覧表示。アラート表示で注意が必要な項目をハイライト</span></div></li>
-          <li><div><strong>在庫管理画面</strong><br><span style="opacity:0.7">カテゴリ・在庫数でフィルタ。発注が必要な商品を自動抽出</span></div></li>
-          <li><div><strong>プロジェクト進捗管理</strong><br><span style="opacity:0.7">担当者・ステータスで絞り込み。期限切れタスクをアラート表示</span></div></li>
+          <li>
+            <div><strong>売上管理ダッシュボード</strong><br><span style="opacity:0.7">月別・商品別・エリア別の売上をフィルタ。グラフ表示で推移を可視化</span></div>
+          </li>
+          <li>
+            <div><strong>KPIダッシュボード</strong><br><span style="opacity:0.7">部門ごとの目標達成率を一覧表示。アラート表示で注意が必要な項目をハイライト</span>
+            </div>
+          </li>
+          <li>
+            <div><strong>在庫管理画面</strong><br><span style="opacity:0.7">カテゴリ・在庫数でフィルタ。発注が必要な商品を自動抽出</span></div>
+          </li>
+          <li>
+            <div><strong>プロジェクト進捗管理</strong><br><span style="opacity:0.7">担当者・ステータスで絞り込み。期限切れタスクをアラート表示</span></div>
+          </li>
         </ul>
         <h4>💡 ポイント</h4>
-        <p style="background:rgba(255,255,255,0.7); padding:15px; border-radius:8px;">AIで作ったダッシュボードは<strong>プロトタイプ</strong>として最適。「こんな画面がほしい」をすぐに形にして、関係者と認識合わせができます。</p>
+        <p style="background:rgba(255,255,255,0.7); padding:15px; border-radius:8px;">
+          AIで作ったダッシュボードは<strong>プロトタイプ</strong>として最適。「こんな画面がほしい」をすぐに形にして、関係者と認識合わせができます。</p>
       </div>
     </details>
 
@@ -329,6 +826,7 @@
 
     <div class="nav-buttons">
       <a href="mission7.html" class="nav-btn">← Mission 7</a>
+      <a href="../index.html" class="nav-btn">🏠 ホーム</a>
       <a href="mission9.html" class="nav-btn next">Mission 9 へ →</a>
     </div>
   </main>
@@ -338,7 +836,7 @@
       const btn = document.createElement('button');
       btn.className = 'copy-btn';
       btn.textContent = 'コピー';
-      btn.onclick = function() {
+      btn.onclick = function () {
         const text = box.innerText.replace('コピー', '').replace(box.querySelector('.prompt-label')?.textContent || '', '').trim();
         navigator.clipboard.writeText(text).then(() => {
           btn.textContent = 'コピー完了!';
@@ -353,4 +851,5 @@
     });
   </script>
 </body>
+
 </html>
