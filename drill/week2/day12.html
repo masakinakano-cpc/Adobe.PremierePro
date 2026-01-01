@@ -74,6 +74,7 @@
 
         <div class="section">
             <h2>📝 練習メニュー</h2>
+            <div id="progress-display" style="text-align:right; font-size:0.9em; font-weight:bold; color:var(--primary-color); margin-bottom:10px;"></div>
             <div class="exercise">
                 <div class="check-item"><input type="checkbox"><span>自分の名前や好きな言葉をロゴにする</span></div>
 <div class="check-item"><input type="checkbox"><span>シェイプアニメーションで装飾を加える</span></div>
@@ -93,10 +94,9 @@
             <a href="../week3/day13.html" class="nav-btn next">Day 13 へ進む →</a>
         </div>
     </div>
-    <script>
-        function toggleCheck(element) {
+        <script>
+        function updateState(element) {
             const checkbox = element.querySelector('input');
-            checkbox.checked = !checkbox.checked;
             element.classList.toggle('completed', checkbox.checked);
             localStorage.setItem('drill_day_12_check_' + element.dataset.id, checkbox.checked);
             checkCompletion();
@@ -105,27 +105,52 @@
         function checkCompletion() {
             const total = document.querySelectorAll('.check-item').length;
             const checked = document.querySelectorAll('.check-item input:checked').length;
-            if (total === checked) {
+
+            // Update Progress Display
+            const percent = total > 0 ? Math.round((checked / total) * 100) : 0;
+            const display = document.getElementById('progress-display');
+            if(display) {
+                display.textContent = `進捗度: ${checked} / ${total} (${percent}%)`;
+            }
+
+            if (total === checked && total > 0) {
                 localStorage.setItem('drill_day_12_complete', 'true');
+                // Optional: visual celebration
+            } else {
+                // Optional: remove complete flag if unchecked?
+                // Usually once complete, stays complete, but let's keep it simple.
+                // localStorage.removeItem('drill_day_12_complete');
             }
         }
 
         window.onload = function() {
             document.querySelectorAll('.check-item').forEach((el, idx) => {
                 el.dataset.id = idx;
-                el.addEventListener('click', function(e) {
-                   if(e.target.tagName !== 'INPUT') toggleCheck(el);
-                });
-                el.querySelector('input').addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    toggleCheck(el);
-                });
+                const checkbox = el.querySelector('input');
 
+                // Load saved state
                 if (localStorage.getItem('drill_day_12_check_' + idx) === 'true') {
-                    el.querySelector('input').checked = true;
+                    checkbox.checked = true;
                     el.classList.add('completed');
                 }
+
+                // Click on Row (toggle)
+                el.addEventListener('click', function(e) {
+                    if(e.target.tagName !== 'INPUT') {
+                        checkbox.checked = !checkbox.checked;
+                        updateState(el);
+                    }
+                });
+
+                // Click on Input (native toggle happened, just sync)
+                checkbox.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    updateState(el);
+                });
             });
+
+            // Init progress
+            checkCompletion();
         }
     </script>
 </body>
