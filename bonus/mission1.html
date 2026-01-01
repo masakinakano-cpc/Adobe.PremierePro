@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonus 1: ショート動画完全攻略 📱</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Orbitron:wght@700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --pr-color: #9999FF;
+            --ae-color: #7B68EE;
+            --bonus-color: #FF6B6B;
+            /* Vivid Red/Orange for Bonus */
+            --bonus-light: #FFD1D1;
+            --dark: #2C2C54;
+            --light: #FFF5F5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background: linear-gradient(135deg, var(--light) 0%, #FFFFFF 50%, #FFE4E1 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            line-height: 1.8;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 2px solid var(--bonus-color);
+            backdrop-filter: blur(10px);
+        }
+
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 1;
+        }
+
+        .nav-current {
+            color: var(--bonus-color);
+            font-weight: 700;
+        }
+
+        .mission-header {
+            background: linear-gradient(135deg, var(--bonus-color), #FF4500);
+            padding: 50px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .mission-badge {
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        h1 {
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .mission-desc {
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        .time-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            color: var(--bonus-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            color: var(--bonus-color);
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--bonus-light);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h3 {
+            color: #333;
+            font-size: 1.2rem;
+            margin: 30px 0 15px;
+            border-left: 5px solid var(--bonus-color);
+            padding-left: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        /* iPhone風フレーム */
+        .smartphone-mockup {
+            border: 12px solid #333;
+            border-radius: 30px;
+            height: 400px;
+            width: 225px;
+            /* 9:16 ratio */
+            margin: 20px auto;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .screen-content {
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            font-weight: bold;
+            position: relative;
+        }
+
+        /* ステップボックス */
+        .step-box {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 25px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--bonus-light);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--bonus-color);
+            color: white;
+            border-radius: 50%;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.4);
+        }
+
+        .step-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* ポイントボックス */
+        .point-box {
+            background: linear-gradient(135deg, #FFF5E6, #FFEFD5);
+            border-left: 5px solid #FFA500;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .point-title {
+            font-weight: bold;
+            color: #FF8C00;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ナビゲーションボタン */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: white;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s;
+            border: 2px solid #ddd;
+            font-weight: bold;
+        }
+
+        .nav-btn:hover {
+            background: #f9f9f9;
+            border-color: var(--bonus-color);
+            color: var(--bonus-color);
+        }
+
+        .nav-btn.next {
+            background: var(--bonus-color);
+            border-color: var(--bonus-color);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .nav-btn.next:hover {
+            background: #FF4500;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="../index.html">🏠 ホーム</a>
+        <span style="opacity:0.3">/</span>
+        <span>Bonus Stage</span>
+        <span style="opacity:0.3">/</span>
+        <span class="nav-current">Mission 1</span>
+    </nav>
+
+    <header class="mission-header">
+        <span class="mission-badge">BONUS STAGE ─ MISSION 1</span>
+        <h1>📱 ショート動画完全攻略</h1>
+        <p class="mission-desc">YouTube Shorts, TikTok, Reels。スマホ全盛時代の「縦型動画」をマスターしよう！</p>
+        <span class="time-badge">⏱️ 15分</span>
+    </header>
+
+    <main>
+        <section>
+            <h2>🎯 なぜ「縦型」なのか？</h2>
+            <p>
+                今はスマホで動画を見る人がほとんど。「画面いっぱいに表示される」没入感は、横型動画にはない強みです。
+                しかし、横長の素材を縦にするのは意外と大変。そこでAIの出番です。
+            </p>
+        </section>
+
+        <section>
+            <h2>🛠️ 実践テクニック</h2>
+
+            <div class="step-box">
+                <div class="step-title"><span class="step-number">1</span>シーケンス設定：9:16</div>
+                <ol style="margin-left: 20px; line-height: 1.8;">
+                    <li>新規シーケンスを作成します。</li>
+                    <li>設定タブで、フレームサイズを<strong>「1080 × 1920」</strong>にします（横長の逆！）。</li>
+                    <li>ピクセル比は「正方形ピクセル (1.0)」です。</li>
+                    <li>これをプリセットとして保存しておくと便利です。</li>
+                </ol>
+            </div>
+
+            <div class="step-box">
+                <div class="step-title"><span class="step-number">2</span>オートリフレーム（神機能）</div>
+                <p>「横長の動画を使いたいけど、被写体が端っこにいて見切れる…」そんな時はこれ！</p>
+                <ol style="margin-left: 20px; line-height: 1.8;">
+                    <li>クリップを選択し、エフェクトパネルから<strong>「オートリフレーム」</strong>を適用します。</li>
+                    <li>なんと、AIが<strong>「一番大事な被写体」を自動認識</strong>し、常に画面の中央にくるようにカメラを動かしてくれます！</li>
+                    <li>動く人物や、スポーツの映像などで絶大な威力を発揮します。</li>
+                </ol>
+                <div class="smartphone-mockup">
+                    <div class="screen-content">
+                        <div style="text-align:center">
+                            <div style="font-size:3rem; margin-bottom:10px">🏃‍♂️</div>
+                            AUTO REFRAME<br>ACTIVE
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-box">
+                <div class="step-title"><span class="step-number">3</span>「セーフゾーン」を意識する</div>
+                <div class="point-box">
+                    <div class="point-title">⚠️ 超重要ポイント</div>
+                    <p>TikTokやReelsは、画面の右側に「いいねボタン」、下に「タイトル」が表示されます。</p>
+                    <p>せっかくのテロップがアイコン被って読めない！とならないよう、<strong>上下左右に余白</strong>を作りましょう。</p>
+                </div>
+                <ol style="margin-left: 20px; line-height: 1.8;">
+                    <li>プログラムモニターの「＋」ボタンから「セーフマージン」を追加。</li>
+                    <li>文字はできるだけ中央寄り（インナー10%以内）に配置するのが鉄則です。</li>
+                </ol>
+            </div>
+        </section>
+
+        <section>
+            <h2>🎬 書き出し設定</h2>
+            <p>形式はいつも通り<strong>「H.264 (MP4)」</strong>ですが、プリセットで「モバイルデバイス 1080p HD 縦長」を選ぶか、ソースに合わせる設定にしましょう。</p>
+        </section>
+
+        <div class="nav-buttons">
+            <a href="../index.html" class="nav-btn">🏠 ホームへ戻る</a>
+            <a href="mission2.html" class="nav-btn next">Mission 2: AI時短マジック 👉</a>
+        </div>
+
+    </main>
+
+    <footer>
+        <p style="text-align: center; opacity: 0.6; padding-bottom: 40px;">© 2024 AI Video Master Course</p>
+    </footer>
+</body>
+
+</html>

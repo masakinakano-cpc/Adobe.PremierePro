@@ -1,583 +1,132 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 9: フォルダを作って整理しよう - 復習ドリル</title>
+    <title>Day 9: テキスト演出 - 復習ドリル</title>
     <style>
         :root {
-            --pink-vivid: #F26D9E;
-            --pink-light: #F2C9CC;
-            --peach: #F2E4DC;
-            --green-accent: #5CCFAD;
-            --purple-accent: #9B59B6;
-            --dark-text: #333;
+            --primary-color: #7B68EE;
+            --accent-color: #9370DB;
+            --bg-color: #E6E6FA;
+            --text-color: #333;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
-            background: linear-gradient(135deg, #e8daef 0%, #fff 100%);
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg-color) 0%, #fff 100%);
             min-height: 100vh;
             padding: 20px;
-            line-height: 1.8;
-            color: var(--dark-text);
+            color: var(--text-color);
+            line-height: 1.6;
         }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .drill-header {
-            background: linear-gradient(135deg, var(--purple-accent), #8E44AD);
+        .container { max-width: 800px; margin: 0 auto; }
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             color: white;
             padding: 30px;
             border-radius: 20px;
             text-align: center;
             margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(155, 89, 182, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-
-        .drill-header h1 {
-            font-size: 1.8em;
-            margin-bottom: 10px;
-        }
-
-        .drill-meta {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-
-        .meta-badge {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9em;
-        }
-
-        .progress-section {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .progress-bar {
-            height: 12px;
-            background: #eee;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--purple-accent), var(--green-accent));
-            border-radius: 10px;
-        }
-
-        .drill-section {
+        .header h1 { font-size: 1.8em; margin-bottom: 10px; }
+        .badge { background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 15px; font-size: 0.9em; }
+        .section {
             background: white;
             padding: 25px;
             border-radius: 15px;
             margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-
-        .section-title {
-            color: var(--purple-accent);
-            font-size: 1.3em;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px dashed #d7bde2;
-        }
-
-        .goal-box {
-            background: linear-gradient(135deg, #e8f4fd, #d6eaf8);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border-left: 4px solid #3498db;
-        }
-
-        .goal-box h3 {
-            color: #2980b9;
-            margin-bottom: 10px;
-        }
-
-        .prompt-box {
-            position: relative;
-            background: linear-gradient(135deg, #d7bde2, #e8daef);
-            padding: 20px;
-            padding-top: 35px;
-            border-radius: 12px;
-            margin: 15px 0;
-            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
-            white-space: pre-wrap;
-            word-break: break-word;
-        }
-
-        .prompt-label {
-            position: absolute;
-            top: -10px;
-            left: 15px;
-            background: var(--purple-accent);
-            color: white;
-            padding: 3px 12px;
-            border-radius: 8px;
-            font-size: 0.8em;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-        }
-
-        .copy-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--purple-accent);
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.8em;
-            transition: all 0.3s ease;
-        }
-
-        .copy-btn:hover {
-            background: #7D3C98;
-            transform: scale(1.05);
-        }
-
-        .copy-btn.copied {
-            background: var(--green-accent);
-        }
-
-        .exercise {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 12px;
-            margin: 15px 0;
-            border: 2px solid #d7bde2;
-        }
-
-        .exercise-number {
-            display: inline-block;
-            background: var(--purple-accent);
-            color: white;
-            width: 30px;
-            height: 30px;
-            line-height: 30px;
-            text-align: center;
-            border-radius: 50%;
-            margin-right: 10px;
-            font-weight: bold;
-        }
-
+        h2 { color: var(--primary-color); border-bottom: 2px dashed #ddd; padding-bottom: 10px; margin-bottom: 20px; }
+        .exercise { background: #f9f9f9; padding: 20px; border-radius: 10px; border-left: 5px solid var(--primary-color); }
         .check-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 12px;
-            background: #fafafa;
-            border-radius: 10px;
-            margin: 10px 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            display: flex; align-items: center; gap: 10px; padding: 10px;
+            background: #fff; border-radius: 8px; margin: 10px 0; cursor: pointer; border: 1px solid #eee;
         }
-
-        .check-item:hover {
-            background: #e8daef;
-        }
-
-        .check-item input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
-            accent-color: var(--purple-accent);
-            cursor: pointer;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .check-item.completed {
-            background: linear-gradient(135deg, #d4edda, #c3e6cb);
-            text-decoration: line-through;
-            color: #666;
-        }
-
-        .hint-box {
-            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin: 15px 0;
-            border-left: 4px solid #f39c12;
-        }
-
-        .hint-box summary {
-            cursor: pointer;
-            font-weight: bold;
-            color: #e67e22;
-        }
-
-        .hint-box[open] summary {
-            margin-bottom: 10px;
-        }
-
-        .point-box {
-            background: linear-gradient(135deg, #e8f8f5, #d1f2eb);
-            padding: 20px;
-            border-radius: 12px;
-            margin: 15px 0;
-            border-left: 4px solid var(--green-accent);
-        }
-
-        .point-box h4 {
-            color: #27ae60;
-            margin-bottom: 10px;
-        }
-
-        .folder-structure {
-            background: #2d2d2d;
-            color: #f8f8f2;
-            padding: 20px;
-            border-radius: 10px;
-            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
-            margin: 15px 0;
-        }
-
-        .folder-structure .folder {
-            color: #f1c40f;
-        }
-
-        .folder-structure .file {
-            color: #3498db;
-        }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            gap: 15px;
-        }
-
+        .check-item:hover { background: #f0f0f0; }
+        .check-item input { transform: scale(1.2); }
+        .check-item.completed { background: #e6fffa; text-decoration: line-through; color: #888; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px; }
         .nav-btn {
-            flex: 1;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            text-align: center;
+            padding: 12px 25px; border-radius: 10px; text-decoration: none; color: white;
+            background: var(--primary-color); transition: opacity 0.3s;
         }
-
-        .nav-btn.prev {
-            background: #f0f0f0;
-            color: var(--dark-text);
-        }
-
-        .nav-btn.next {
-            background: linear-gradient(135deg, var(--purple-accent), #8E44AD);
-            color: white;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .achievement {
-            text-align: center;
-            padding: 20px;
-            background: linear-gradient(135deg, #e8daef, #d7bde2);
-            border-radius: 15px;
-            margin-top: 25px;
-        }
-
-        .achievement-icon {
-            font-size: 3em;
-            margin-bottom: 10px;
-        }
-
-        @media (max-width: 600px) {
-            .drill-header h1 {
-                font-size: 1.4em;
-            }
-
-            .nav-buttons {
-                flex-direction: column;
-            }
-        }
+        .nav-btn.home { background: #555; }
+        .nav-btn:hover { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="container">
-        <div class="drill-header">
-            <h1>Day 9: フォルダを作って整理しよう</h1>
-            <p>Week 2 - Antigravity活用編</p>
-            <div class="drill-meta">
-                <span class="meta-badge">所要時間: 約20分</span>
-                <span class="meta-badge">難易度: ふつう</span>
+        <div class="header">
+            <h1>Day 9: テキスト演出</h1>
+            <div class="meta">
+                <span class="badge">Week 2</span>
+                <span class="badge">所要時間: 20分</span>
             </div>
         </div>
 
-        <div class="progress-section">
-            <strong>Week 2 進捗状況</strong>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: 50%;"></div>
-            </div>
-            <p style="text-align: right; margin-top: 8px; color: #888;">Day 9 / 12（Week 2: Day 3）</p>
+        <div class="section">
+            <h2>🎯 今日のゴール</h2>
+            <p>かっこいい文字の登場パターンを作る</p>
         </div>
 
-        <div class="drill-section">
-            <div class="goal-box">
-                <h3>今日のゴール</h3>
-                <p>フォルダを作成してファイルを整理する方法を覚える！プロジェクトの構造を作れるようになろう！</p>
-            </div>
-        </div>
-
-        <!-- なぜフォルダ整理が大切か -->
-        <div class="drill-section">
-            <h2 class="section-title">フォルダ整理が大切な理由（2分）</h2>
-
-            <div class="point-box">
-                <h4>フォルダ整理のメリット</h4>
-                <ul style="margin-left: 20px;">
-                    <li>ファイルが見つけやすくなる</li>
-                    <li>プロジェクトの構造が分かりやすくなる</li>
-                    <li>チームで作業するときに便利</li>
-                    <li>Webサイトの公開時に必要な構成を作れる</li>
-                </ul>
-            </div>
-
-            <div class="folder-structure">
-                <p><strong>よくあるWebサイトの構成例：</strong></p>
-                <p><span class="folder">📁 my-website/</span></p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 index.html</span></p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📁 css/</span></p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 style.css</span></p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📁 images/</span></p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">🖼️ logo.png</span></p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📁 pages/</span></p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 about.html</span></p>
-            </div>
-
-            <div class="check-item" onclick="toggleCheck(this, event)">
-                <input type="checkbox">
-                <span>フォルダ構成の例を確認した</span>
-            </div>
-        </div>
-
-        <!-- 練習1 -->
-        <div class="drill-section">
-            <h2 class="section-title">練習1: フォルダを作成する（6分）</h2>
-
+        <div class="section">
+            <h2>📝 練習メニュー</h2>
             <div class="exercise">
-                <p><span class="exercise-number">1</span><strong>Claudeにフォルダ作成をお願い</strong></p>
+                <div class="check-item"><input type="checkbox"><span>テキストレイヤーを作成</span></div>
+<div class="check-item"><input type="checkbox"><span>アニメーターから「位置」と「不透明度」を追加</span></div>
+<div class="check-item"><input type="checkbox"><span>位置を下にずらし、不透明度を0%に</span></div>
+<div class="check-item"><input type="checkbox"><span>範囲セレクターで順次表示させる</span></div>
 
-                <div class="prompt-box">
-                    <span class="prompt-label">Claudeへの指示</span>
-                    以下のフォルダ構成を作成してください：
-
-                    - pagesフォルダ
-                    - imagesフォルダ
-                    - cssフォルダ
-
-                    ルートディレクトリ（一番上の階層）に作ってください。
-                </div>
-
-                <div class="check-item" onclick="toggleCheck(this, event)">
-                    <input type="checkbox">
-                    <span>3つのフォルダが作成された</span>
-                </div>
-            </div>
-
-            <details class="hint-box">
-                <summary>フォルダが作成されないときは？</summary>
-                <p>・ファイルエクスプローラーを右クリック → 「New Folder」を選択する方法もあります</p>
-                <p>・または「pagesというフォルダを作成して」のようにシンプルに指示してみてください</p>
-            </details>
-        </div>
-
-        <!-- 練習2 -->
-        <div class="drill-section">
-            <h2 class="section-title">練習2: フォルダ内にファイルを作る（7分）</h2>
-
-            <div class="exercise">
-                <p><span class="exercise-number">2</span><strong>pagesフォルダにファイルを作成</strong></p>
-
-                <div class="prompt-box">
-                    <span class="prompt-label">Claudeへの指示</span>
-                    pagesフォルダの中に about.html というファイルを作成してください。
-
-                    内容は「会社概要ページ」として、以下を含めてください：
-                    - 会社名：株式会社サンプル
-                    - 設立年：2024年
-                    - 所在地：東京都渋谷区
-
-                    シンプルなデザインでお願いします。
-                </div>
-
-                <div class="check-item" onclick="toggleCheck(this, event)">
-                    <input type="checkbox">
-                    <span>pages/about.html が作成された</span>
-                </div>
-            </div>
-
-            <div class="exercise">
-                <p><span class="exercise-number">3</span><strong>cssフォルダにスタイルシートを作成</strong></p>
-
-                <div class="prompt-box">
-                    <span class="prompt-label">Claudeへの指示</span>
-                    cssフォルダの中に style.css を作成してください。
-
-                    基本的なスタイルとして、以下を設定してください：
-                    - 背景色：薄いグレー（#f5f5f5）
-                    - 文字色：ダークグレー（#333）
-                    - フォント：sans-serif系
-                    - 全体の余白設定
-                </div>
-
-                <div class="check-item" onclick="toggleCheck(this, event)">
-                    <input type="checkbox">
-                    <span>css/style.css が作成された</span>
-                </div>
             </div>
         </div>
 
-        <!-- 練習3 -->
-        <div class="drill-section">
-            <h2 class="section-title">練習3: ファイルを整理する（5分）</h2>
-
-            <div class="exercise">
-                <p><span class="exercise-number">4</span><strong>既存ファイルを移動する</strong></p>
-                <p>Day 8で作ったファイルをpagesフォルダに移動してみましょう。</p>
-
-                <div class="prompt-box">
-                    <span class="prompt-label">Claudeへの指示</span>
-                    profile.html をpagesフォルダに移動してください
-                </div>
-
-                <div class="check-item" onclick="toggleCheck(this, event)">
-                    <input type="checkbox">
-                    <span>ファイルの移動ができた（またはその方法を理解した）</span>
-                </div>
-            </div>
-
-            <div class="point-box">
-                <h4>手動でもできます！</h4>
-                <p>ファイルエクスプローラーでファイルをドラッグ＆ドロップして移動することもできます。<br>
-                    状況に応じてAIに頼むか、手動でやるか選びましょう。</p>
-            </div>
-        </div>
-
-        <!-- まとめ -->
-        <div class="drill-section">
-            <div class="point-box">
-                <h4>Day 9 まとめ</h4>
-                <ul style="margin-left: 20px;">
-                    <li>フォルダを作ってファイルを整理することが大切</li>
-                    <li>Claudeにフォルダ作成もお願いできる</li>
-                    <li>「○○フォルダの中に」と指定すればサブフォルダにファイルを作れる</li>
-                    <li>ファイルの移動もAIに頼める</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="achievement">
-            <div class="achievement-icon">📁</div>
-            <h3>Day 9 完了チェック</h3>
-            <p id="completion-text">すべてのチェックボックスを確認しましょう！</p>
+        <div class="section">
+            <h2>💡 ポイント解説</h2>
+            <p>「高度」設定の「シェイプ」や「イーズ」をいじると、動きの質感が変わります。</p>
         </div>
 
         <div class="nav-buttons">
-            <a href="day8.html" class="nav-btn prev">← Day 8 に戻る</a>
             <a href="../index.html" class="nav-btn home">🏠 ホーム</a>
             <a href="day10.html" class="nav-btn next">Day 10 へ進む →</a>
         </div>
     </div>
-
     <script>
-        document.querySelectorAll('.prompt-box').forEach(box => {
-            const btn = document.createElement('button');
-            btn.className = 'copy-btn';
-            btn.textContent = 'コピー';
-            btn.onclick = function (e) {
-                e.stopPropagation();
-                const text = box.innerText.replace('コピー', '').replace(box.querySelector('.prompt-label')?.textContent || '', '').trim();
-                navigator.clipboard.writeText(text).then(() => {
-                    btn.textContent = 'コピー完了!';
-                    btn.classList.add('copied');
-                    setTimeout(() => { btn.textContent = 'コピー'; btn.classList.remove('copied'); }, 2000);
+        function toggleCheck(element) {
+            const checkbox = element.querySelector('input');
+            checkbox.checked = !checkbox.checked;
+            element.classList.toggle('completed', checkbox.checked);
+            localStorage.setItem('drill_day_9_check_' + element.dataset.id, checkbox.checked);
+            checkCompletion();
+        }
+
+        function checkCompletion() {
+            const total = document.querySelectorAll('.check-item').length;
+            const checked = document.querySelectorAll('.check-item input:checked').length;
+            if (total === checked) {
+                localStorage.setItem('drill_day_9_complete', 'true');
+            }
+        }
+
+        window.onload = function() {
+            document.querySelectorAll('.check-item').forEach((el, idx) => {
+                el.dataset.id = idx;
+                el.addEventListener('click', function(e) {
+                   if(e.target.tagName !== 'INPUT') toggleCheck(el);
                 });
-            };
-            box.appendChild(btn);
-        });
+                el.querySelector('input').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    toggleCheck(el);
+                });
 
-        // Checkbox Logic (Generic + Save)
-        function toggleCheck(element, event) {
-            if (event && event.target.tagName === 'A') return;
-
-            const checkbox = element.querySelector('input[type="checkbox"]');
-            if (event && event.target.tagName === 'INPUT') {
-                element.classList.toggle('completed', checkbox.checked);
-            } else {
-                checkbox.checked = !checkbox.checked;
-                element.classList.toggle('completed', checkbox.checked);
-            }
-
-            // Save state (Generic)
-            const dayNum = (window.location.pathname.match(/day(\d+)\.html/) || [null, '9'])[1];
-            const index = Array.from(document.querySelectorAll('.check-item')).indexOf(element);
-            localStorage.setItem(`drill_day_${dayNum}_check_${index}`, checkbox.checked);
-
-            updateProgress();
-        }
-
-        // Progress Update
-        function updateProgress() {
-            const checkboxes = document.querySelectorAll('.check-item input[type="checkbox"]');
-            const checked = document.querySelectorAll('.check-item input[type="checkbox"]:checked').length;
-            const total = checkboxes.length;
-            const percentage = (checked / total) * 100;
-            const dayNum = (window.location.pathname.match(/day(\d+)\.html/) || [null, '9'])[1];
-
-            if (percentage === 100) {
-                document.getElementById('completion-text').innerHTML = `🎉 素晴らしい！Day ${dayNum} 完了です！`;
-                localStorage.setItem(`drill_day_${dayNum}_complete`, 'true');
-            } else {
-                document.getElementById('completion-text').innerHTML = `進捗: ${checked}/${total} 完了`;
-            }
-        }
-
-        // Restore Progress
-        window.addEventListener('load', () => {
-            const dayNum = (window.location.pathname.match(/day(\d+)\.html/) || [null, '9'])[1];
-            const items = document.querySelectorAll('.check-item');
-
-            items.forEach((item, index) => {
-                const saved = localStorage.getItem(`drill_day_${dayNum}_check_${index}`);
-                if (saved === 'true') {
-                    const checkbox = item.querySelector('input[type="checkbox"]');
-                    checkbox.checked = true;
-                    item.classList.add('completed');
+                if (localStorage.getItem('drill_day_9_check_' + idx) === 'true') {
+                    el.querySelector('input').checked = true;
+                    el.classList.add('completed');
                 }
             });
-            updateProgress();
-        });
+        }
     </script>
 </body>
-
 </html>

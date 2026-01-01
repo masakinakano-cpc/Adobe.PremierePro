@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mission 4: マイGPTを作成せよ 🛠️</title>
+  <title>Mission 4: トランジション・エフェクトで演出 ✨</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Orbitron:wght@700;900&display=swap"
     rel="stylesheet">
@@ -18,8 +18,7 @@
       --dark: #4A3540;
       --light: #FFF9FA;
       --day1-color: #F26D9E;
-      --gpt-color: #10A37F;
-      --gemini-color: #4285F4;
+      --pr-color: #9999FF;
     }
 
     * {
@@ -43,6 +42,7 @@
       align-items: center;
       gap: 15px;
       border-bottom: 2px solid var(--day1-color);
+      backdrop-filter: blur(10px);
     }
 
     nav a {
@@ -131,89 +131,32 @@
       margin-bottom: 15px;
     }
 
-    .creation-box {
-      background: linear-gradient(135deg, rgba(242, 109, 158, 0.2), rgba(242, 202, 179, 0.3));
-      border-radius: 20px;
-      padding: 30px;
-      margin: 30px 0;
-      text-align: center;
-      border: 2px solid var(--pink-vivid);
-    }
-
-    .creation-icon {
-      font-size: 4rem;
-      margin-bottom: 15px;
-      animation: bounce 2s infinite;
-    }
-
-    @keyframes bounce {
-
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-10px);
-      }
-    }
-
-    .creation-box h3 {
-      color: var(--pink-vivid);
-      font-size: 1.3rem;
-      margin-bottom: 10px;
-    }
-
-    .compare-cards {
+    /* エフェクトカード */
+    .effect-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       margin: 25px 0;
     }
 
-    .compare-card {
-      background: white;
-      border-radius: 16px;
-      padding: 25px;
-      border-top: 4px solid;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    .effect-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid var(--pink-medium);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     }
 
-    .compare-card.gpt {
-      border-color: var(--gpt-color);
-    }
-
-    .compare-card.gemini {
-      border-color: var(--gemini-color);
-    }
-
-    .compare-card h4 {
+    .effect-card h4 {
+      color: var(--day1-color);
+      font-size: 1.2rem;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 15px;
-      font-size: 1.1rem;
     }
 
-    .compare-card ul {
-      list-style: none;
-      margin: 0;
-    }
-
-    .compare-card li {
-      padding: 8px 0;
-      padding-left: 25px;
-      position: relative;
-      font-size: 0.95rem;
-    }
-
-    .compare-card li::before {
-      content: '•';
-      position: absolute;
-      left: 8px;
-      color: var(--pink-vivid);
-    }
-
+    /* ステップボックス */
     .step-box {
       background: rgba(255, 255, 255, 0.95);
       border-radius: 16px;
@@ -244,232 +187,34 @@
       align-items: center;
     }
 
-    .prompt-box {
-      background: linear-gradient(135deg, var(--pink-light), var(--peach));
-      border-radius: 12px;
-      padding: 20px;
-      margin: 15px 0;
-      border-left: 4px solid var(--pink-vivid);
-    }
-
-    .prompt-label {
-      color: var(--pink-vivid);
-      font-size: 0.8rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-      display: block;
-    }
-
-    .image-guide {
-      background: rgba(255, 255, 255, 0.7);
-      border-radius: 12px;
-      padding: 20px;
-      margin: 15px 0;
-      border: 1px dashed var(--pink-medium);
-    }
-
-    .image-guide-title {
-      color: var(--terracotta);
-      font-weight: 700;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .form-example {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      margin: 15px 0;
-    }
-
-    .form-field {
-      margin-bottom: 15px;
-    }
-
-    .form-label {
-      display: block;
-      color: var(--terracotta);
-      font-size: 0.85rem;
-      margin-bottom: 5px;
-    }
-
-    .form-input {
-      width: 100%;
-      background: var(--pink-light);
-      border: 1px solid var(--pink-medium);
-      border-radius: 8px;
-      padding: 12px;
-      color: var(--dark);
-      font-size: 0.95rem;
-    }
-
-    .form-textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    .point-box {
-      background: linear-gradient(135deg, rgba(242, 109, 158, 0.15), rgba(242, 202, 179, 0.2));
-      border-radius: 12px;
-      padding: 20px;
-      margin: 20px 0;
-      border-left: 4px solid var(--terracotta);
-    }
-
-    .point-box h4 {
-      color: var(--terracotta);
-      margin-bottom: 10px;
-    }
-
-    .idea-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin: 20px 0;
-    }
-
-    .idea-card {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-      border: 1px solid var(--pink-light);
-      transition: transform 0.3s, border-color 0.3s;
-    }
-
-    .idea-card:hover {
-      transform: translateY(-3px);
-      border-color: var(--pink-vivid);
-    }
-
-    .idea-icon {
-      font-size: 2rem;
-      margin-bottom: 10px;
-    }
-
-    .idea-title {
-      font-weight: 700;
-      margin-bottom: 5px;
-    }
-
-    .idea-desc {
-      font-size: 0.85rem;
-      opacity: 0.7;
-    }
-
-    .business-tips {
-      background: linear-gradient(135deg, rgba(242, 109, 158, 0.1), rgba(242, 202, 179, 0.2));
-      border: 1px solid var(--pink-vivid);
-      border-radius: 12px;
-      margin: 30px 0;
-      overflow: hidden;
-    }
-
-    .business-tips summary {
-      padding: 20px;
-      cursor: pointer;
-      font-weight: 700;
-      color: var(--pink-vivid);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: background 0.3s;
-      list-style: none;
-    }
-
-    .business-tips summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .business-tips summary:hover {
-      background: rgba(255, 255, 255, 0.5);
-    }
-
-    .business-tips summary::before {
-      content: '▶';
-      font-size: 0.8rem;
-      transition: transform 0.3s;
-    }
-
-    .business-tips[open] summary::before {
-      transform: rotate(90deg);
-    }
-
-    .business-content {
-      padding: 0 20px 20px;
-      border-top: 1px solid var(--pink-light);
-    }
-
-    .business-content h4 {
-      color: var(--terracotta);
-      margin: 20px 0 15px;
-      font-size: 1rem;
-    }
-
-    .business-list {
-      list-style: none;
-    }
-
-    .business-list li {
-      padding: 12px 15px;
-      margin: 8px 0;
-      background: rgba(255, 255, 255, 0.7);
-      border-radius: 8px;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-    }
-
-    .business-list li::before {
-      content: '💼';
-      flex-shrink: 0;
-    }
-
+    /* 完了ボックス */
     .complete-box {
-      background: linear-gradient(135deg, var(--pink-vivid), var(--pink-medium));
+      background: linear-gradient(135deg, var(--day1-color), var(--pink-medium));
       border-radius: 20px;
       padding: 40px;
-      margin: 30px 0;
       text-align: center;
       color: white;
-    }
-
-    .complete-box h3 {
-      color: white;
-      font-size: 1.5rem;
-      margin-bottom: 15px;
+      margin-top: 50px;
+      box-shadow: 0 10px 30px rgba(242, 109, 158, 0.3);
     }
 
     .complete-icon {
       font-size: 4rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .complete-title {
+      font-size: 1.8rem;
+      font-weight: 700;
       margin-bottom: 15px;
+      font-family: 'Orbitron', sans-serif;
     }
 
-    .checkpoint {
-      background: linear-gradient(135deg, var(--day1-color), var(--pink-medium));
-      border-radius: 16px;
-      padding: 25px;
-      margin: 30px 0;
-      text-align: center;
-      color: white;
-    }
-
-    .checkpoint h3 {
-      color: white;
-      margin: 0 0 15px;
-    }
-
-    .checkpoint p {
-      margin: 0;
-    }
-
+    /* ナビゲーションボタン */
     .nav-buttons {
       display: flex;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 15px;
       margin-top: 50px;
       padding-top: 30px;
       border-top: 1px solid var(--pink-light);
@@ -494,136 +239,13 @@
     }
 
     .nav-btn.next {
-      background: var(--pink-vivid);
-      border-color: var(--pink-vivid);
+      background: var(--day1-color);
+      border-color: var(--day1-color);
       color: white;
     }
 
     .nav-btn.next:hover {
-      background: var(--terracotta);
-    }
-
-    /* コピーボタン */
-    .prompt-box {
-      position: relative;
-    }
-
-    .copy-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: var(--pink-vivid);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 6px 12px;
-      font-size: 0.75rem;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-family: 'Zen Maru Gothic', sans-serif;
-    }
-
-    .copy-btn:hover {
-      background: var(--terracotta);
-      transform: scale(1.05);
-    }
-
-    .copy-btn.copied {
-      background: #27ae60;
-    }
-
-    /* トラブルシューティング */
-    .trouble-box {
-      background: linear-gradient(135deg, #fff3cd, #ffeaa7);
-      border: 1px solid #f39c12;
-      border-radius: 12px;
-      margin: 30px 0;
-      overflow: hidden;
-    }
-
-    .trouble-box summary {
-      padding: 20px;
-      cursor: pointer;
-      font-weight: 700;
-      color: #d68910;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      list-style: none;
-    }
-
-    .trouble-box summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .trouble-box summary::before {
-      content: '▶';
-      font-size: 0.8rem;
-      transition: transform 0.3s;
-    }
-
-    .trouble-box[open] summary::before {
-      transform: rotate(90deg);
-    }
-
-    .trouble-content {
-      padding: 0 20px 20px;
-    }
-
-    .trouble-item {
-      background: white;
-      border-radius: 8px;
-      padding: 15px;
-      margin: 10px 0;
-    }
-
-    .trouble-item h5 {
-      color: #e74c3c;
-      margin-bottom: 8px;
-    }
-
-    .trouble-item p {
-      margin: 0;
-      font-size: 0.9rem;
-    }
-
-    /* 用語解説 */
-    .glossary-box {
-      background: linear-gradient(135deg, #e8f4fd, #d6eaf8);
-      border: 1px solid #3498db;
-      border-radius: 12px;
-      padding: 20px;
-      margin: 30px 0;
-    }
-
-    .glossary-box h4 {
-      color: #2980b9;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .glossary-item {
-      display: flex;
-      gap: 10px;
-      padding: 10px 0;
-      border-bottom: 1px dashed #3498db;
-    }
-
-    .glossary-item:last-child {
-      border-bottom: none;
-    }
-
-    .glossary-term {
-      font-weight: 700;
-      color: #2c3e50;
-      min-width: 120px;
-    }
-
-    .glossary-desc {
-      color: #34495e;
-      font-size: 0.9rem;
+      background: var(--pink-medium);
     }
   </style>
 </head>
@@ -638,253 +260,102 @@
   </nav>
 
   <header class="mission-header">
-    <span class="mission-badge">DAY 1 ─ MISSION 4 (FINAL)</span>
-    <h1>🛠️ マイGPTを作成せよ</h1>
-    <p class="mission-desc">Day 1 のクライマックス！あなた専用の「料理アドバイザーAI」を爆誕させよう！</p>
+    <span class="mission-badge">DAY 1 ─ MISSION 4</span>
+    <h1>✨ トランジション・エフェクトで演出</h1>
+    <p class="mission-desc">仕上げに「魔法」をかけよう。場面転換や色調整で、動画のクオリティを一気にアップ！</p>
     <span class="time-badge">⏱️ 約40分</span>
   </header>
 
   <main>
-    <div class="creation-box">
-      <div class="creation-icon">🧙‍♂️</div>
-      <h3>あなた専用AIを召喚する時が来た</h3>
-      <p style="margin:0;">Deep Researchで集めた知識を注入して、世界に一つだけのAIを作り出そう！</p>
-    </div>
-
     <section>
       <h2>🎯 このミッションのゴール</h2>
-      <p><strong>マイGPT</strong>（ChatGPT）と<strong>Gem</strong>（Gemini）は、自分専用にカスタマイズしたAIを作れる機能です。</p>
-      <p>Mission 2 で Deep Research した「時短料理」の知識を活かして、<strong>「あなた専属の料理アドバイザーAI」</strong>を作成しましょう！</p>
+      <p>
+        カット編集とテロップ入れが終わったら、最後の仕上げです。
+        スムーズな場面転換（トランジション）、映像を明るくする（エフェクト）、そしてスローモーションなどの演出を加えます。
+        最後に、完成した動画をMP4ファイルとして書き出します！
+      </p>
     </section>
 
     <section>
-      <h2>📊 マイGPT vs Gem</h2>
-      <div class="compare-cards">
-        <div class="compare-card gpt">
-          <h4>🟢 マイGPT（ChatGPT）</h4>
-          <ul>
-            <li>高いカスタマイズ性</li>
-            <li>知識ファイルをアップロード可能</li>
-            <li>画像生成も組み込み可</li>
-            <li>公開・共有が簡単</li>
-          </ul>
-        </div>
-        <div class="compare-card gemini">
-          <h4>🔵 Gem（Gemini）</h4>
-          <ul>
-            <li>シンプルで作りやすい</li>
-            <li>Googleサービスと連携</li>
-            <li>最新情報へのアクセス</li>
-            <li>モバイルでも使いやすい</li>
-          </ul>
-        </div>
+      <h2>✨ 演出テクニック 3選</h2>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">1</span>場面転換（トランジション）</div>
+        <p>映像と映像のつなぎ目をなめらかにします。</p>
+        <ol style="margin-left: 20px; line-height: 1.8;">
+          <li>「エフェクトパネル」を開きます（通常は左下、プロジェクトパネルの隣）。</li>
+          <li>「ビデオトランジション」→「ディゾルブ」フォルダを開きます。</li>
+          <li><strong>「クロスディゾルブ」</strong>をクリップのつなぎ目にドラッグ＆ドロップします。</li>
+          <li>再生して、ふんわりと切り替わるのを確認しましょう！</li>
+        </ol>
       </div>
-      <p>今回は<strong>マイGPT</strong>を作成します！（時間があればGemも）</p>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">2</span>色をきれいにする（Lumetri カラー）</div>
+        <p>暗い映像を明るくしたり、色味を変えておしゃれにします。</p>
+        <ol style="margin-left: 20px; line-height: 1.8;">
+          <li>ワークスペースを<strong>「カラー」</strong>に切り替えるか、「ウィンドウ」→「Lumetri カラー」を開きます。</li>
+          <li>クリップを選択した状態で、「基本補正」をいじります。
+            <ul style="margin-left:20px; margin-top:10px;">
+              <li><strong>露光量</strong>：明るさを調整</li>
+              <li><strong>彩度</strong>：色の鮮やかさを調整</li>
+              <li><strong>温度</strong>：暖色系か寒色系か</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+
+      <div class="step-box">
+        <div class="step-title"><span class="step-number">3</span>時間を操る（速度調整）</div>
+        <p>スローモーションや早送りでメリハリをつけます。</p>
+        <ol style="margin-left: 20px; line-height: 1.8;">
+          <li>クリップを右クリックして<strong>「速度・デュレーション」</strong>を選びます。</li>
+          <li>スローにしたいなら50%、早送りにしたいなら200%などを入力します。</li>
+          <li>OKを押すと、クリップの長さが変わります。</li>
+        </ol>
+      </div>
     </section>
 
     <section>
-      <h2>🎮 マイGPTを作成しよう</h2>
+      <h2>📤 動画を書き出す（エクスポート）</h2>
+      <p>編集したプロジェクトは、そのままだとPremiere Proでしか見られません。誰でも見られるMP4ファイルにしましょう。</p>
 
       <div class="step-box">
-        <div class="step-title"><span class="step-number">1</span>GPT作成画面を開く</div>
-        <div class="image-guide">
-          <div class="image-guide-title">📸 操作手順</div>
-          <ol style="padding-left:20px; opacity:0.9;">
-            <li>ChatGPT（chat.openai.com）を開く</li>
-            <li>左サイドバーの「GPTを探索する」をクリック</li>
-            <li>右上の「+ 作成」ボタンをクリック</li>
-            <li>GPTビルダーが開く</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="step-box">
-        <div class="step-title"><span class="step-number">2</span>基本情報を入力</div>
-        <p>「構成」タブで以下の情報を入力します：</p>
-        <div class="form-example">
-          <div class="form-field"><span class="form-label">📛 名前</span><input type="text" class="form-input"
-              value="時短シェフ〇〇（自分の名前）" readonly></div>
-          <div class="form-field"><span class="form-label">📝 説明</span><input type="text" class="form-input"
-              value="忙しい毎日でも美味しい料理を！15分以内の時短レシピを提案する専属シェフAI" readonly></div>
-        </div>
-      </div>
-
-      <div class="step-box">
-        <div class="step-title"><span class="step-number">3</span>指示（Instructions）を設定</div>
-        <p>ここがマイGPTの「性格」を決める重要な部分です：</p>
-        <div class="prompt-box">
-          <span class="prompt-label">📝 指示文の例（コピペして編集OK）</span>
-          あなたは「時短シェフ」です。忙しい共働き家庭をサポートする専属料理アドバイザーとして振る舞ってください。<br><br>
-          【役割】<br>- 15分以内で作れる時短レシピを提案する<br>- 栄養バランスを考慮した献立をアドバイスする<br>- 冷蔵庫の残り物から料理を考える<br>- 作り置きのコツを教える<br><br>
-          【性格】<br>- 親しみやすく、フレンドリーな口調<br>- 褒め上手で、料理初心者でも安心できる<br>- 「〇〇さん」と名前で呼びかける<br><br>
-          【ルール】<br>- 難しい調理器具は使わない<br>- スーパーで手に入る食材のみ使う<br>- 手順は5ステップ以内に収める<br>- レシピには所要時間を必ず記載する
-        </div>
-        <div class="point-box">
-          <h4>💡 カスタマイズのコツ</h4>
-          <p style="margin:0;">Deep Research で得た情報を「知識」として盛り込むと、より専門的なアドバイスができるAIになります！</p>
-        </div>
-      </div>
-
-      <div class="step-box">
-        <div class="step-title"><span class="step-number">4</span>会話の開始メッセージを設定</div>
-        <div class="form-example">
-          <div class="form-field"><span class="form-label">💬 会話スターター（例）</span><textarea
-              class="form-input form-textarea" readonly>こんにちは！時短シェフです🍳
-今日はどんな料理を作りましょうか？
-
-・冷蔵庫の中身を教えてくれたらレシピを提案します
-・「15分で作れる夕飯」など、リクエストもOK！
-・献立の相談も気軽にどうぞ
-
-何かお手伝いできることはありますか？</textarea></div>
-        </div>
-      </div>
-
-      <div class="step-box">
-        <div class="step-title"><span class="step-number">5</span>テスト＆保存！</div>
-        <p>右側のプレビューで実際に話しかけてテストしましょう：</p>
-        <div class="prompt-box">
-          <span class="prompt-label">📝 テスト用の質問例</span>
-          「鶏肉と玉ねぎがあるんだけど、15分で何か作れる？」<br><br>
-          「今週の献立を考えて！子供がいるから野菜嫌いにも対応してほしい」<br><br>
-          「お弁当に使える作り置きおかずを3つ教えて」
-        </div>
-        <p>納得いったら「保存」ボタンをクリック！「自分だけ」「リンクを持つ人」「公開」から公開範囲を選べます。</p>
+        <div class="step-title"><span class="step-number">4</span>書き出し設定</div>
+        <ol style="margin-left: 20px; line-height: 1.8;">
+          <li>タイムラインパネルをクリックして選択状態にします。</li>
+          <li>画面右上の<strong>「書き出し」タブ</strong>をクリックするか、Cmd + Mを押します。</li>
+          <li>以下の設定を確認します：
+            <ul style="margin-left:20px; margin-top:10px;">
+              <li><strong>ファイル名</strong>：Day1_MyMovie.mp4 など</li>
+              <li><strong>場所</strong>：保存先を選びます（デスクトップなど）</li>
+              <li><strong>形式</strong>：<strong>H.264</strong>（これがMP4になります。最も一般的です！）</li>
+              <li><strong>プリセット</strong>：「ソースの一致 - 高ビットレート」でOK</li>
+            </ul>
+          </li>
+          <li>右下の<strong>「書き出し」</strong>ボタンをクリック！</li>
+          <li>書き出しが終わったら、保存先のファイルを開いて再生してみましょう。</li>
+        </ol>
       </div>
     </section>
 
     <div class="complete-box">
-      <div class="complete-icon">🎊</div>
-      <h3>おめでとう！あなた専用AIが完成！</h3>
-      <p style="margin:0;">これで「時短シェフ」がいつでも料理のアドバイスをくれます。サイドバーからいつでも呼び出せます！</p>
-    </div>
-
-    <section>
-      <h2>💡 他にもこんなマイGPTが作れる</h2>
-      <div class="idea-grid">
-        <div class="idea-card">
-          <div class="idea-icon">🎮</div>
-          <div class="idea-title">ゲーム攻略アドバイザー</div>
-          <div class="idea-desc">好きなゲームの攻略を教えてくれる</div>
-        </div>
-        <div class="idea-card">
-          <div class="idea-icon">👔</div>
-          <div class="idea-title">コーデ提案AI</div>
-          <div class="idea-desc">天気や予定に合わせた服装提案</div>
-        </div>
-        <div class="idea-card">
-          <div class="idea-icon">📚</div>
-          <div class="idea-title">読書ソムリエ</div>
-          <div class="idea-desc">好みに合わせた本をレコメンド</div>
-        </div>
-        <div class="idea-card">
-          <div class="idea-icon">🏋️</div>
-          <div class="idea-title">筋トレコーチ</div>
-          <div class="idea-desc">目標に合わせたトレーニング提案</div>
-        </div>
-      </div>
-    </section>
-
-    <div class="glossary-box">
-      <h4>📖 用語解説</h4>
-      <div class="glossary-item">
-        <span class="glossary-term">マイGPT</span>
-        <span class="glossary-desc">ChatGPTで作れるカスタムAI。特定の用途に特化した専属アシスタントを作成可能。</span>
-      </div>
-      <div class="glossary-item">
-        <span class="glossary-term">Gem</span>
-        <span class="glossary-desc">Geminiで作れるカスタムAI。マイGPTと同様の機能。</span>
-      </div>
-      <div class="glossary-item">
-        <span class="glossary-term">Instructions</span>
-        <span class="glossary-desc">カスタムAIの「性格」や「ルール」を定義する指示文。</span>
-      </div>
-      <div class="glossary-item">
-        <span class="glossary-term">会話スターター</span>
-        <span class="glossary-desc">AIとの会話を始める時に表示される最初のメッセージ。</span>
-      </div>
-    </div>
-
-    <details class="trouble-box">
-      <summary>🔧 うまくいかない時は？</summary>
-      <div class="trouble-content">
-        <div class="trouble-item">
-          <h5>Q: GPT作成画面が見つからない</h5>
-          <p>A: 左サイドバーの「GPTを探索する」→ 右上の「+ 作成」ボタンです。無料プランでも作成可能ですが、利用回数に制限があります。</p>
-        </div>
-        <div class="trouble-item">
-          <h5>Q: 保存ボタンが押せない</h5>
-          <p>A: 名前と説明は必須です。指示文（Instructions）も入力してから保存を試してください。</p>
-        </div>
-        <div class="trouble-item">
-          <h5>Q: 作ったマイGPTが見つからない</h5>
-          <p>A: 左サイドバーに表示されます。見つからない場合は「GPTを探索する」から「自分のGPT」タブを確認してください。</p>
-        </div>
-        <div class="trouble-item">
-          <h5>Q: 期待通りの回答をしてくれない</h5>
-          <p>A: 指示文をより具体的に書き直してみてください。「〇〇しないでください」「必ず〇〇してください」など明確なルールを追加すると改善します。</p>
-        </div>
-      </div>
-    </details>
-
-    <details class="business-tips">
-      <summary>💼 業務に置き換えると？（タップで開く）</summary>
-      <div class="business-content">
-        <h4>🏢 マイGPT/Gem の業務活用シーン</h4>
-        <ul class="business-list">
-          <li>
-            <div><strong>社内FAQ Bot</strong><br><span style="opacity:0.7">よくある質問と回答を学習させて、新入社員や問い合わせ対応を自動化</span></div>
-          </li>
-          <li>
-            <div><strong>議事録作成アシスタント</strong><br><span style="opacity:0.7">会議の録音テキストを入れると、フォーマット通りの議事録を自動生成</span></div>
-          </li>
-          <li>
-            <div><strong>業界特化アドバイザー</strong><br><span style="opacity:0.7">業界の専門知識を学習させて、専門的な相談に対応できるAI</span></div>
-          </li>
-          <li>
-            <div><strong>文章チェッカー</strong><br><span style="opacity:0.7">社内の文章ルールを学習させて、文章の校正・統一を自動化</span></div>
-          </li>
-          <li>
-            <div><strong>オンボーディングガイド</strong><br><span style="opacity:0.7">新入社員向けの情報を集約。「〇〇ってどうすればいい？」に即答</span></div>
-          </li>
-        </ul>
-        <h4>💡 業務で使う際のポイント</h4>
-        <p style="background:rgba(255,255,255,0.7); padding:15px; border-radius:8px;">
-          社内向けマイGPTを作る場合は、<strong>機密情報の取り扱い</strong>に注意。公開範囲を「自分だけ」または「リンクを持つ人」に設定し、機密データは直接入力しないようにしましょう。</p>
-      </div>
-    </details>
-
-    <div class="checkpoint">
-      <h3>🏁 Mission 4 & Day 1 クリア！</h3>
-      <p>✅ マイGPTを作成して保存した！<br>✅ テストして動作確認した！<br><br>🎉 <strong>Day 1 完了おめでとうございます！</strong></p>
+      <span class="complete-icon">🎉</span>
+      <div class="complete-title">CONGRATULATIONS!</div>
+      <p>初日の全ミッションクリア！<br>あなたは今、Premiere Proで動画を作れるクリエイターになりました！</p>
+      <p style="margin-top:20px;">明日は魔法のツール「After Effects」を使って、<br>さらに高度なアニメーションに挑戦します！</p>
     </div>
 
     <div class="nav-buttons">
-      <a href="mission3.html" class="nav-btn">← Mission 3</a>
-      <a href="../index.html" class="nav-btn">🏠 ホーム</a>
-      <a href="../day2/mission5.html" class="nav-btn next">Day 2 へ進む →</a>
+      <a href="mission3.html" class="nav-btn">👈 Mission 3 へ戻る</a>
+      <a href="../index.html" class="nav-btn">🏠 ホームへ戻る</a>
     </div>
+
   </main>
 
-  <script>
-    document.querySelectorAll('.prompt-box').forEach(box => {
-      const btn = document.createElement('button');
-      btn.className = 'copy-btn';
-      btn.textContent = 'コピー';
-      btn.onclick = function () {
-        const text = box.innerText.replace('コピー', '').replace(box.querySelector('.prompt-label')?.textContent || '', '').trim();
-        navigator.clipboard.writeText(text).then(() => {
-          btn.textContent = 'コピー完了!';
-          btn.classList.add('copied');
-          setTimeout(() => {
-            btn.textContent = 'コピー';
-            btn.classList.remove('copied');
-          }, 2000);
-        });
-      };
-      box.appendChild(btn);
-    });
-  </script>
+  <footer>
+    <p style="text-align: center; opacity: 0.6; padding-bottom: 40px;">© 2024 AI Video Master Course</p>
+  </footer>
 </body>
 
 </html>

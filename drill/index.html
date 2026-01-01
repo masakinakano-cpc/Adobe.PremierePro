@@ -4,15 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>復習ドリル - AI研修 実践トレーニング</title>
+    <title>復習ドリル - 動画クリエイターへの道</title>
     <style>
         :root {
-            --pink-vivid: #F26D9E;
-            --pink-light: #F2C9CC;
-            --peach: #F2E4DC;
-            --green-accent: #5CCFAD;
-            --purple-accent: #9B59B6;
+            --pr-color: #9999FF;
+            --ae-color: #7B68EE;
+            --final-color: #FFD700;
             --dark-text: #333;
+            --light-bg: #F8F8FF;
         }
 
         * {
@@ -23,7 +22,7 @@
 
         body {
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
-            background: linear-gradient(135deg, var(--peach) 0%, #fff 50%, #e8daef 100%);
+            background: linear-gradient(135deg, var(--light-bg) 0%, #fff 50%, #E6E6FA 100%);
             min-height: 100vh;
             padding: 20px;
             line-height: 1.8;
@@ -37,13 +36,13 @@
 
         /* ヘッダー */
         .header {
-            background: linear-gradient(135deg, var(--pink-vivid), var(--purple-accent));
+            background: linear-gradient(135deg, var(--pr-color), var(--ae-color));
             color: white;
             padding: 40px 30px;
             border-radius: 25px;
             text-align: center;
             margin-bottom: 40px;
-            box-shadow: 0 15px 40px rgba(242, 109, 158, 0.3);
+            box-shadow: 0 15px 40px rgba(123, 104, 238, 0.3);
             position: relative;
             overflow: hidden;
         }
@@ -108,7 +107,7 @@
         }
 
         .intro h2 {
-            color: var(--pink-vivid);
+            color: var(--ae-color);
             margin-bottom: 15px;
         }
 
@@ -144,15 +143,15 @@
         }
 
         .week-1 .week-icon {
-            background: linear-gradient(135deg, var(--pink-vivid), #FF8FAB);
+            background: linear-gradient(135deg, var(--pr-color), #B0C4DE);
         }
 
         .week-2 .week-icon {
-            background: linear-gradient(135deg, var(--purple-accent), #8E44AD);
+            background: linear-gradient(135deg, var(--ae-color), #9370DB);
         }
 
         .week-3 .week-icon {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #FFD700, #FFA500);
         }
 
         .week-title h2 {
@@ -161,15 +160,15 @@
         }
 
         .week-1 .week-title h2 {
-            color: var(--pink-vivid);
+            color: var(--pr-color);
         }
 
         .week-2 .week-title h2 {
-            color: var(--purple-accent);
+            color: var(--ae-color);
         }
 
         .week-3 .week-title h2 {
-            color: #667eea;
+            color: #DAA520;
         }
 
         .week-title p {
@@ -202,15 +201,15 @@
         }
 
         .week-1 .day-card:hover {
-            border-color: var(--pink-vivid);
+            border-color: var(--pr-color);
         }
 
         .week-2 .day-card:hover {
-            border-color: var(--purple-accent);
+            border-color: var(--ae-color);
         }
 
         .week-3 .day-card:hover {
-            border-color: #667eea;
+            border-color: #FFD700;
         }
 
         .day-number {
@@ -224,15 +223,15 @@
         }
 
         .week-1 .day-number {
-            background: linear-gradient(135deg, var(--pink-vivid), #FF8FAB);
+            background: linear-gradient(135deg, var(--pr-color), #B0C4DE);
         }
 
         .week-2 .day-number {
-            background: linear-gradient(135deg, var(--purple-accent), #8E44AD);
+            background: linear-gradient(135deg, var(--ae-color), #9370DB);
         }
 
         .week-3 .day-number {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #FFD700, #FFA500);
         }
 
         .day-card h3 {
@@ -250,74 +249,6 @@
             border: 2px solid #FFD700;
         }
 
-        .final-day .day-number {
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-        }
-
-        /* 進捗セクション */
-        .progress-section {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            margin-bottom: 40px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .progress-section h2 {
-            color: var(--green-accent);
-            margin-bottom: 20px;
-        }
-
-        .progress-weeks {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .progress-week {
-            flex: 1;
-            min-width: 200px;
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 15px;
-        }
-
-        .progress-week h4 {
-            margin-bottom: 10px;
-        }
-
-        .progress-bar {
-            height: 10px;
-            background: #e0e0e0;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-bottom: 8px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            border-radius: 5px;
-            transition: width 0.5s ease;
-        }
-
-        .week-1 .progress-fill {
-            background: linear-gradient(90deg, var(--pink-vivid), #FF8FAB);
-        }
-
-        .week-2 .progress-fill {
-            background: linear-gradient(90deg, var(--purple-accent), #8E44AD);
-        }
-
-        .week-3 .progress-fill {
-            background: linear-gradient(90deg, #667eea, #764ba2);
-        }
-
-        .progress-text {
-            font-size: 0.85em;
-            color: #666;
-            text-align: right;
-        }
-
         /* フッター */
         .footer {
             text-align: center;
@@ -326,26 +257,8 @@
         }
 
         .footer a {
-            color: var(--pink-vivid);
+            color: var(--ae-color);
             text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 600px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-
-            .day-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .progress-weeks {
-                flex-direction: column;
-            }
         }
 
         /* プレミアム完了ボタン */
@@ -362,63 +275,16 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            box-shadow:
-                0 6px 20px rgba(255, 165, 0, 0.4),
-                0 0 30px rgba(255, 215, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            box-shadow: 0 6px 20px rgba(255, 165, 0, 0.4);
             transition: all 0.3s ease;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            animation: button-glow 2s ease-in-out infinite;
-        }
-
-        .complete-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            animation: shine 3s infinite;
-        }
-
-        @keyframes shine {
-            0% {
-                left: -100%;
-            }
-
-            50%,
-            100% {
-                left: 100%;
-            }
-        }
-
-        @keyframes button-glow {
-
-            0%,
-            100% {
-                box-shadow: 0 6px 20px rgba(255, 165, 0, 0.4), 0 0 30px rgba(255, 215, 0, 0.3);
-            }
-
-            50% {
-                box-shadow: 0 6px 25px rgba(255, 165, 0, 0.6), 0 0 50px rgba(255, 215, 0, 0.5);
-            }
         }
 
         .complete-btn:hover {
             transform: translateY(-3px) scale(1.02);
-            box-shadow:
-                0 10px 30px rgba(255, 165, 0, 0.5),
-                0 0 40px rgba(255, 215, 0, 0.4);
+            box-shadow: 0 10px 30px rgba(255, 165, 0, 0.5);
         }
 
-        .complete-btn:active {
-            transform: translateY(0) scale(0.98);
-        }
-
-        /* メダル表示の強化 */
+        /* メダル */
         .medal {
             position: absolute !important;
             top: -8px !important;
@@ -455,10 +321,9 @@
         <!-- ヘッダー -->
         <div class="header">
             <h1>復習ドリル</h1>
-            <p>AI研修で学んだ「画像生成」と「Antigravity」を<br>もっと使いこなすための実践トレーニング</p>
+            <p>1日20分！Premiere Pro と After Effects の<br>操作を指に覚えさせる実践トレーニング</p>
             <div class="header-meta">
                 <span class="header-badge">全18日間</span>
-                <span class="header-badge">1日20分</span>
                 <span class="header-badge">3週間プログラム</span>
             </div>
         </div>
@@ -466,55 +331,53 @@
         <!-- イントロ -->
         <div class="intro">
             <h2>このドリルについて</h2>
-            <p>研修で学んだ内容を復習し、実践力を身につけるためのドリルです。</p>
+            <p>研修で学んだ内容を反復練習します。毎日続けることがプロへの近道です！</p>
             <ul>
-                <li><strong>Week 1（Day 1-6）</strong>：画像生成マスター編</li>
-                <li><strong>Week 2（Day 7-12）</strong>：Antigravity活用編</li>
-                <li><strong>Week 3（Day 13-18）</strong>：応用・統合編</li>
+                <li><strong>Week 1（Day 1-6）</strong>：Premiere Pro 基礎マスター</li>
+                <li><strong>Week 2（Day 7-12）</strong>：After Effects アニメーション</li>
+                <li><strong>Week 3（Day 13-18）</strong>：応用・実戦テクニック</li>
             </ul>
-            <p style="margin-top: 15px;">毎日少しずつ取り組むことで、確実にスキルが身につきます！</p>
         </div>
 
-        <!-- Week 1 -->
+        <!-- Week 1: Premiere Pro -->
         <div class="week-section week-1">
             <div class="week-header">
-                <div class="week-icon">🎨</div>
+                <div class="week-icon">🎞️</div>
                 <div class="week-title">
-                    <h2>Week 1: 画像生成マスター編</h2>
-                    <p>ChatGPT・Geminiで思い通りの画像を作れるようになろう</p>
+                    <h2>Week 1: Premiere Pro 基礎マスター</h2>
+                    <p>動画編集の基本操作を完璧にする</p>
                 </div>
             </div>
             <div class="day-grid">
                 <a href="week1/day1.html" class="day-card">
                     <span class="day-number">Day 1</span>
-                    <h3>画像生成の基本</h3>
-                    <p>シンプルなプロンプトから始めよう</p>
+                    <h3>基本カット編集</h3>
+                    <p>素材の挿入・削除、トリミングの特訓</p>
                 </a>
                 <a href="week1/day2.html" class="day-card">
                     <span class="day-number">Day 2</span>
-                    <h3>スタイルを指定しよう</h3>
-                    <p>水彩画、アニメ風、写真風など</p>
+                    <h3>テロップ完全攻略</h3>
+                    <p>エッセンシャルグラフィックスを使い倒す</p>
                 </a>
                 <a href="week1/day3.html" class="day-card">
                     <span class="day-number">Day 3</span>
-                    <h3>構図とアングル</h3>
-                    <p>俯瞰、クローズアップ、ローアングル</p>
+                    <h3>BGMとオーディオ</h3>
+                    <p>音量調整、フェードイン・アウト</p>
                 </a>
                 <a href="week1/day4.html" class="day-card">
                     <span class="day-number">Day 4</span>
-                    <h3>文字を入れた画像</h3>
-                    <p>テキスト入りデザインのコツ</p>
+                    <h3>速度調整（スロー）</h3>
+                    <p>スピードランプで緩急をつける</p>
                 </a>
                 <a href="week1/day5.html" class="day-card">
                     <span class="day-number">Day 5</span>
-                    <h3>サムネイル画像</h3>
-                    <p>YouTube、SNS用の画像を作ろう</p>
+                    <h3>色調整（カラー）</h3>
+                    <p>Lumetriカラーで映画のような色に</p>
                 </a>
                 <a href="week1/day6.html" class="day-card final-day">
                     <span class="day-number">Day 6</span>
                     <h3>Week 1 総復習</h3>
-                    <p>画像生成の総まとめ＆チャレンジ</p>
-                </a>
+                    <p>1分動画を完成させる！</p>
                 </a>
             </div>
             <div style="text-align: center;">
@@ -522,46 +385,45 @@
             </div>
         </div>
 
-        <!-- Week 2 -->
+        <!-- Week 2: After Effects -->
         <div class="week-section week-2">
             <div class="week-header">
-                <div class="week-icon">🚀</div>
+                <div class="week-icon">🪄</div>
                 <div class="week-title">
-                    <h2>Week 2: Antigravity活用編</h2>
-                    <p>AIを使ってWebサイトを作れるようになろう</p>
+                    <h2>Week 2: After Effects アニメーション</h2>
+                    <p>モーショングラフィックスの基礎を固める</p>
                 </div>
             </div>
             <div class="day-grid">
                 <a href="week2/day7.html" class="day-card">
                     <span class="day-number">Day 7</span>
-                    <h3>Antigravityの基本</h3>
-                    <p>ワークスペースを作成しよう</p>
+                    <h3>キーフレーム特訓</h3>
+                    <p>位置・スケール・回転を組み合わせる</p>
                 </a>
                 <a href="week2/day8.html" class="day-card">
                     <span class="day-number">Day 8</span>
-                    <h3>ファイルを生成しよう</h3>
-                    <p>AIにHTMLを作ってもらう</p>
+                    <h3>シェイプアニメーション</h3>
+                    <p>パスのトリミングで線を描く</p>
                 </a>
                 <a href="week2/day9.html" class="day-card">
                     <span class="day-number">Day 9</span>
-                    <h3>フォルダを作って整理</h3>
-                    <p>プロジェクト構成を学ぼう</p>
+                    <h3>テキスト演出</h3>
+                    <p>かっこいい文字の登場パターン3選</p>
                 </a>
                 <a href="week2/day10.html" class="day-card">
                     <span class="day-number">Day 10</span>
-                    <h3>ファイルを編集しよう</h3>
-                    <p>既存ファイルの修正方法</p>
+                    <h3>マスクワーク</h3>
+                    <p>映像の一部を切り抜いたり隠したり</p>
                 </a>
                 <a href="week2/day11.html" class="day-card">
                     <span class="day-number">Day 11</span>
-                    <h3>ミニサイトを作ろう</h3>
-                    <p>複数ページのサイト制作</p>
+                    <h3>3Dレイヤー</h3>
+                    <p>カメラワークとライトを設定する</p>
                 </a>
                 <a href="week2/day12.html" class="day-card final-day">
                     <span class="day-number">Day 12</span>
                     <h3>Week 2 総復習</h3>
-                    <p>Antigravityの総まとめ＆チャレンジ</p>
-                </a>
+                    <p>10秒のロゴアニメーション制作</p>
                 </a>
             </div>
             <div style="text-align: center;">
@@ -569,63 +431,58 @@
             </div>
         </div>
 
-        <!-- Week 3 -->
+        <!-- Week 3: Advanced -->
         <div class="week-section week-3">
             <div class="week-header">
-                <div class="week-icon">✨</div>
+                <div class="week-icon">🏆</div>
                 <div class="week-title">
-                    <h2>Week 3: 応用・統合編</h2>
-                    <p>画像生成×Antigravityで本格的なサイトを作ろう</p>
+                    <h2>Week 3: 応用・実戦テクニック</h2>
+                    <p>プロの現場で使えるスタイルを学ぶ</p>
                 </div>
             </div>
             <div class="day-grid">
                 <a href="week3/day13.html" class="day-card">
                     <span class="day-number">Day 13</span>
-                    <h3>画像生成×Antigravity入門</h3>
-                    <p>2つのスキルを組み合わせる</p>
+                    <h3>Vlogスタイル</h3>
+                    <p>おしゃれな日常動画の編集テクニック</p>
                 </a>
                 <a href="week3/day14.html" class="day-card">
                     <span class="day-number">Day 14</span>
-                    <h3>プロフィールカード</h3>
-                    <p>アバター画像を使ったカード作成</p>
+                    <h3>YouTubeスタイル</h3>
+                    <p>ジャンプカットと効果音のテンポ感</p>
                 </a>
                 <a href="week3/day15.html" class="day-card">
                     <span class="day-number">Day 15</span>
-                    <h3>ギャラリーページ</h3>
-                    <p>複数画像を使った作品集</p>
+                    <h3>企業CMスタイル</h3>
+                    <p>清潔感と信頼感のあるデザイン</p>
                 </a>
                 <a href="week3/day16.html" class="day-card">
                     <span class="day-number">Day 16</span>
-                    <h3>ランディングページ</h3>
-                    <p>商品・サービス紹介ページ</p>
+                    <h3>MV（ミュージックビデオ）</h3>
+                    <p>音ハメとグリッチエフェクト</p>
                 </a>
                 <a href="week3/day17.html" class="day-card">
                     <span class="day-number">Day 17</span>
-                    <h3>ポートフォリオサイト</h3>
-                    <p>本格的な複数ページサイト</p>
+                    <h3>ポートフォリオ動画</h3>
+                    <p>自分の作品をまとめる（ショーリール）</p>
                 </a>
                 <a href="week3/day18.html" class="day-card final-day">
                     <span class="day-number">Day 18</span>
-                    <h3>総仕上げ＆卒業</h3>
-                    <p>3週間の総まとめ＆卒業制作</p>
-                </a>
+                    <h3>最終課題：卒業制作</h3>
+                    <p>3週間の集大成！自由制作</p>
                 </a>
             </div>
             <div style="text-align: center;">
-                <div style="text-align: center;">
-                    <button class="complete-btn" onclick="startPartyWithCheck(3)">WEEK 3 COMPLETE! ✨</button>
-                </div>
+                <button class="complete-btn" onclick="startPartyWithCheck(3)">WEEK 3 COMPLETE! ✨</button>
             </div>
+        </div>
 
-            <!-- フッター -->
-            <div class="footer">
-                <p><a href="../index.html">← メインページに戻る</a></p>
-                <p style="margin-top: 10px;">頑張って最後まで完走しましょう！🎉</p>
-            </div>
+        <div class="footer">
+            <p><a href="../index.html">← メインページに戻る</a></p>
         </div>
     </div>
 
-    <!-- 演出用レイヤー -->
+    <!-- 演出用レイヤー（変更なし） -->
     <div id="disco-layer">
         <div class="laser-beam"></div>
         <div class="laser-beam reverse"></div>
@@ -646,19 +503,17 @@
                 const href = card.getAttribute('href');
                 if (!href) return;
 
-                // Extract Day Number (e.g., "week1/day1.html" -> 1)
                 const match = href.match(/day(\d+)\.html/);
                 if (match) {
                     const dayNum = parseInt(match[1]);
                     if (localStorage.getItem(`drill_day_${dayNum}_complete`) === 'true') {
-                        // Add Medal and completed styling
                         if (!card.querySelector('.medal')) {
                             const medal = document.createElement('span');
                             medal.className = 'medal';
                             medal.textContent = '🏅';
                             card.appendChild(medal);
                             card.classList.add('completed');
-                            card.style.position = 'relative'; // Ensure medal positioning works
+                            card.style.position = 'relative';
                         }
                     }
                 }
@@ -666,7 +521,6 @@
         }
 
         function startPartyWithCheck(weekNum) {
-            // Define days for each week
             const weekDays = {
                 1: [1, 2, 3, 4, 5, 6],
                 2: [7, 8, 9, 10, 11, 12],
@@ -683,10 +537,8 @@
             });
 
             if (incompleteDays.length === 0) {
-                // All clear!
                 startParty();
             } else {
-                // Not finished yet
                 alert(`まだ完了していないDayがあります！\nDay: ${incompleteDays.join(', ')}\n\n全てのメダルを集めてウィークリークリアを目指しましょう！🏅`);
             }
         }

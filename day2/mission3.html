@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission 3: 文字を自在に躍らせろ 🕺</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Orbitron:wght@700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --ae-light: #E6E6FA;
+            --ae-vivid: #7B68EE;
+            --ae-medium: #9370DB;
+            --accent: #FF69B4;
+            --dark: #2C2C54;
+            --light: #F8F8FF;
+            --day2-color: #7B68EE;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background: linear-gradient(135deg, var(--ae-light) 0%, #FFFFFF 50%, var(--ae-light) 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            line-height: 1.8;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 2px solid var(--day2-color);
+            backdrop-filter: blur(10px);
+        }
+
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 1;
+        }
+
+        .nav-current {
+            color: var(--day2-color);
+            font-weight: 700;
+        }
+
+        .mission-header {
+            background: linear-gradient(135deg, var(--day2-color), var(--ae-medium));
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .mission-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            margin-bottom: 10px;
+        }
+
+        .mission-desc {
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .time-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: var(--ae-vivid);
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--ae-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--ae-medium);
+            font-size: 1.1rem;
+            margin: 25px 0 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        /* ステップボックス */
+        .step-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            background: var(--day2-color);
+            color: white;
+            border-radius: 50%;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* ポイントボックス */
+        .point-box {
+            background: linear-gradient(135deg, #E6E6FA, #F0F8FF);
+            border-left: 4px solid var(--ae-vivid);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .point-title {
+            font-weight: bold;
+            color: var(--ae-vivid);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* チェックポイント */
+        .checkpoint {
+            background: linear-gradient(135deg, var(--day2-color), var(--ae-medium));
+            border-radius: 16px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+            color: white;
+        }
+
+        .checkpoint h3 {
+            color: white;
+            margin: 0 0 15px;
+        }
+
+        /* ナビゲーションボタン */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid var(--ae-light);
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 25px;
+            background: white;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s;
+            border: 2px solid var(--ae-light);
+        }
+
+        .nav-btn:hover {
+            background: var(--ae-light);
+            border-color: var(--ae-vivid);
+        }
+
+        .nav-btn.next {
+            background: var(--day2-color);
+            border-color: var(--day2-color);
+            color: white;
+        }
+
+        .nav-btn.next:hover {
+            background: var(--ae-medium);
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="../index.html">🏠 ホーム</a>
+        <span style="opacity:0.3">/</span>
+        <span>Day 2</span>
+        <span style="opacity:0.3">/</span>
+        <span class="nav-current">Mission 3</span>
+    </nav>
+
+    <header class="mission-header">
+        <span class="mission-badge">DAY 2 ─ MISSION 3</span>
+        <h1>🕺 文字を自在に躍らせろ</h1>
+        <p class="mission-desc">After Effectsの真骨頂「テキストアニメーション」。タイプライター風の文字出しを一瞬で作ります。</p>
+        <span class="time-badge">⏱️ 約20分</span>
+    </header>
+
+    <main>
+        <section>
+            <h2>🎯 このミッションのゴール</h2>
+            <p>
+                映画の予告編で見るような、文字がパラパラと現れるアニメーションを作ります。
+                Aeには強力な<strong>「アニメーター」</strong>機能があり、一文字ずつの制御が簡単です。
+            </p>
+        </section>
+
+        <section>
+            <h2>⌨️ タイプライター風アニメーション</h2>
+
+            <div class="step-box">
+                <div class="step-title"><span class="step-number">1</span>アニメーターを追加</div>
+                <ol style="margin-left: 20px; line-height: 1.8;">
+                    <li>テキストレイヤーを開き（＞マーク）、<strong>「アニメーター」</strong>から<strong>「不透明度」</strong>を選びます。</li>
+                    <li>追加された「不透明度」の値を <strong>0%</strong> にします（文字が消えます）。</li>
+                </ol>
+            </div>
+
+            <div class="step-box">
+                <div class="step-title"><span class="step-number">2</span>範囲セレクターを動かす</div>
+                <p>「どの範囲の文字に0%を適用するか」をアニメーションさせます。</p>
+                <ol style="margin-left: 20px; line-height: 1.8;">
+                    <li>「範囲セレクター 1」を展開します。</li>
+                    <li><strong>「開始」</strong>の数値を動かしてみましょう。文字が左から順に現れますね？</li>
+                    <li>0秒で「0%」、2秒で「100%」になるようにキーフレームを打ちます。</li>
+                </ol>
+                <div class="point-box">
+                    <div class="point-title">🔧 さらに高度な設定</div>
+                    <p>「高度」プロパティの中にある「シェイプ」を「矩形」から「上へ傾斜」などに変えると、出現の仕方がフワッと柔らかくなります。</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>🤯 プリセットを使う（裏技）</h2>
+            <p>実は、もっと簡単にやる方法があります。</p>
+            <div class="step-box">
+                <div class="step-title"><span class="step-number">3</span>アニメーションプリセット</div>
+                <ol style="margin-left: 20px; line-height: 1.8;">
+                    <li>「エフェクト＆プリセット」パネルで「Typewriter」と検索します。</li>
+                    <li>見つけたプリセットをテキストレイヤーにドラッグ＆ドロップするだけ！</li>
+                    <li>キーフレームを押せば（Uキー）、タイミング調整もできます。</li>
+                </ol>
+            </div>
+        </section>
+
+        <div class="checkpoint">
+            <h3>🏁 Mission 3 クリア条件</h3>
+            <p>✅ 文字がパラパラと左から現れるアニメーションができた！</p>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="mission2.html" class="nav-btn">👈 Mission 2 へ戻る</a>
+            <a href="mission4.html" class="nav-btn next">Mission 4 へ進む 👉</a>
+        </div>
+
+    </main>
+
+    <footer>
+        <p style="text-align: center; opacity: 0.6; padding-bottom: 40px;">© 2024 AI Video Master Course</p>
+    </footer>
+</body>
+
+</html>

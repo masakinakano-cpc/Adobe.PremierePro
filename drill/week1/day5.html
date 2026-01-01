@@ -1,569 +1,132 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 5: サムネイル画像を作ろう - 復習ドリル</title>
+    <title>Day 5: 色調整（カラー） - 復習ドリル</title>
     <style>
         :root {
-            --pink-vivid: #F26D9E;
-            --pink-light: #F2C9CC;
-            --peach: #F2E4DC;
-            --green-accent: #5CCFAD;
-            --dark-text: #333;
+            --primary-color: #9999FF;
+            --accent-color: #7B68EE;
+            --bg-color: #F8F8FF;
+            --text-color: #333;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
-            background: linear-gradient(135deg, var(--peach) 0%, #fff 100%);
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg-color) 0%, #fff 100%);
             min-height: 100vh;
             padding: 20px;
-            line-height: 1.8;
-            color: var(--dark-text);
+            color: var(--text-color);
+            line-height: 1.6;
         }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .drill-header {
-            background: linear-gradient(135deg, var(--pink-vivid), #FF8FAB);
+        .container { max-width: 800px; margin: 0 auto; }
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             color: white;
             padding: 30px;
             border-radius: 20px;
             text-align: center;
             margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(242, 109, 158, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-
-        .drill-header h1 {
-            font-size: 1.8em;
-            margin-bottom: 10px;
-        }
-
-        .drill-meta {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-
-        .meta-badge {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9em;
-        }
-
-        .progress-section {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .progress-bar {
-            height: 12px;
-            background: #eee;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--pink-vivid), var(--green-accent));
-            border-radius: 10px;
-        }
-
-        .drill-section {
+        .header h1 { font-size: 1.8em; margin-bottom: 10px; }
+        .badge { background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 15px; font-size: 0.9em; }
+        .section {
             background: white;
             padding: 25px;
             border-radius: 15px;
             margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-
-        .section-title {
-            color: var(--pink-vivid);
-            font-size: 1.3em;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px dashed var(--pink-light);
-        }
-
-        .goal-box {
-            background: linear-gradient(135deg, #e8f4fd, #d6eaf8);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border-left: 4px solid #3498db;
-        }
-
-        .goal-box h3 {
-            color: #2980b9;
-            margin-bottom: 10px;
-        }
-
-        .prompt-box {
-            position: relative;
-            background: linear-gradient(135deg, var(--pink-light), var(--peach));
-            padding: 20px;
-            padding-top: 35px;
-            border-radius: 12px;
-            margin: 15px 0;
-            font-family: 'Courier New', monospace;
-        }
-
-        .prompt-label {
-            position: absolute;
-            top: -10px;
-            left: 15px;
-            background: var(--pink-vivid);
-            color: white;
-            padding: 3px 12px;
-            border-radius: 8px;
-            font-size: 0.8em;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-        }
-
-        .copy-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--pink-vivid);
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.8em;
-            transition: all 0.3s ease;
-        }
-
-        .copy-btn:hover {
-            background: #d85a8a;
-            transform: scale(1.05);
-        }
-
-        .copy-btn.copied {
-            background: var(--green-accent);
-        }
-
-        .exercise {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 12px;
-            margin: 15px 0;
-            border: 2px solid var(--pink-light);
-        }
-
-        .exercise-number {
-            display: inline-block;
-            background: var(--pink-vivid);
-            color: white;
-            width: 30px;
-            height: 30px;
-            line-height: 30px;
-            text-align: center;
-            border-radius: 50%;
-            margin-right: 10px;
-            font-weight: bold;
-        }
-
+        h2 { color: var(--primary-color); border-bottom: 2px dashed #ddd; padding-bottom: 10px; margin-bottom: 20px; }
+        .exercise { background: #f9f9f9; padding: 20px; border-radius: 10px; border-left: 5px solid var(--primary-color); }
         .check-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 12px;
-            background: #fafafa;
-            border-radius: 10px;
-            margin: 10px 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            display: flex; align-items: center; gap: 10px; padding: 10px;
+            background: #fff; border-radius: 8px; margin: 10px 0; cursor: pointer; border: 1px solid #eee;
         }
-
-        .check-item:hover {
-            background: var(--pink-light);
-        }
-
-        .check-item input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
-            accent-color: var(--pink-vivid);
-            cursor: pointer;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .check-item.completed {
-            background: linear-gradient(135deg, #d4edda, #c3e6cb);
-            text-decoration: line-through;
-            color: #666;
-        }
-
-        .hint-box {
-            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin: 15px 0;
-            border-left: 4px solid #f39c12;
-        }
-
-        .hint-box summary {
-            cursor: pointer;
-            font-weight: bold;
-            color: #e67e22;
-        }
-
-        .hint-box[open] summary {
-            margin-bottom: 10px;
-        }
-
-        .point-box {
-            background: linear-gradient(135deg, #e8f8f5, #d1f2eb);
-            padding: 20px;
-            border-radius: 12px;
-            margin: 15px 0;
-            border-left: 4px solid var(--green-accent);
-        }
-
-        .point-box h4 {
-            color: #27ae60;
-            margin-bottom: 10px;
-        }
-
-        .size-card {
-            display: inline-block;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            padding: 12px 16px;
-            border-radius: 10px;
-            margin: 5px;
-            border: 2px solid var(--pink-light);
-            text-align: center;
-        }
-
-        .size-card strong {
-            color: var(--pink-vivid);
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            gap: 15px;
-        }
-
+        .check-item:hover { background: #f0f0f0; }
+        .check-item input { transform: scale(1.2); }
+        .check-item.completed { background: #e6fffa; text-decoration: line-through; color: #888; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px; }
         .nav-btn {
-            flex: 1;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            text-align: center;
+            padding: 12px 25px; border-radius: 10px; text-decoration: none; color: white;
+            background: var(--primary-color); transition: opacity 0.3s;
         }
-
-        .nav-btn.prev {
-            background: #f0f0f0;
-            color: var(--dark-text);
-        }
-
-        .nav-btn.next {
-            background: linear-gradient(135deg, var(--pink-vivid), #FF8FAB);
-            color: white;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .achievement {
-            text-align: center;
-            padding: 20px;
-            background: linear-gradient(135deg, #ffecd2, #fcb69f);
-            border-radius: 15px;
-            margin-top: 25px;
-        }
-
-        .achievement-icon {
-            font-size: 3em;
-            margin-bottom: 10px;
-        }
-
-        @media (max-width: 600px) {
-            .drill-header h1 {
-                font-size: 1.4em;
-            }
-
-            .nav-buttons {
-                flex-direction: column;
-            }
-        }
+        .nav-btn.home { background: #555; }
+        .nav-btn:hover { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="container">
-        <div class="drill-header">
-            <h1>Day 5: サムネイル画像を作ろう</h1>
-            <p>Week 1 - 画像生成マスター編</p>
-            <div class="drill-meta">
-                <span class="meta-badge">所要時間: 約20分</span>
-                <span class="meta-badge">難易度: ふつう</span>
+        <div class="header">
+            <h1>Day 5: 色調整（カラー）</h1>
+            <div class="meta">
+                <span class="badge">Week 1</span>
+                <span class="badge">所要時間: 20分</span>
             </div>
         </div>
 
-        <div class="progress-section">
-            <strong>Week 1 進捗状況</strong>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: 83.3%;"></div>
-            </div>
-            <p style="text-align: right; margin-top: 8px; color: #888;">Day 5 / 6</p>
+        <div class="section">
+            <h2>🎯 今日のゴール</h2>
+            <p>Lumetriカラーで映画のような色合いにする</p>
         </div>
 
-        <div class="drill-section">
-            <div class="goal-box">
-                <h3>今日のゴール</h3>
-                <p>YouTube、SNS投稿、ブログなど用途別のサムネイル画像を作れるようになる！</p>
-            </div>
-        </div>
-
-        <!-- サイズの基礎知識 -->
-        <div class="drill-section">
-            <h2 class="section-title">サムネイルサイズの基礎知識（3分）</h2>
-            <p>用途によって適切なサイズが異なります。覚えておくと便利！</p>
-
-            <div style="margin: 20px 0;">
-                <div class="size-card">
-                    <strong>YouTube</strong>
-                    1280×720px<br>(16:9)
-                </div>
-                <div class="size-card">
-                    <strong>Instagram</strong>
-                    1080×1080px<br>(1:1 正方形)
-                </div>
-                <div class="size-card">
-                    <strong>Twitter/X</strong>
-                    1200×675px<br>(16:9)
-                </div>
-                <div class="size-card">
-                    <strong>ブログ</strong>
-                    1200×630px<br>(OGP用)
-                </div>
-            </div>
-
-            <div class="check-item" onclick="toggleCheck(this, event)">
-                <input type="checkbox">
-                <span>サムネイルサイズの違いを理解した</span>
-            </div>
-
-            <div class="point-box">
-                <h4>サイズ指定のコツ</h4>
-                <p>プロンプトに「16:9のアスペクト比」や「横長」「正方形」と入れると、用途に合った画像が生成されやすくなります！</p>
-            </div>
-        </div>
-
-        <!-- 練習1 -->
-        <div class="drill-section">
-            <h2 class="section-title">練習1: YouTube風サムネイル（6分）</h2>
-
+        <div class="section">
+            <h2>📝 練習メニュー</h2>
             <div class="exercise">
-                <p><span class="exercise-number">1</span><strong>料理動画風サムネイル</strong></p>
-                <div class="prompt-box">
-                    <span class="prompt-label">料理サムネ</span>
-                    美味しそうなハンバーグ料理の写真、湯気が立つ、16:9の横長、YouTubeサムネイル用、鮮やかで食欲をそそる色合い
-                </div>
-                <div class="check-item" onclick="toggleCheck(this, event)">
-                    <input type="checkbox">
-                    <span>料理サムネイル風を生成できた</span>
-                </div>
-            </div>
+                <div class="check-item"><input type="checkbox"><span>カラーワークスペースに切り替え</span></div>
+<div class="check-item"><input type="checkbox"><span>「基本補正」で露光量（明るさ）を調整</span></div>
+<div class="check-item"><input type="checkbox"><span>「クリエイティブ」でLook（フィルター）を適用</span></div>
+<div class="check-item"><input type="checkbox"><span>彩度を上げて鮮やかにする</span></div>
 
-            <div class="exercise">
-                <p><span class="exercise-number">2</span><strong>解説動画風サムネイル</strong></p>
-                <div class="prompt-box">
-                    <span class="prompt-label">解説サムネ</span>
-                    ビジネスプレゼンテーション風の背景、グラフやチャートのイメージ、16:9、青とオレンジのコントラスト、プロフェッショナルな雰囲気
-                </div>
-                <div class="check-item" onclick="toggleCheck(this, event)">
-                    <input type="checkbox">
-                    <span>解説動画風サムネイルを生成できた</span>
-                </div>
             </div>
         </div>
 
-        <!-- 練習2 -->
-        <div class="drill-section">
-            <h2 class="section-title">練習2: SNS投稿用画像（6分）</h2>
-
-            <div class="exercise">
-                <p><span class="exercise-number">3</span><strong>Instagram風正方形画像</strong></p>
-                <div class="prompt-box">
-                    <span class="prompt-label">Instagram</span>
-                    おしゃれなカフェラテ、正方形のアスペクト比、上から見た俯瞰アングル、ナチュラルな光、インスタ映えする雰囲気
-                </div>
-                <div class="check-item" onclick="toggleCheck(this, event)">
-                    <input type="checkbox">
-                    <span>Instagram風の画像を生成できた</span>
-                </div>
-            </div>
-
-            <div class="exercise">
-                <p><span class="exercise-number">4</span><strong>Twitter/X用アイキャッチ</strong></p>
-                <div class="prompt-box">
-                    <span class="prompt-label">Twitter/X</span>
-                    技術ブログのアイキャッチ画像、ノートパソコンとコーヒー、16:9横長、モダンで清潔感のあるデスク、プログラミングのイメージ
-                </div>
-                <div class="check-item" onclick="toggleCheck(this, event)">
-                    <input type="checkbox">
-                    <span>Twitter/X用画像を生成できた</span>
-                </div>
-            </div>
-
-            <details class="hint-box">
-                <summary>サムネイル作成のコツ</summary>
-                <p>・<strong>目を引く色</strong>を使う（赤、黄色、オレンジなど）</p>
-                <p>・<strong>コントラスト</strong>を意識する（明暗差）</p>
-                <p>・<strong>シンプル</strong>に保つ（要素を詰め込みすぎない）</p>
-                <p>・<strong>人の顔</strong>はクリック率を上げやすい</p>
-            </details>
-        </div>
-
-        <!-- 練習3 -->
-        <div class="drill-section">
-            <h2 class="section-title">練習3: 自分の用途で作ってみよう（5分）</h2>
-
-            <div class="exercise">
-                <p><span class="exercise-number">5</span><strong>オリジナルサムネイル制作</strong></p>
-                <p>自分が作りたいコンテンツのサムネイルを考えて作ってみましょう！</p>
-
-                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 15px 0;">
-                    <p><strong>アイデア例：</strong></p>
-                    <p>・自分の趣味に関する動画のサムネイル</p>
-                    <p>・お店やサービスの紹介画像</p>
-                    <p>・イベント告知用のバナー</p>
-                    <p>・ブログ記事のアイキャッチ</p>
-                </div>
-
-                <div class="check-item" onclick="toggleCheck(this, event)">
-                    <input type="checkbox">
-                    <span>オリジナルのサムネイルを作成できた</span>
-                </div>
-            </div>
-
-            <div class="point-box">
-                <h4>Day 5 まとめ</h4>
-                <ul style="margin-left: 20px;">
-                    <li>用途によって適切なサイズ（アスペクト比）が異なる</li>
-                    <li>YouTube: 16:9横長、Instagram: 1:1正方形</li>
-                    <li>目を引く色とコントラストが大切</li>
-                    <li>シンプルで分かりやすいデザインを心がける</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="achievement">
-            <div class="achievement-icon">📱</div>
-            <h3>Day 5 完了チェック</h3>
-            <p id="completion-text">すべてのチェックボックスを確認しましょう！</p>
+        <div class="section">
+            <h2>💡 ポイント解説</h2>
+            <p>「自動」ボタンを押すと、AIがいい感じに補正してくれます。</p>
         </div>
 
         <div class="nav-buttons">
-            <a href="day4.html" class="nav-btn prev">← Day 4 に戻る</a>
             <a href="../index.html" class="nav-btn home">🏠 ホーム</a>
-            <a href="day6.html" class="nav-btn next">Day 6（最終日）へ →</a>
+            <a href="day6.html" class="nav-btn next">Day 6 へ進む →</a>
         </div>
     </div>
-
     <script>
-        document.querySelectorAll('.prompt-box').forEach(box => {
-            const btn = document.createElement('button');
-            btn.className = 'copy-btn';
-            btn.textContent = 'コピー';
-            btn.onclick = function (e) {
-                e.stopPropagation();
-                const text = box.innerText.replace('コピー', '').replace(box.querySelector('.prompt-label')?.textContent || '', '').trim();
-                navigator.clipboard.writeText(text).then(() => {
-                    btn.textContent = 'コピー完了!';
-                    btn.classList.add('copied');
-                    setTimeout(() => { btn.textContent = 'コピー'; btn.classList.remove('copied'); }, 2000);
+        function toggleCheck(element) {
+            const checkbox = element.querySelector('input');
+            checkbox.checked = !checkbox.checked;
+            element.classList.toggle('completed', checkbox.checked);
+            localStorage.setItem('drill_day_5_check_' + element.dataset.id, checkbox.checked);
+            checkCompletion();
+        }
+
+        function checkCompletion() {
+            const total = document.querySelectorAll('.check-item').length;
+            const checked = document.querySelectorAll('.check-item input:checked').length;
+            if (total === checked) {
+                localStorage.setItem('drill_day_5_complete', 'true');
+            }
+        }
+
+        window.onload = function() {
+            document.querySelectorAll('.check-item').forEach((el, idx) => {
+                el.dataset.id = idx;
+                el.addEventListener('click', function(e) {
+                   if(e.target.tagName !== 'INPUT') toggleCheck(el);
                 });
-            };
-            box.appendChild(btn);
-        });
+                el.querySelector('input').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    toggleCheck(el);
+                });
 
-        // チェックボックス機能
-        function toggleCheck(element, event) {
-            if (event && event.target.tagName === 'A') return;
-
-            const checkbox = element.querySelector('input[type="checkbox"]');
-            if (event && event.target.tagName === 'INPUT') {
-                element.classList.toggle('completed', checkbox.checked);
-            } else {
-                checkbox.checked = !checkbox.checked;
-                element.classList.toggle('completed', checkbox.checked);
-            }
-
-            // Save state (Generic with Safety)
-            const match = window.location.pathname.match(/day(\d+)\.html/);
-            const dayNum = match ? match[1] : '5';
-            const index = Array.from(document.querySelectorAll('.check-item')).indexOf(element);
-            localStorage.setItem(`drill_day_${dayNum}_check_${index}`, checkbox.checked);
-
-            updateProgress();
-        }
-
-        // 進捗更新
-        function updateProgress() {
-            const checkboxes = document.querySelectorAll('.check-item input[type="checkbox"]');
-            const checked = document.querySelectorAll('.check-item input[type="checkbox"]:checked').length;
-            const total = checkboxes.length;
-            const percentage = (checked / total) * 100;
-
-            const match = window.location.pathname.match(/day(\d+)\.html/);
-            const dayNum = match ? match[1] : '5';
-
-            if (percentage === 100) {
-                document.getElementById('completion-text').innerHTML = `🎉 素晴らしい！Day ${dayNum} 完了です！`;
-                localStorage.setItem(`drill_day_${dayNum}_complete`, 'true');
-            } else {
-                document.getElementById('completion-text').innerHTML = `進捗: ${checked}/${total} 完了`;
-            }
-        }
-
-        // Restore Progress
-        window.addEventListener('load', () => {
-            const match = window.location.pathname.match(/day(\d+)\.html/);
-            const dayNum = match ? match[1] : '5';
-            const items = document.querySelectorAll('.check-item');
-
-            items.forEach((item, index) => {
-                const saved = localStorage.getItem(`drill_day_${dayNum}_check_${index}`);
-                if (saved === 'true') {
-                    const checkbox = item.querySelector('input[type="checkbox"]');
-                    checkbox.checked = true;
-                    item.classList.add('completed');
+                if (localStorage.getItem('drill_day_5_check_' + idx) === 'true') {
+                    el.querySelector('input').checked = true;
+                    el.classList.add('completed');
                 }
             });
-            updateProgress();
-        });
+        }
     </script>
 </body>
-
 </html>

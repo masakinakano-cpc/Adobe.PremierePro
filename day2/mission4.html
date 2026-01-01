@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission 4: 3D空間を支配せよ 🧊</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Orbitron:wght@700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --ae-light: #E6E6FA;
+            --ae-vivid: #7B68EE;
+            --ae-medium: #9370DB;
+            --accent: #FF69B4;
+            --dark: #2C2C54;
+            --light: #F8F8FF;
+            --day2-color: #7B68EE;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background: linear-gradient(135deg, var(--ae-light) 0%, #FFFFFF 50%, var(--ae-light) 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            line-height: 1.8;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 2px solid var(--day2-color);
+            backdrop-filter: blur(10px);
+        }
+
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 1;
+        }
+
+        .nav-current {
+            color: var(--day2-color);
+            font-weight: 700;
+        }
+
+        .mission-header {
+            background: linear-gradient(135deg, var(--day2-color), var(--ae-medium));
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .mission-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            margin-bottom: 10px;
+        }
+
+        .mission-desc {
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .time-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: var(--ae-vivid);
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--ae-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--ae-medium);
+            font-size: 1.1rem;
+            margin: 25px 0 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        /* ステップボックス */
+        .step-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            background: var(--day2-color);
+            color: white;
+            border-radius: 50%;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* 3Dアイコン */
+        .cube-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin: 10px 0;
+            animation: rotateCube 3s infinite linear;
+            display: inline-block;
+        }
+
+        @keyframes rotateCube {
+            0% {
+                transform: rotateY(0deg);
+            }
+
+            100% {
+                transform: rotateY(360deg);
+            }
+        }
+
+        /* ポイントボックス */
+        .point-box {
+            background: linear-gradient(135deg, #E6E6FA, #F0F8FF);
+            border-left: 4px solid var(--ae-vivid);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .point-title {
+            font-weight: bold;
+            color: var(--ae-vivid);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* チェックポイント */
+        .checkpoint {
+            background: linear-gradient(135deg, var(--day2-color), var(--ae-medium));
+            border-radius: 16px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+            color: white;
+        }
+
+        .checkpoint h3 {
+            color: white;
+            margin: 0 0 15px;
+        }
+
+        /* ナビゲーションボタン */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid var(--ae-light);
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 25px;
+            background: white;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s;
+            border: 2px solid var(--ae-light);
+        }
+
+        .nav-btn:hover {
+            background: var(--ae-light);
+            border-color: var(--ae-vivid);
+        }
+
+        .nav-btn.next {
+            background: var(--day2-color);
+            border-color: var(--day2-color);
+            color: white;
+        }
+
+        .nav-btn.next:hover {
+            background: var(--ae-medium);
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="../index.html">🏠 ホーム</a>
+        <span style="opacity:0.3">/</span>
+        <span>Day 2</span>
+        <span style="opacity:0.3">/</span>
+        <span class="nav-current">Mission 4</span>
+    </nav>
+
+    <header class="mission-header">
+        <span class="mission-badge">DAY 2 ─ MISSION 4</span>
+        <h1>🧊 3D空間を支配せよ</h1>
+        <p class="mission-desc">2次元の画面に奥行き（Z軸）を与えます。映像が立体的に動き出す瞬間！</p>
+        <span class="time-badge">⏱️ 約20分</span>
+    </header>
+
+    <main>
+        <section>
+            <h2>🎯 このミッションのゴール</h2>
+            <p>
+                Aeでは、全てのレイヤーを「3Dレイヤー」して、仮想的な3D空間に配置することができます。
+                文字や写真を回転させたり、カメラを動かして奥行きのある映像を作りましょう。
+            </p>
+        </section>
+
+        <section>
+            <h2>🧊 3Dスイッチをオンに！</h2>
+
+            <div class="step-box">
+                <div class="step-title"><span class="step-number">1</span>3Dレイヤー化する</div>
+                <div style="text-align:center"><span class="cube-icon">🎲</span></div>
+                <ol style="margin-left: 20px; line-height: 1.8;">
+                    <li>タイムラインパネルのレイヤーにある<strong>「3Dスイッチ（立方体のアイコン）」</strong>をクリックしてオンにします。</li>
+                    <li>スイッチが見当たらない場合は、下部の「スイッチ/モード」ボタンを押してください。</li>
+                    <li>トランスフォームを開くと、位置や回転に<strong>「Z軸」</strong>が増えているのが分かります！</li>
+                </ol>
+            </div>
+
+            <div class="step-box">
+                <div class="step-title"><span class="step-number">2</span>3次元で動かす</div>
+                <ol style="margin-left: 20px; line-height: 1.8;">
+                    <li><strong>Y回転</strong>の数値をいじってみましょう。ドアが開くようにパタパタ回転します。</li>
+                    <li><strong>Z位置</strong>（奥行き）を動かすと、手前に迫ってきたり、遠くにへこんだりします。</li>
+                    <li>複数のレイヤーをZ軸上で前後に配置すると、立体感が生まれます。</li>
+                </ol>
+            </div>
+
+            <div class="step-box">
+                <div class="step-title"><span class="step-number">3</span>カメラで撮影する</div>
+                <p>レイヤーを動かすのではなく、「カメラ」の方を動かします。</p>
+                <ol style="margin-left: 20px; line-height: 1.8;">
+                    <li>メニュー「レイヤー」→「新規」→「カメラ」を作成します（設定は「2ノードカメラ」がおすすめ）。</li>
+                    <li>ツールバーから「統合カメラツール（C）」を選びます。</li>
+                    <li>画面・コンポジションパネルをドラッグすると…視点がグルグル動いて、まるで自分が空間の中に入ったような感覚になります！</li>
+                </ol>
+            </div>
+        </section>
+
+        <div class="checkpoint">
+            <h3>🏁 Mission 4 クリア条件</h3>
+            <p>✅ レイヤーをY軸でクルクル回せた！<br>✅ カメラを使って、斜めからのアングルを作れた！</p>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="mission3.html" class="nav-btn">👈 Mission 3 へ戻る</a>
+            <a href="mission5.html" class="nav-btn next">Mission 5 へ進む 👉</a>
+        </div>
+
+    </main>
+
+    <footer>
+        <p style="text-align: center; opacity: 0.6; padding-bottom: 40px;">© 2024 AI Video Master Course</p>
+    </footer>
+</body>
+
+</html>

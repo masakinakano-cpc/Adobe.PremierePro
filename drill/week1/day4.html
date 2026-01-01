@@ -1,602 +1,132 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 4: 文字を入れた画像を作ろう - 復習ドリル</title>
+    <title>Day 4: 速度調整（スロー） - 復習ドリル</title>
     <style>
         :root {
-            --pink-vivid: #F26D9E;
-            --pink-light: #F2C9CC;
-            --peach: #F2E4DC;
-            --green-accent: #5CCFAD;
-            --dark-text: #333;
+            --primary-color: #9999FF;
+            --accent-color: #7B68EE;
+            --bg-color: #F8F8FF;
+            --text-color: #333;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
-            background: linear-gradient(135deg, var(--peach) 0%, #fff 100%);
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg-color) 0%, #fff 100%);
             min-height: 100vh;
             padding: 20px;
-            line-height: 1.8;
-            color: var(--dark-text);
+            color: var(--text-color);
+            line-height: 1.6;
         }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .drill-header {
-            background: linear-gradient(135deg, var(--pink-vivid), #FF8FAB);
+        .container { max-width: 800px; margin: 0 auto; }
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             color: white;
             padding: 30px;
             border-radius: 20px;
             text-align: center;
             margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(242, 109, 158, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-
-        .drill-header h1 {
-            font-size: 1.8em;
-            margin-bottom: 10px;
-        }
-
-        .drill-meta {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-
-        .meta-badge {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9em;
-        }
-
-        .progress-section {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .progress-bar {
-            height: 12px;
-            background: #eee;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--pink-vivid), var(--green-accent));
-            border-radius: 10px;
-        }
-
-        .drill-section {
+        .header h1 { font-size: 1.8em; margin-bottom: 10px; }
+        .badge { background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 15px; font-size: 0.9em; }
+        .section {
             background: white;
             padding: 25px;
             border-radius: 15px;
             margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-
-        .section-title {
-            color: var(--pink-vivid);
-            font-size: 1.3em;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px dashed var(--pink-light);
-        }
-
-        .goal-box {
-            background: linear-gradient(135deg, #e8f4fd, #d6eaf8);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border-left: 4px solid #3498db;
-        }
-
-        .goal-box h3 {
-            color: #2980b9;
-            margin-bottom: 10px;
-        }
-
-        .prompt-box {
-            position: relative;
-            background: linear-gradient(135deg, var(--pink-light), var(--peach));
-            padding: 20px;
-            padding-top: 35px;
-            border-radius: 12px;
-            margin: 15px 0;
-            font-family: 'Courier New', monospace;
-        }
-
-        .prompt-label {
-            position: absolute;
-            top: -10px;
-            left: 15px;
-            background: var(--pink-vivid);
-            color: white;
-            padding: 3px 12px;
-            border-radius: 8px;
-            font-size: 0.8em;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-        }
-
-        .copy-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--pink-vivid);
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.8em;
-            transition: all 0.3s ease;
-        }
-
-        .copy-btn:hover {
-            background: #d85a8a;
-            transform: scale(1.05);
-        }
-
-        .copy-btn.copied {
-            background: var(--green-accent);
-        }
-
-        .exercise {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 12px;
-            margin: 15px 0;
-            border: 2px solid var(--pink-light);
-        }
-
-        .exercise-number {
-            display: inline-block;
-            background: var(--pink-vivid);
-            color: white;
-            width: 30px;
-            height: 30px;
-            line-height: 30px;
-            text-align: center;
-            border-radius: 50%;
-            margin-right: 10px;
-            font-weight: bold;
-        }
-
+        h2 { color: var(--primary-color); border-bottom: 2px dashed #ddd; padding-bottom: 10px; margin-bottom: 20px; }
+        .exercise { background: #f9f9f9; padding: 20px; border-radius: 10px; border-left: 5px solid var(--primary-color); }
         .check-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 12px;
-            background: #fafafa;
-            border-radius: 10px;
-            margin: 10px 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            display: flex; align-items: center; gap: 10px; padding: 10px;
+            background: #fff; border-radius: 8px; margin: 10px 0; cursor: pointer; border: 1px solid #eee;
         }
-
-        .check-item:hover {
-            background: var(--pink-light);
-        }
-
-        .check-item input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
-            accent-color: var(--pink-vivid);
-            cursor: pointer;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .check-item.completed {
-            background: linear-gradient(135deg, #d4edda, #c3e6cb);
-            text-decoration: line-through;
-            color: #666;
-        }
-
-        .hint-box {
-            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin: 15px 0;
-            border-left: 4px solid #f39c12;
-        }
-
-        .hint-box summary {
-            cursor: pointer;
-            font-weight: bold;
-            color: #e67e22;
-        }
-
-        .hint-box[open] summary {
-            margin-bottom: 10px;
-        }
-
-        .point-box {
-            background: linear-gradient(135deg, #e8f8f5, #d1f2eb);
-            padding: 20px;
-            border-radius: 12px;
-            margin: 15px 0;
-            border-left: 4px solid var(--green-accent);
-        }
-
-        .point-box h4 {
-            color: #27ae60;
-            margin-bottom: 10px;
-        }
-
-        .warning-box {
-            background: linear-gradient(135deg, #fce4ec, #f8bbd9);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin: 15px 0;
-            border-left: 4px solid #e91e63;
-        }
-
-        .warning-box h4 {
-            color: #c2185b;
-            margin-bottom: 8px;
-        }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            gap: 15px;
-        }
-
+        .check-item:hover { background: #f0f0f0; }
+        .check-item input { transform: scale(1.2); }
+        .check-item.completed { background: #e6fffa; text-decoration: line-through; color: #888; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px; }
         .nav-btn {
-            flex: 1;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            text-align: center;
+            padding: 12px 25px; border-radius: 10px; text-decoration: none; color: white;
+            background: var(--primary-color); transition: opacity 0.3s;
         }
-
-        .nav-btn.prev {
-            background: #f0f0f0;
-            color: var(--dark-text);
-        }
-
-        .nav-btn.next {
-            background: linear-gradient(135deg, var(--pink-vivid), #FF8FAB);
-            color: white;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .achievement {
-            text-align: center;
-            padding: 20px;
-            background: linear-gradient(135deg, #ffecd2, #fcb69f);
-            border-radius: 15px;
-            margin-top: 25px;
-        }
-
-        .achievement-icon {
-            font-size: 3em;
-            margin-bottom: 10px;
-        }
-
-        .glossary-box {
-            background: linear-gradient(135deg, #e8f4fd, #d6eaf8);
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin: 15px 0;
-            border-left: 4px solid #3498db;
-        }
-
-        .glossary-box summary {
-            cursor: pointer;
-            font-weight: bold;
-            color: #2980b9;
-        }
-
-        .glossary-term {
-            background: #fff;
-            padding: 10px;
-            border-radius: 8px;
-            margin: 8px 0;
-        }
-
-        .glossary-term strong {
-            color: var(--pink-vivid);
-        }
-
-        @media (max-width: 600px) {
-            .drill-header h1 {
-                font-size: 1.4em;
-            }
-
-            .nav-buttons {
-                flex-direction: column;
-            }
-        }
+        .nav-btn.home { background: #555; }
+        .nav-btn:hover { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="container">
-        <div class="drill-header">
-            <h1>Day 4: 文字を入れた画像を作ろう</h1>
-            <p>Week 1 - 画像生成マスター編</p>
-            <div class="drill-meta">
-                <span class="meta-badge">所要時間: 約20分</span>
-                <span class="meta-badge">難易度: ふつう</span>
+        <div class="header">
+            <h1>Day 4: 速度調整（スロー）</h1>
+            <div class="meta">
+                <span class="badge">Week 1</span>
+                <span class="badge">所要時間: 20分</span>
             </div>
         </div>
 
-        <div class="progress-section">
-            <strong>Week 1 進捗状況</strong>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: 66.6%;"></div>
-            </div>
-            <p style="text-align: right; margin-top: 8px; color: #888;">Day 4 / 6</p>
+        <div class="section">
+            <h2>🎯 今日のゴール</h2>
+            <p>映像のスピードを変えてメリハリをつける</p>
         </div>
 
-        <div class="drill-section">
-            <div class="goal-box">
-                <h3>今日のゴール</h3>
-                <p>画像に文字やテキストを入れたデザインを生成できるようになる！</p>
-            </div>
-        </div>
-
-        <!-- 注意事項 -->
-        <div class="drill-section">
-            <h2 class="section-title">文字入り画像の注意点（2分）</h2>
-
-            <div class="warning-box">
-                <h4>重要なポイント</h4>
-                <p>AIによる文字生成は<strong>完璧ではありません</strong>。特に：</p>
-                <ul style="margin-left: 20px; margin-top: 8px;">
-                    <li>日本語は難しい（ひらがな・カタカナ・漢字）</li>
-                    <li>英語は比較的得意だが、スペルミスの可能性あり</li>
-                    <li>何度か生成を試すと良い結果が出ることも</li>
-                </ul>
-            </div>
-
-            <div class="point-box">
-                <h4>対策のコツ</h4>
-                <ul style="margin-left: 20px;">
-                    <li><strong>英語のシンプルな単語</strong>を使う（1〜3語程度）</li>
-                    <li>文字は後から別のツールで追加する方法も</li>
-                    <li>文字の代わりに「文字が入るスペースを空けて」と指定する手も</li>
-                </ul>
-            </div>
-
-            <div class="check-item" onclick="toggleCheck(this, event)">
-                <input type="checkbox">
-                <span>文字生成の注意点を理解した</span>
-            </div>
-        </div>
-
-        <!-- 練習1 -->
-        <div class="drill-section">
-            <h2 class="section-title">練習1: 英語テキストを入れる（6分）</h2>
-
+        <div class="section">
+            <h2>📝 練習メニュー</h2>
             <div class="exercise">
-                <p><span class="exercise-number">1</span><strong>シンプルな英語で試す</strong></p>
-                <div class="prompt-box">
-                    <span class="prompt-label">英語テキスト</span>
-                    「HELLO」という文字が入ったおしゃれなポスターデザイン、パステルカラー、ミニマルデザイン
-                </div>
-                <div class="check-item" onclick="toggleCheck(this, event)">
-                    <input type="checkbox">
-                    <span>英語テキスト入り画像を生成できた</span>
-                </div>
-            </div>
+                <div class="check-item"><input type="checkbox"><span>クリップを右クリック→「速度・デュレーション」</span></div>
+<div class="check-item"><input type="checkbox"><span>50%にしてスローモーションにする</span></div>
+<div class="check-item"><input type="checkbox"><span>200%にして早回しにする</span></div>
+<div class="check-item"><input type="checkbox"><span>「リップル編集」にチェックを入れるのを忘れずに</span></div>
 
-            <div class="exercise">
-                <p><span class="exercise-number">2</span><strong>カフェ風サインボード</strong></p>
-                <div class="prompt-box">
-                    <span class="prompt-label">サインボード</span>
-                    「COFFEE」と書かれた黒板風のカフェメニューボード、チョークアート風、おしゃれなカフェの雰囲気
-                </div>
-                <div class="check-item" onclick="toggleCheck(this, event)">
-                    <input type="checkbox">
-                    <span>サインボード風の画像を生成できた</span>
-                </div>
-            </div>
-
-            <details class="hint-box">
-                <summary>文字がうまく出ないときは？</summary>
-                <p>・同じプロンプトで2〜3回生成し直してみる</p>
-                <p>・「太いフォントで」「はっきりと」など強調する</p>
-                <p>・文字数を減らしてみる（1〜2語がベスト）</p>
-            </details>
-        </div>
-
-        <!-- 練習2 -->
-        <div class="drill-section">
-            <h2 class="section-title">練習2: ロゴ風デザイン（6分）</h2>
-
-            <div class="exercise">
-                <p><span class="exercise-number">3</span><strong>ブランドロゴ風</strong></p>
-                <div class="prompt-box">
-                    <span class="prompt-label">ロゴデザイン</span>
-                    「ABC」というテキストのミニマルなロゴデザイン、白背景、モダンでクリーンなフォント、企業ロゴ風
-                </div>
-                <div class="check-item" onclick="toggleCheck(this, event)">
-                    <input type="checkbox">
-                    <span>ロゴ風デザインを生成できた</span>
-                </div>
-            </div>
-
-            <div class="exercise">
-                <p><span class="exercise-number">4</span><strong>イベントバナー風</strong></p>
-                <div class="prompt-box">
-                    <span class="prompt-label">バナー</span>
-                    「SALE」と大きく書かれたショッピングセールのバナー、鮮やかな赤と白、目立つデザイン、買い物アイコン
-                </div>
-                <div class="check-item" onclick="toggleCheck(this, event)">
-                    <input type="checkbox">
-                    <span>バナー風画像を生成できた</span>
-                </div>
             </div>
         </div>
 
-        <!-- 練習3 -->
-        <div class="drill-section">
-            <h2 class="section-title">練習3: テキストスペースを確保（4分）</h2>
-            <p>文字を後から追加する想定で、スペースを確保した画像を作る方法も覚えましょう。</p>
-
-            <div class="exercise">
-                <p><span class="exercise-number">5</span><strong>テキストエリアを空ける</strong></p>
-                <div class="prompt-box">
-                    <span class="prompt-label">スペース確保</span>
-                    美しい夕焼けの海の写真、上部にテキストを入れるための空白スペースを残す、ポスター用レイアウト
-                </div>
-                <div class="check-item" onclick="toggleCheck(this, event)">
-                    <input type="checkbox">
-                    <span>テキストスペースのある画像を生成できた</span>
-                </div>
-            </div>
-
-            <div class="point-box">
-                <h4>実務でのヒント</h4>
-                <p>プロはよく「AIで背景画像を生成 → Canvaなどで文字を追加」という方法を使います。<br>
-                    文字の品質を確保しつつ、AIの画像生成力を活かせる賢いやり方です！</p>
-            </div>
-        </div>
-
-        <!-- 練習4 -->
-        <div class="drill-section">
-            <h2 class="section-title">練習4: 自由制作（2分）</h2>
-
-            <div class="exercise">
-                <p><span class="exercise-number">6</span><strong>好きなテキスト入り画像を作ろう</strong></p>
-                <p>自分で考えたテキストを入れた画像を生成してみましょう。</p>
-
-                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 15px 0;">
-                    <p><strong>アイデア例：</strong></p>
-                    <p>・「LOVE」「HAPPY」「DREAM」などの単語</p>
-                    <p>・自分の名前のイニシャル</p>
-                    <p>・好きな数字（「2024」など）</p>
-                </div>
-
-                <div class="check-item" onclick="toggleCheck(this, event)">
-                    <input type="checkbox">
-                    <span>オリジナルのテキスト入り画像を作れた</span>
-                </div>
-            </div>
-
-            <div class="point-box">
-                <h4>Day 4 まとめ</h4>
-                <ul style="margin-left: 20px;">
-                    <li>文字入り画像は英語・シンプルな単語がおすすめ</li>
-                    <li>何度か生成を試すと良い結果が出やすい</li>
-                    <li>テキストスペースを空けて後から追加する方法も有効</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="achievement">
-            <div class="achievement-icon">🔤</div>
-            <h3>Day 4 完了チェック</h3>
-            <p id="completion-text">すべてのチェックボックスを確認しましょう！</p>
+        <div class="section">
+            <h2>💡 ポイント解説</h2>
+            <p>60fpsで撮影した素材なら、50%にしてもカクカクせず滑らかなスローになります。</p>
         </div>
 
         <div class="nav-buttons">
-            <a href="day3.html" class="nav-btn prev">← Day 3 に戻る</a>
             <a href="../index.html" class="nav-btn home">🏠 ホーム</a>
             <a href="day5.html" class="nav-btn next">Day 5 へ進む →</a>
         </div>
     </div>
-
     <script>
-        document.querySelectorAll('.prompt-box').forEach(box => {
-            const btn = document.createElement('button');
-            btn.className = 'copy-btn';
-            btn.textContent = 'コピー';
-            btn.onclick = function (e) {
-                e.stopPropagation();
-                const text = box.innerText.replace('コピー', '').replace(box.querySelector('.prompt-label')?.textContent || '', '').trim();
-                navigator.clipboard.writeText(text).then(() => {
-                    btn.textContent = 'コピー完了!';
-                    btn.classList.add('copied');
-                    setTimeout(() => { btn.textContent = 'コピー'; btn.classList.remove('copied'); }, 2000);
+        function toggleCheck(element) {
+            const checkbox = element.querySelector('input');
+            checkbox.checked = !checkbox.checked;
+            element.classList.toggle('completed', checkbox.checked);
+            localStorage.setItem('drill_day_4_check_' + element.dataset.id, checkbox.checked);
+            checkCompletion();
+        }
+
+        function checkCompletion() {
+            const total = document.querySelectorAll('.check-item').length;
+            const checked = document.querySelectorAll('.check-item input:checked').length;
+            if (total === checked) {
+                localStorage.setItem('drill_day_4_complete', 'true');
+            }
+        }
+
+        window.onload = function() {
+            document.querySelectorAll('.check-item').forEach((el, idx) => {
+                el.dataset.id = idx;
+                el.addEventListener('click', function(e) {
+                   if(e.target.tagName !== 'INPUT') toggleCheck(el);
                 });
-            };
-            box.appendChild(btn);
-        });
+                el.querySelector('input').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    toggleCheck(el);
+                });
 
-        // チェックボックス機能
-        function toggleCheck(element, event) {
-            if (event && event.target.tagName === 'A') return;
-
-            const checkbox = element.querySelector('input[type="checkbox"]');
-            if (event && event.target.tagName === 'INPUT') {
-                element.classList.toggle('completed', checkbox.checked);
-            } else {
-                checkbox.checked = !checkbox.checked;
-                element.classList.toggle('completed', checkbox.checked);
-            }
-
-            // Save state (Generic)
-            const dayNum = (window.location.pathname.match(/day(\d+)\.html/) || [null, '4'])[1];
-            const index = Array.from(document.querySelectorAll('.check-item')).indexOf(element);
-            localStorage.setItem(`drill_day_${dayNum}_check_${index}`, checkbox.checked);
-
-            updateProgress();
-        }
-
-        // 進捗更新
-        function updateProgress() {
-            const checkboxes = document.querySelectorAll('.check-item input[type="checkbox"]');
-            const checked = document.querySelectorAll('.check-item input[type="checkbox"]:checked').length;
-            const total = checkboxes.length;
-            const percentage = (checked / total) * 100;
-            const dayNum = (window.location.pathname.match(/day(\d+)\.html/) || [null, '4'])[1];
-
-            if (percentage === 100) {
-                document.getElementById('completion-text').innerHTML = `🎉 素晴らしい！Day ${dayNum} 完了です！`;
-                localStorage.setItem(`drill_day_${dayNum}_complete`, 'true');
-            } else {
-                document.getElementById('completion-text').innerHTML = `進捗: ${checked}/${total} 完了`;
-            }
-        }
-
-        // Restore Progress
-        window.addEventListener('load', () => {
-            const dayNum = (window.location.pathname.match(/day(\d+)\.html/) || [null, '4'])[1];
-            const items = document.querySelectorAll('.check-item');
-
-            items.forEach((item, index) => {
-                const saved = localStorage.getItem(`drill_day_${dayNum}_check_${index}`);
-                if (saved === 'true') {
-                    const checkbox = item.querySelector('input[type="checkbox"]');
-                    checkbox.checked = true;
-                    item.classList.add('completed');
+                if (localStorage.getItem('drill_day_4_check_' + idx) === 'true') {
+                    el.querySelector('input').checked = true;
+                    el.classList.add('completed');
                 }
             });
-            updateProgress();
-        });
+        }
     </script>
 </body>
-
 </html>

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission 1: アニメーションの基礎 🏃‍♂️</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&family=Orbitron:wght@700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --ae-light: #E6E6FA;
+            --ae-vivid: #7B68EE;
+            --ae-medium: #9370DB;
+            --accent: #FF69B4;
+            --dark: #2C2C54;
+            --light: #F8F8FF;
+            --day2-color: #7B68EE;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background: linear-gradient(135deg, var(--ae-light) 0%, #FFFFFF 50%, var(--ae-light) 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            line-height: 1.8;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 2px solid var(--day2-color);
+            backdrop-filter: blur(10px);
+        }
+
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 1;
+        }
+
+        .nav-current {
+            color: var(--day2-color);
+            font-weight: 700;
+        }
+
+        .mission-header {
+            background: linear-gradient(135deg, var(--day2-color), var(--ae-medium));
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .mission-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            margin-bottom: 10px;
+        }
+
+        .mission-desc {
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .time-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: var(--ae-vivid);
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--ae-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--ae-medium);
+            font-size: 1.1rem;
+            margin: 25px 0 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        /* エフェクトカード */
+        .keyframe-grid {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            margin: 25px 0;
+        }
+
+        .keyframe-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--ae-medium);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .keyframe-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* ステップボックス */
+        .step-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            background: var(--day2-color);
+            color: white;
+            border-radius: 50%;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* ポイントボックス */
+        .point-box {
+            background: linear-gradient(135deg, #E6E6FA, #F0F8FF);
+            border-left: 4px solid var(--ae-vivid);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .point-title {
+            font-weight: bold;
+            color: var(--ae-vivid);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* チェックポイント */
+        .checkpoint {
+            background: linear-gradient(135deg, var(--day2-color), var(--ae-medium));
+            border-radius: 16px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+            color: white;
+        }
+
+        .checkpoint h3 {
+            color: white;
+            margin: 0 0 15px;
+        }
+
+        /* ナビゲーションボタン */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid var(--ae-light);
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 25px;
+            background: white;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s;
+            border: 2px solid var(--ae-light);
+        }
+
+        .nav-btn:hover {
+            background: var(--ae-light);
+            border-color: var(--ae-vivid);
+        }
+
+        .nav-btn.next {
+            background: var(--day2-color);
+            border-color: var(--day2-color);
+            color: white;
+        }
+
+        .nav-btn.next:hover {
+            background: var(--ae-medium);
+        }
+
+        /* ショートカットキー */
+        .kbd {
+            background: #eee;
+            border-radius: 3px;
+            border: 1px solid #b4b4b4;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, .2), 0 2px 0 0 rgba(255, 255, 255, .7) inset;
+            color: #333;
+            display: inline-block;
+            font-size: .85em;
+            font-weight: 700;
+            line-height: 1;
+            padding: 2px 4px;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="../index.html">🏠 ホーム</a>
+        <span style="opacity:0.3">/</span>
+        <span>Day 2</span>
+        <span style="opacity:0.3">/</span>
+        <span class="nav-current">Mission 1</span>
+    </nav>
+
+    <header class="mission-header">
+        <span class="mission-badge">DAY 2 ─ MISSION 1</span>
+        <h1>🏃‍♂️ アニメーションの基礎</h1>
+        <p class="mission-desc">After Effectsの世界へようこそ！モノを動かす「キーフレーム」の魔法を覚えよう。</p>
+        <span class="time-badge">⏱️ 約30分</span>
+    </header>
+
+    <main>
+        <section>
+            <h2>🎯 このミッションのゴール</h2>
+            <p>
+                After Effects（Ae）は「動き」を作るプロフェッショナルなソフトです。
+                まずは基本の<strong>「キーフレーム」</strong>を理解して、図形や文字を自由自在に動かせるようになりましょう！
+            </p>
+        </section>
+
+        <section>
+            <h2>🏁 準備：コンポジションを作る</h2>
+
+            <div class="step-box">
+                <div class="step-title"><span class="step-number">1</span>新規コンポジション作成</div>
+                <p>Aeでは「コンポジション」というキャンバスを作って作業します。</p>
+                <ol style="margin-left: 20px; line-height: 1.8;">
+                    <li>スタート画面の<strong>「新規コンポジション」</strong>をクリック。</li>
+                    <li>以下の設定で作成します：
+                        <ul style="margin-left:20px; margin-top:10px;">
+                            <li>コンポジション名：Day2_Practice</li>
+                            <li>プリセット：HDTV 1080 29.97</li>
+                            <li>デュレーション（長さ）：0;00;10;00（10秒）</li>
+                            <li>背景色：好きな色（黒か白がおすすめ）</li>
+                        </ul>
+                    </li>
+                    <li>「OK」をクリックすると、画面が現れます。</li>
+                </ol>
+            </div>
+
+            <div class="step-box">
+                <div class="step-title"><span class="step-number">2</span>図形を描く</div>
+                <ol style="margin-left: 20px; line-height: 1.8;">
+                    <li>上部のツールバーから<strong>「長方形ツール」</strong>を選びます（ダブルクリックすると画面いっぱいに作成されます）。</li>
+                    <li>画面・コンポジションパネル上でドラッグして、好きな大きさの四角形を描きます。</li>
+                    <li>色は上部の「塗り」と「線」で変更できます。</li>
+                </ol>
+            </div>
+        </section>
+
+        <section>
+            <h2>✨ キーフレームで動かす</h2>
+            <p>Aeで動きを作るには「キーフレーム（通過点）」を打ちます。「0秒ではここ、3秒ではあそこ」と指定すると、その間を自動で動かしてくれます。</p>
+
+            <div class="step-box">
+                <div class="step-title"><span class="step-number">3</span>位置を動かす</div>
+                <div class="keyframe-grid">
+                    <div class="keyframe-card">
+                        <span class="keyframe-icon">⏱️</span>
+                        <h4>ストップウォッチをON</h4>
+                        <p>動きの開始合図！</p>
+                    </div>
+                    <div class="keyframe-card">
+                        <span class="keyframe-icon">💎</span>
+                        <h4>ひし形マーク</h4>
+                        <p>これがキーフレームです</p>
+                    </div>
+                </div>
+                <ol style="margin-left: 20px; line-height: 1.8;">
+                    <li>タイムラインパネル（下部）で、作成したシェイプレイヤーの「＞」マークをクリックして展開します。</li>
+                    <li>「トランスフォーム」を展開します。</li>
+                    <li><strong>「位置」</strong>の左にあるストップウォッチアイコン⏱️をクリックします（青くなります）。<br>→ 現在の時間（0秒）にキーフレームが打たれました。</li>
+                    <li>時間を進めます（2秒くらいへ）。</li>
+                    <li>画面上の図形を別の場所にドラッグして移動させます。<br>→ 自動的に2つ目のキーフレームが打たれます。</li>
+                    <li>スペースキーで再生してみましょう！動きましたか？</li>
+                </ol>
+            </div>
+
+            <div class="step-box">
+                <div class="step-title"><span class="step-number">4</span>動きに急緩をつける（イージーイーズ）</div>
+                <p>ロボットのような等速の動きを、人間らしい滑らかな動きに変えます。</p>
+                <ol style="margin-left: 20px; line-height: 1.8;">
+                    <li>打ったキーフレーム（ひし形）をドラッグして全て選択します。</li>
+                    <li>キーボードの <span class="kbd">F9</span> を押します（MacでFnキーが必要な場合は <span class="kbd">Fn</span> + <span
+                            class="kbd">F9</span>）。</li>
+                    <li>キーフレームの形が「砂時計⏳」に変われば成功！</li>
+                    <li>再生してみると、動き出しがゆっくり・止まるときもゆっくりになります。</li>
+                </ol>
+            </div>
+        </section>
+
+        <section>
+            <h2>💡 その他のプロパティ</h2>
+            <p>「位置」以外も同じ方法で動かせます！ショートカットキーで呼び出せます。</p>
+            <div class="point-box">
+                <div class="point-title">⌨️ 必須ショートカット</div>
+                <ul style="margin-left:20px; margin-top:10px;">
+                    <li><strong>P</strong> (Position) ... 位置</li>
+                    <li><strong>S</strong> (Scale) ... スケール（大きさ）</li>
+                    <li><strong>R</strong> (Rotation) ... 回転</li>
+                    <li><strong>T</strong> (Transparency) ... 不透明度（※Oじゃないので注意！）</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="checkpoint">
+            <h3>🏁 Mission 1 クリア条件</h3>
+            <p>✅ 図形が画面の中を動いた！<br>✅ F9で滑らかな動きになった！</p>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="../day1/mission4.html" class="nav-btn">👈 Day 1 へ戻る</a>
+            <a href="mission2.html" class="nav-btn next">Mission 2 へ進む 👉</a>
+        </div>
+
+    </main>
+
+    <footer>
+        <p style="text-align: center; opacity: 0.6; padding-bottom: 40px;">© 2024 AI Video Master Course</p>
+    </footer>
+</body>
+
+</html>
