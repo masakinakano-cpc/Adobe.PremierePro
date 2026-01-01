@@ -98,7 +98,7 @@
         function updateState(element) {
             const checkbox = element.querySelector('input');
             element.classList.toggle('completed', checkbox.checked);
-            localStorage.setItem('drill_day_14_check_' + element.dataset.id, checkbox.checked);
+            localStorage.setItem('drill_record_14_check_' + element.dataset.id, checkbox.checked);
             checkCompletion();
         }
 
@@ -114,12 +114,12 @@
             }
 
             if (total === checked && total > 0) {
-                localStorage.setItem('drill_day_14_complete', 'true');
+                localStorage.setItem('drill_record_14_complete', 'true');
                 // Optional: visual celebration
             } else {
                 // Optional: remove complete flag if unchecked?
                 // Usually once complete, stays complete, but let's keep it simple.
-                // localStorage.removeItem('drill_day_14_complete');
+                // localStorage.removeItem('drill_record_14_complete');
             }
         }
 
@@ -129,7 +129,7 @@
                 const checkbox = el.querySelector('input');
 
                 // Load saved state
-                if (localStorage.getItem('drill_day_14_check_' + idx) === 'true') {
+                if (localStorage.getItem('drill_record_14_check_' + idx) === 'true') {
                     checkbox.checked = true;
                     el.classList.add('completed');
                 }
