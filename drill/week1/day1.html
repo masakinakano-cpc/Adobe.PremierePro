@@ -139,6 +139,26 @@
         </div>
 
         <div class="section">
+            <div class="quiz-section"
+                style="background:#e8f5e9; padding:20px; border-radius:15px; margin-bottom:30px; border:2px solid #4caf50;">
+                <h2 style="color:#2e7d32; border-bottom:none; margin-bottom:15px;">🧠 理解度チェッククイズ</h2>
+                <div id="quiz-container">
+                    <p style="font-weight:bold;">Q. 不要な隙間を自動で埋めて削除する機能は？</p>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+                        <button onclick="checkAnswer(this, false)"
+                            style="padding:10px 20px; border:1px solid #ccc; background:#fff; border-radius:5px; cursor:pointer;">A.
+                            デリート</button>
+                        <button onclick="checkAnswer(this, true)"
+                            style="padding:10px 20px; border:1px solid #ccc; background:#fff; border-radius:5px; cursor:pointer;">B.
+                            リップル削除</button>
+                        <button onclick="checkAnswer(this, false)"
+                            style="padding:10px 20px; border:1px solid #ccc; background:#fff; border-radius:5px; cursor:pointer;">C.
+                            カット</button>
+                    </div>
+                    <div class="quiz-feedback" style="margin-top:10px; font-weight:bold; display:none;"></div>
+                </div>
+            </div>
+
             <h2>🎯 今日のゴール</h2>
             <div class="goal-image-container" style="text-align:center; margin: 15px 0;">
                 <img src="../../images/premiere_timeline_illustration_jp_1767349963335.png" alt="Goal Image"
@@ -260,6 +280,22 @@
                 content.style.display = 'none';
                 arrow.textContent = '▼';
             }
+        }
+
+        function checkAnswer(btn, isCorrect) {
+            const feedback = btn.parentElement.nextElementSibling;
+            if (isCorrect) {
+                btn.style.background = '#dcedc8';
+                btn.style.borderColor = '#8bc34a';
+                feedback.style.color = '#2e7d32';
+                feedback.textContent = '🎉 正解！隙間を詰めるのは「リップル削除」です。';
+            } else {
+                btn.style.background = '#ffcdd2';
+                btn.style.borderColor = '#e57373';
+                feedback.style.color = '#c62828';
+                feedback.textContent = '惜しい！普通の削除だと隙間が空いてしまいます。';
+            }
+            feedback.style.display = 'block';
         }
 
     </script>
