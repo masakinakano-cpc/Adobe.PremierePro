@@ -69,6 +69,10 @@
 
         <div class="section">
             <h2>🎯 今日のゴール</h2>
+            <div class="goal-image-container" style="text-align:center; margin: 15px 0;">
+                <img src="../../images/premiere_workspace_diagram_jp_1767349912812.png" alt="Goal Image" style="max-width:100%; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
+                <p style="font-size:0.8em; color:#666;">▲ 完成イメージ</p>
+            </div>
             <p>自分の作品をまとめる（ショーリール）</p>
         </div>
 
@@ -77,6 +81,18 @@
             <div id="progress-display" style="text-align:right; font-size:0.9em; font-weight:bold; color:var(--primary-color); margin-bottom:10px;"></div>
             <div class="exercise">
                 <div class="check-item"><input type="checkbox"><span>今まで作った動画のベストショットを集める</span></div>
+            <div class="hint-section" style="margin-top: 20px; border-top: 1px dashed #ddd; padding-top: 15px;">
+                <button onclick="toggleHint(this)" style="background:none; border:none; color:var(--primary-color); cursor:pointer; font-weight:bold; display:flex; align-items:center; gap:5px;">
+                    <span>💡 ヒントを見る</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="hint-content" style="display:none; margin-top:10px; background:#f0f4ff; padding:15px; border-radius:10px;">
+                    <p>困ったときはこの画像を確認しよう！</p>
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap:10px;">
+                        <p>（ヒント画像準備中）</p>
+                    </div>
+                </div>
+            </div>
 <div class="check-item"><input type="checkbox"><span>テンポの良い音楽に合わせる</span></div>
 <div class="check-item"><input type="checkbox"><span>自分の名前と連絡先を最後に入れる</span></div>
 <div class="check-item"><input type="checkbox"><span>1分以内にまとめる</span></div>
@@ -152,6 +168,19 @@
             // Init progress
             checkCompletion();
         }
+    
+        function toggleHint(btn) {
+            const content = btn.nextElementSibling;
+            const arrow = btn.querySelector('.arrow');
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                arrow.textContent = '▲';
+            } else {
+                content.style.display = 'none';
+                arrow.textContent = '▼';
+            }
+        }
+
     </script>
 </body>
 </html>
