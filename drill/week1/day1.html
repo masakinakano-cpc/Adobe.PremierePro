@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,13 @@
             --bg-color: #F8F8FF;
             --text-color: #333;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, var(--bg-color) 0%, #fff 100%);
@@ -20,7 +27,12 @@
             color: var(--text-color);
             line-height: 1.6;
         }
-        .container { max-width: 800px; margin: 0 auto; }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
         .header {
             background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             color: white;
@@ -28,35 +40,94 @@
             border-radius: 20px;
             text-align: center;
             margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
-        .header h1 { font-size: 1.8em; margin-bottom: 10px; }
-        .badge { background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 15px; font-size: 0.9em; }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.9em;
+        }
+
         .section {
             background: white;
             padding: 25px;
             border-radius: 15px;
             margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
-        h2 { color: var(--primary-color); border-bottom: 2px dashed #ddd; padding-bottom: 10px; margin-bottom: 20px; }
-        .exercise { background: #f9f9f9; padding: 20px; border-radius: 10px; border-left: 5px solid var(--primary-color); }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px dashed #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .exercise {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid var(--primary-color);
+        }
+
         .check-item {
-            display: flex; align-items: center; gap: 10px; padding: 10px;
-            background: #fff; border-radius: 8px; margin: 10px 0; cursor: pointer; border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 8px;
+            margin: 10px 0;
+            cursor: pointer;
+            border: 1px solid #eee;
         }
-        .check-item:hover { background: #f0f0f0; }
-        .check-item input { transform: scale(1.2); }
-        .check-item.completed { background: #e6fffa; text-decoration: line-through; color: #888; }
-        .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px; }
+
+        .check-item:hover {
+            background: #f0f0f0;
+        }
+
+        .check-item input {
+            transform: scale(1.2);
+        }
+
+        .check-item.completed {
+            background: #e6fffa;
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
         .nav-btn {
-            padding: 12px 25px; border-radius: 10px; text-decoration: none; color: white;
-            background: var(--primary-color); transition: opacity 0.3s;
+            padding: 12px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            background: var(--primary-color);
+            transition: opacity 0.3s;
         }
-        .nav-btn.home { background: #555; }
-        .nav-btn:hover { opacity: 0.8; }
+
+        .nav-btn.home {
+            background: #555;
+        }
+
+        .nav-btn:hover {
+            opacity: 0.8;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -70,7 +141,8 @@
         <div class="section">
             <h2>🎯 今日のゴール</h2>
             <div class="goal-image-container" style="text-align:center; margin: 15px 0;">
-                <img src="../../images/premiere_timeline_illustration_jp_1767349963335.png" alt="Goal Image" style="max-width:100%; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
+                <img src="../../images/premiere_timeline_illustration_jp_1767349963335.png" alt="Goal Image"
+                    style="max-width:100%; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
                 <p style="font-size:0.8em; color:#666;">▲ 完成イメージ</p>
             </div>
             <p>不要な部分をカットして、スムーズな流れを作る</p>
@@ -78,24 +150,33 @@
 
         <div class="section">
             <h2>📝 練習メニュー</h2>
-            <div id="progress-display" style="text-align:right; font-size:0.9em; font-weight:bold; color:var(--primary-color); margin-bottom:10px;"></div>
+            <div id="progress-display"
+                style="text-align:right; font-size:0.9em; font-weight:bold; color:var(--primary-color); margin-bottom:10px;">
+            </div>
             <div class="exercise">
+                <div class="check-item"><input type="checkbox"><span>【準備】練習用素材を用意する（なければスマホで3カット撮影！）</span></div>
                 <div class="check-item"><input type="checkbox"><span>シーケンスに素材を並べる</span></div>
-            <div class="hint-section" style="margin-top: 20px; border-top: 1px dashed #ddd; padding-top: 15px;">
-                <button onclick="toggleHint(this)" style="background:none; border:none; color:var(--primary-color); cursor:pointer; font-weight:bold; display:flex; align-items:center; gap:5px;">
-                    <span>💡 ヒントを見る</span>
-                    <span class="arrow">▼</span>
-                </button>
-                <div class="hint-content" style="display:none; margin-top:10px; background:#f0f4ff; padding:15px; border-radius:10px;">
-                    <p>困ったときはこの画像を確認しよう！</p>
-                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap:10px;">
-                        <img src="../../images/premiere_razor_tool_action_jp_1767349981597.png" style="width:100%; border-radius:5px;"><img src="../../images/premiere_ripple_delete_illustration_jp_1767350010951.png" style="width:100%; border-radius:5px;">
+                <div class="hint-section" style="margin-top: 20px; border-top: 1px dashed #ddd; padding-top: 15px;">
+                    <button onclick="toggleHint(this)"
+                        style="background:none; border:none; color:var(--primary-color); cursor:pointer; font-weight:bold; display:flex; align-items:center; gap:5px;">
+                        <span>💡 ヒントを見る</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <div class="hint-content"
+                        style="display:none; margin-top:10px; background:#f0f4ff; padding:15px; border-radius:10px;">
+                        <p>困ったときはこの画像を確認しよう！</p>
+                        <div
+                            style="display:grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap:10px;">
+                            <img src="../../images/premiere_razor_tool_action_jp_1767349981597.png"
+                                style="width:100%; border-radius:5px;"><img
+                                src="../../images/premiere_ripple_delete_illustration_jp_1767350010951.png"
+                                style="width:100%; border-radius:5px;">
+                        </div>
                     </div>
                 </div>
-            </div>
-<div class="check-item"><input type="checkbox"><span>レーザーツール（C）で不要な部分を切る</span></div>
-<div class="check-item"><input type="checkbox"><span>リップル削除（Shift+Delete）で隙間を詰める</span></div>
-<div class="check-item"><input type="checkbox"><span>プレビューして違和感がないか確認</span></div>
+                <div class="check-item"><input type="checkbox"><span>レーザーツール（C）で不要な部分を切る</span></div>
+                <div class="check-item"><input type="checkbox"><span>リップル削除（Shift+Delete）で隙間を詰める</span></div>
+                <div class="check-item"><input type="checkbox"><span>プレビューして違和感がないか確認</span></div>
 
             </div>
         </div>
@@ -110,7 +191,7 @@
             <a href="day2.html" class="nav-btn next">Day 2 へ進む →</a>
         </div>
     </div>
-        <script>
+    <script>
         function updateState(element) {
             const checkbox = element.querySelector('input');
             element.classList.toggle('completed', checkbox.checked);
@@ -125,7 +206,7 @@
             // Update Progress Display
             const percent = total > 0 ? Math.round((checked / total) * 100) : 0;
             const display = document.getElementById('progress-display');
-            if(display) {
+            if (display) {
                 display.textContent = `進捗度: ${checked} / ${total} (${percent}%)`;
             }
 
@@ -139,7 +220,7 @@
             }
         }
 
-        window.onload = function() {
+        window.onload = function () {
             document.querySelectorAll('.check-item').forEach((el, idx) => {
                 el.dataset.id = idx;
                 const checkbox = el.querySelector('input');
@@ -151,15 +232,15 @@
                 }
 
                 // Click on Row (toggle)
-                el.addEventListener('click', function(e) {
-                    if(e.target.tagName !== 'INPUT') {
+                el.addEventListener('click', function (e) {
+                    if (e.target.tagName !== 'INPUT') {
                         checkbox.checked = !checkbox.checked;
                         updateState(el);
                     }
                 });
 
                 // Click on Input (native toggle happened, just sync)
-                checkbox.addEventListener('click', function(e) {
+                checkbox.addEventListener('click', function (e) {
                     e.stopPropagation();
                     updateState(el);
                 });
@@ -168,7 +249,7 @@
             // Init progress
             checkCompletion();
         }
-    
+
         function toggleHint(btn) {
             const content = btn.nextElementSibling;
             const arrow = btn.querySelector('.arrow');
@@ -183,4 +264,5 @@
 
     </script>
 </body>
+
 </html>
